@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+{% block title %}Water Budget{% endblock %}
+{% block content %}
+{{super()}}
+<div style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
+    aria-label="breadcrumb">
+    {% if breadcrumbs %}
+    <ol class="breadcrumb fs-8 my-1">
+        {% for breadcrumb in breadcrumbs %}
+        <li class="{{'breadcrumb-item active' if loop.index == breadcrumbs|length else 'breadcrumb-item text-primary'}}">
+            {{breadcrumb}}
+        </li>
+        {% endfor %}
+    </ol>
+    {% endif %}
+</div>
+<ul class="nav nav-tabs nav-pills nav-fill fs-7" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active p-1" id="requirement-tab" data-bs-toggle="tab" data-bs-target="#requirement"
+            type="button" role="tab" aria-controls="requirement" aria-selected="true">Requirement</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link p-1" id="runoff-tab" data-bs-toggle="tab" data-bs-target="#runoff" type="button"
+            role="tab" aria-controls="runoff" aria-selected="false">Availability</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link p-1" id="harvested-tab" data-bs-toggle="tab" data-bs-target="#harvested" type="button"
+            role="tab" aria-controls="harvested" aria-selected="false">Harvested</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link p-1" id="budget-tab" data-bs-toggle="tab" data-bs-target="#budget" type="button"
+            role="tab" aria-controls="budget" aria-selected="false">Budget</button>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="requirement" role="tabpanel" aria-labelledby="requirement-tab" tabindex="0">
+        <div class="card my-2 mx-3 shadow-sm">
+            <div class="card-header text-center fw-bold py-1">
+                <div class="fs-7 fw-bold mb-0">Water Requirement</div>
+            </div>
+            <div class="card-body fs-7">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr class="table-info">
+                            <td colspan="3" class="text-center text-capitalize fw-bold">Human</td>
+                        </tr>
+                        <tr class="text-center fs-7">
+                            <td class="fw-semibold" width="40%">Description</td>
+                            <td class="fw-semibold" width="30%">Population</td>
+                            <td class="fw-semibold">Consumption</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for human in humans %}
+                        <tr>
+                            <td>{{human.type|title}}</td>
+                            <td class="text-end">{{human.quantity}}</td>
+                            <td class="text-end">{{human.demand}}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="table-info">
+                            <td colspan="3" class="text-center text-capitalize fw-bold">Agriculture</td>
+                        </tr>
+                        <tr class="text-center fs-7">
+                            <td class="fw-semibold" width="40%">Description</td>
+                            <td class="fw-semibold" width="30%">Area</td>
+                            <td class="fw-semibold">Consumption</td>
+                        </tr>
+                        {% for agriculture in agricultures %}
+                        <tr>
+                            <td>{{agriculture.type|title}}</td>
+                            <td class="text-end">{{agriculture.quantity}}</td>
+                            <td class="text-end">{{agriculture.demand}}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="table-info">
+                            <td colspan="3" class="text-center text-capitalize fw-bold">Livestock</td>
+                        </tr>
+                        <tr class="text-center fs-7">
+                            <td class="fw-semibold" width="40%">Description</td>
+                            <td class="fw-semibold" width="30%">Numbers</td>
+                            <td class="fw-semibold">Consumption</td>
+                        </tr>
+                        {% for livestock in livestocks %}
+                        <tr>
+                            <td>{{livestock.type|title}}</td>
+                            <td class="text-end">{{livestock.quantity}}</td>
+                            <td class="text-end">{{livestock.demand}}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="table-warning">
+                            <td colspan="2" class="text-start text-capitalize fw-bold">Total</td>
+                            <td class="text-end text-capitalize fw-bold">{{'%0.1f' % water_budget_data[0]|float}} Ha M</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane" id="runoff" role="tabpanel" aria-labelledby="runoff-tab" tabindex="1">
+        <div class="card my-2 mx-3 shadow-sm">
+            <div class="card-header text-center fw-bold py-1">
+                <div class="fs-7 fw-bold mb-0">Rainfall and Runoff</div>
+            </div>
+            <div class="card-body fs-7">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr class="table-info">
+                            <td colspan="3" class="text-center text-capitalize fw-bold">Rainfall (in MM)</td>
+                        </tr>
+                        <tr class="text-center fs-7">
+                            <td class="fw-semibold" width="40%">Month</td>
+                            <td class="fw-semibold" width="30%">Normal</td>
+                            <td class="fw-semibold">Actual</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rainfall in monthwise_rainfall %}
+                        <tr>
+                            <td>{{rainfall.observation|title}}</td>
+                            <td class="text-end">{{'%0.2f' % rainfall.normal|float}}</td>
+                            <td class="text-end">{{'%0.2f' % rainfall.actual|float}}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="table-warning">
+                            <td colspan="2" class="text-start text-capitalize fw-bold">Total</td>
+                            <td class="text-end text-capitalize fw-bold">{{'%0.1f' % total_actual|float}} MM</td>
+                        </tr>
+                        <tr class="table-info">
+                            <td colspan="3" class="text-center text-capitalize fw-bold">Runoff</td>
+                        </tr>
+                        <tr class="text-center fs-7">
+                            <td class="fw-semibold" width="40%">Catchment</td>
+                            <td class="fw-semibold" width="30%">Area</td>
+                            <td class="fw-semibold">Runoff</td>
+                        </tr>
+                        {% for runoff in runoffs %}
+                        <tr>
+                            <td>{{runoff.type|title}}</td>
+                            <td class="text-end">{{runoff.supply}}</td>
+                            <td class="text-end">{{runoff.quantity}}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="table-warning">
+                            <td colspan="2" class="text-start text-capitalize fw-bold">Total</td>
+                            <td class="text-end text-capitalize fw-bold">{{'%0.1f' % total_runoff|float}} Ha M</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane" id="harvested" role="tabpanel" aria-labelledby="harvested-tab" tabindex="2">
+        <div class="card my-2 mx-3 shadow-sm">
+            <div class="card-header text-center fw-bold py-1">
+                <div class="fs-7 fw-bold mb-0">Existing Waterbodies</div>
+            </div>
+            <div class="card-body fs-7">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <!-- <tr class="table-info">
+                            <td colspan="3" class="text-center text-capitalize fw-bold">Existing Waterbodies</td>
+                        </tr> -->
+                        <tr class="text-center fs-7">
+                            <td class="fw-semibold" width="40%">Type</td>
+                            <td class="fw-semibold" width="30%">Numbers</td>
+                            <td class="fw-semibold">Harvested</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for harvest in harvests %}
+                        <tr>
+                            <td>{{harvest.type|title}}</td>
+                            <td class="text-end">{{'%0.2f' % harvest.quantity|float}}</td>
+                            <td class="text-end">{{'%0.2f' % harvest.supply|float}}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="table-warning">
+                            <td colspan="2" class="text-start text-capitalize fw-bold">Total</td>
+                            <td class="text-end text-capitalize fw-bold">{{'%0.1f' % total_harvest|float}} Ha M</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane" id="budget" role="tabpanel" aria-labelledby="budget-tab" tabindex="3">
+        <div class="card my-2 mx-3 shadow-sm">
+            <div class="card-header text-center fw-bold py-1">
+                <div class="fs-7 fw-bold mb-0">WATER BUDGET</div>
+            </div>
+            <div class="card-body fs-7">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr class="text-center">
+                            <th width="60%">Description</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in range(3) %}
+                        <tr>
+                            <td>{{water_demand_labels[i]|title}}</td>
+                            <td class="text-end">{{water_demand[i]}}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="table-warning">
+                            <td>Total Water requirement</td>
+                            <td class="text-end">{{water_budget_data[0]}}</td>
+                        </tr>
+                        {% for i in range(2) %}
+                        <tr>
+                            <td>{{water_supply_labels[i]|title}} Runoff</td>
+                            <td class="text-end">{{water_supply[i]}}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr >
+                            <td>Potential from runoff</td>
+                            <td class="text-end">{{'%0.2f' % (0.75 * water_supply[1])|float}}</td>
+                        </tr>
+                        <tr class="{{ 'table-danger' if deficit_surplus < 0 else 'table-success'  }}">
+                            <td>Deficit(-)/Surplus(+)</td>
+                            <td class="text-end ">{{'%0.1f' % deficit_surplus|float}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

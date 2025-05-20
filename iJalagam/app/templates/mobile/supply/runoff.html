@@ -1,0 +1,150 @@
+{% extends 'mobile/base.html' %}
+{% block title %} Runoff {% endblock %}
+{% from 'mobile/components.html' import chart, table_title %}
+{% block content %}
+<div id="cardCarousel" class="carousel slide">
+    <div class="carousel-inner">
+      <div class="carousel-item active">        
+        {{chart()}}
+      </div>
+      <div class="carousel-item">
+        {{table_title(title='Available Runoff', subtitle='(in Th Ha M)')}}
+        <table class="table table-bordered table-sm fs-7 mb-0">
+            <thead class="text-center">
+                <tr>
+                    <th>Catchment</th>
+                    <th>% Runoff</th>
+                    <th>Yield</th>
+                    <th>Available</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in catchments %}
+                <tr>
+                    <td class="text-start">{{row.catchment | title}}</td>
+                    <td class="text-end">{{row.runoff}}</td>
+                    <td class="text-end">{{row.runoff_yield}}</td>
+                    <td class="text-end">{{row.supply}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">Total</td>
+                    <td class="text-end">{{ catchments | map(attribute='runoff_yield') | sum | round(0) }}</td>
+                    <td class="text-end">{{ catchments | map(attribute='supply') | sum | round(0) }}</td>
+                </tr>
+            </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="chartData" id="chartData" value="{{chart_data}}">
+{% endblock %}
+{% block scripts %}
+<script>
+var chartDom = document.getElementById('main');
+    let chart_data = JSON.parse(document.getElementById('chartData').value)
+    const yields = chart_data.map(item => item.runoff_yield);
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    const gaugeData = [
+    {
+        value: get_yield_percent(0, yields),
+        name: chart_data[0]['catchment'],
+        title: {
+        offsetCenter: ['-40%', '80%']
+        },
+        detail: {
+        offsetCenter: ['-40%', '95%']
+        },
+        // actualValue: chart_data[0]['percent'],
+    },
+    {
+        value: get_yield_percent(1, yields),
+        name: chart_data[1]['catchment'],
+        title: {
+        offsetCenter: ['0%', '80%']
+        },
+        detail: {
+        offsetCenter: ['0%', '95%']
+        },
+        // actualValue: chart_data[1]['percent'],
+    },
+    {
+        value: get_yield_percent(2, yields),
+        name: chart_data[2]['catchment'],
+        title: {
+        offsetCenter: ['40%', '80%']
+        },
+        detail: {
+        offsetCenter: ['40%', '95%']
+        },
+        // actualValue: chart_data[2]['percent'],
+    }
+    ];
+    option = {
+    title:{
+        text: 'Catchment Area',
+        left: 'center',
+    },
+    series: [
+        {
+        type: 'gauge',
+        anchor: {
+            show: true,
+            showAbove: true,
+            size: 18,
+            itemStyle: {
+            color: '#FAC858'
+            }
+        },
+        pointer: {
+            icon: 'path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z',
+            width: 8,
+            length: '80%',
+            offsetCenter: [0, '8%']
+        },
+        progress: {
+            show: true,
+            overlap: true,
+            roundCap: true
+        },
+        axisLine: {
+            roundCap: true
+        },
+        data: gaugeData,
+        title: {
+            fontSize: 10
+        },
+        detail: {
+            width: 15,
+            height: 10,
+            fontSize: 9,
+            color: '#fff',
+            backgroundColor: 'inherit',
+            borderRadius: 3,
+            formatter: '{value}%'
+        }
+        }
+    ]
+    };
+
+    option && myChart.setOption(option);
+
+    function get_yield_percent(index, yields) {
+        // Calculate the sum of yields
+        const sum = yields.reduce((acc, yieldValue) => acc + yieldValue, 0);
+        
+        // Accumulate yield percentage up to the given index
+        let cumulativeSum = 0;
+        for (let i = 0; i <= index; i++) {
+            cumulativeSum += yields[i];
+        }
+        
+        // Calculate and return the cumulative percentage
+        return ((cumulativeSum / sum)*98).toFixed(1); // Using .toFixed(2) for two decimal places
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container" style="overflow-y: auto; height:80vh;" id="chatMessages">
+    <div class="d-none d-sm-none d-md-block">
+        <div class="mx-5 px-5 mt-5 pt-4">
+            {% if chats: %}
+            {% for chat in chats %}
+            <div class="bot-message mb-1" href="#">
+                <img src="{{url_for('static',filename='images/user.png')}}" alt="Logo" height="24"
+                    class="d-inline-block align-text-top">
+                You
+            </div>
+            <div class="alert alert-light">
+                {{chat['user_message']}}
+            </div>
+            <div class="user-message mb-1" href="#">
+                <img src="{{url_for('static',filename='images/waterbot_bg.png')}}" alt="Logo" height="24"
+                    class="d-inline-block align-text-top">
+                JiM
+            </div>
+            <div class="alert alert-light">
+                <div>{{chat['bot_message']}}</div>
+                <div>
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        {% for doc in docs %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapse{{loop.index}}" aria-expanded="false"
+                                    aria-controls="flush-collapseOne">
+                                    Source Page #{{loop.index}}
+                                </button>
+                            </h2>
+                            <div id="flush-collapse{{loop.index}}" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">{{doc.page_content}}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <!-- <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                              Source Page #2
+                            </button>
+                          </h2>
+                          <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
+                          </div>
+                        </div> -->
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="fixed-bottom">
+            <form class="container mx-5 px-5" action="{{url_for('openai.rag')}}" method="post">
+                <div class="mb-5">
+                    <div class="d-inline-block position-relative w-100">
+                        <textarea type="" class="form-control d-inline-block pe-5" name="user_message" id="userMessage"
+                            placeholder="Ask anything from Annual Master Circular..." aria-label="Type your message..."
+                            aria-describedby="button-addon2" tabindex="0"></textarea>
+                        <input type="submit" value="Send"
+                            class="btn btn-primary btn-sm position-absolute mt-3 m-2 top-0 end-0" id="submit">
+                    </div>
+                    <div class="fs-8 mn-5 text-center text-secondary">"JiM" can make mistakes. Consider checking important information.</div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="d-block d-sm-block d-md-none ">
+        <div class="mt-5 pt-2 mb-3">
+            <!-- <div class="container" style="overflow-y: auto; height:80vh;" id="mobileChatMessages"> -->
+            {% if chats: %}
+            {% for chat in chats %}
+            <div class="bot-message mb-1" href="#">
+                <img src="/ibot/static/images/user.png" alt="Logo" height="24" class="d-inline-block align-text-top">
+                You
+            </div>
+            <div class="alert alert-light">
+                {{chat['user_message']}}
+            </div>
+            <div class="user-message mb-1" href="#">
+                <img src="/ibot/static/images/waterbot_bg.png" alt="Logo" height="24"
+                    class="d-inline-block align-text-top">
+                JiM
+            </div>
+            <div class="alert alert-light">
+                {{chat['bot_message']}}
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="fixed-bottom">
+            <form class="container" action="/ibot/rag" method="post">
+                <div class="mb-2">
+                    <div class="d-inline-block position-relative w-100">
+                        <textarea type="" class="form-control d-inline-block pe-5" name="user_message" id="userMessage"
+                            placeholder="Ask anything from AMC..." aria-label="Type your message..."
+                            aria-describedby="button-addon2"></textarea>
+                        <input type="submit" value="Send"
+                            class="btn btn-primary btn-sm position-absolute mt-3 m-2 top-0 end-0" id="submitButton">
+                        <div class="btn btn-primary btn-sm position-absolute mt-3 m-2 top-0 end-0 px-4 visually-hidden"
+                            id="loader">
+                            <div class='spinner-border text-light' style="height:15px; width:15px;" role='status'>
+                                <span class='visually-hidden'>Loading...</span>
+                            </div>
+                        </div>
+                        <div class="fs-8 mn-5 text-center text-secondary">"JiM" can make mistakes.</div>
+                    </div>
+                </div>                
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        userMessage = document.getElementById('userMessage')
+        userMessage.focus();    
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        messageDivs = document.getElementsByClassName('alert alert-light');
+        if (messageDivs.length > 0) {
+            messageDiv = messageDivs[messageDivs.length - 1];
+            bot_message = messageDiv.innerText;
+            // bot_message = 'this is a test message. to be created on load';
+            messageDiv.innerText = '';
+            typeText(messageDiv, bot_message, 10, 0);
+        }
+
+        document.getElementById('submitButton').addEventListener('click', function () {
+            // event.preventDefault();
+            // document.getElementById('spinner').classList.remove('visually-hidden');
+            document.getElementById('loader').classList.remove('visually-hidden');
+            document.getElementById('submitButton').classList.add('visually-hidden');
+            // createLoader();
+        });
+
+        userMessage.addEventListener('change', function () {
+            document.getElementById('submitButton').classList.add('disabled');
+        });
+
+        function typeText(item, text, delay, i) {
+            if (i < text.length) {
+                item.textContent += text.charAt(i);
+                setTimeout(function () {
+                    typeText(item, text, delay, i + 1);
+                }, delay);
+            }
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+       
+    });
+</script>
+<!-- https://codepen.io/AnoNewb/pen/JwypRN -->
+{% endblock %}

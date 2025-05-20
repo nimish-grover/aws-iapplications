@@ -1,0 +1,20 @@
+
+IWMI REQUIREMENTS
+
+Plantation type - add tabular data for plant type  (Area followed by table - type/numbers)
+Excel sheet download of data 
+
+
+
+1.Units to be mentioned 
+2.some Worktype in the app and neraga soft work ID arenot matching . It has to be reviewed
+3.They want to see the report or the results 
+4.They are suggesting to collect this data during implementation so that easy to enter here
+5.Edit tool after submission
+
+Overall it is appreciated by all
+
+
+| plant type | plant numbers |
+| Sal       | 24    |
+

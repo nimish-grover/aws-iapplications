@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Financials</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" />
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="theme-color" content="transparent" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <nav class="navbar  bg-primary fixed-top" data-bs-theme="dark"  style="background-image: url('/static/assets/landing-bg-02.jpg')">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">FinApp</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel" style="background-image: url('/static/assets/landing-bg-02.jpg')">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">FinApp</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="text-end">
+                        <a href="{{ url_for('.projects') }}" class="text-white btn btn-sm">NRM Projects
+                            &nbsp;<i class="bi bi-arrow-right-circle"></i>
+                        </a>
+                    </div>
+                    <div class="position-sticky pt-1 sidebar-sticky">
+                        <form method="post" action="{{ url_for('.financials') }}" enctype="multipart/form-data" class="well">
+                            <!--PROJECT NAME FILTER-->
+                            <div class="mt-5">
+                                <div class="accordion bg-transparent" id="accordionExample">
+                                    <div class="accordion-item bg-transparent">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button bg-transparent font-monospace fs-6 text-white"
+                                                type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                aria-expanded="true" aria-controls="collapseOne">SELECT PROJECT</button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse show"
+                                            data-bs-parent="#accordionExample">
+                                            <div class="list-group list-group-flush">
+                                                {% for project in projects %}
+                                                {% if project['shortname']=='ERADA' or project['shortname']=='WASCA 2.0' or
+                                                project['shortname']=='ProSoil'%}
+                                                <input type="submit" class="btn-check" name="projectName"
+                                                    id="{{'list-item-' + project['shortname']}}" autocomplete="off"
+                                                    value="{{project['id']}}" />
+                                                <label
+                                                    class="list-group-item list-group-item-action fs-7 {{'bg-light text-dark active' if filter_project==project['id'] else 'bg-transparent text-white'}}"
+                                                    for="{{'list-item-' + project['shortname']}}"
+                                                    aria-current="true">{{project['shortname']
+                                                    }}</label>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item bg-transparent">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button bg-transparent font-monospace fs-6 text-white"
+                                                type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                                aria-expanded="false" aria-controls="collapseTwo">SELECT YEAR</button>
+                                        </h2>
+                                        <div id="collapseTwo" class="accordion-collapse collapse"
+                                            data-bs-parent="#accordionExample">
+                                            <div class="list-group list-group-flush">
+                                                {% for key in financials[0].keys() %}
+                                                {% if (key != 'description') %}
+                                                <input type="submit" class="btn-check" name="projectYear"
+                                                    id="{{'list-item-' + key}}" autocomplete="off" value="{{key}}" />
+                                                <label
+                                                    class="list-group-item list-group-item-action fs-7 {{'bg-light text-dark active' if filter_year|string==key else 'bg-transparent text-white'}}"
+                                                    for="{{'list-item-' + key}}" aria-current="true">{{key}}</label>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="vertical-dot-nav">
+        <div class="box box4">
+            <div id="simple-list-example" class="d-flex flex-column gap-2">
+                <a class="p-1 rounded dot active" href="#section_1"></a>
+                <a class="p-1 rounded dot" href="#section_2"></a>
+                <a class="p-1 rounded dot" href="#section_3"></a>
+                <a class="p-1 rounded dot" href="#section_4"></a>
+                <a class="p-1 rounded dot" href="#section_5"></a>
+            </div>
+        </div>
+    </div>
+    <section id="section_1" class="text-white">
+        <nav class="navbar justify-content-center">
+            <div class="fs-5 fw-bold d-none d-md-block">{{'NRM & Agroecology Expense Report - Obligos and Activities' |
+                upper}}</div>
+            <div class="fs-5 fw-bold d-sm-none">{{'NRMAe Expense Report' | upper}}</div>
+        </nav>
+        <div class="container-fluid box box1">
+            <div class="row">
+                <div class="pt-md-5 h-50 w-100 text-center box box1">
+                    <div class="display-5 mt-4">{{ project['shortname'] }}</div>
+                    <div class="h4">{{ project['fullname'] }}</div>
+                    <h6 class="mt-3 font-monospace opacity-75">
+                        Financial Year: <span class="fw-bolder">{{ filter_year }}</span>
+                    </h6>
+                </div>
+            </div>
+        
+            <!-- <div class="card-container"> -->
+            <div class="card mb-3 bg-transparent text-white mt-5" >
+                    
+                    <div class="card-body text-center">
+                      <h3 class="card-text font-monospace">Planned Expenditure</h3>
+                      <h4><p class="card-text text-center">{{ total_planned }}</p></h4>
+                    </div>
+                </div>
+                <div class="card mb-3 bg-transparent text-white mt-3" >
+                    
+                    <div class="card-body text-center">
+                      <h3 class="card-text font-monospace">Actual Spent</h3>
+                      <h4><p class="card-text text-center">{{ total_actuals }}
+                        <i class="bi {{ 'bi-arrow-up-circle text-success' if spent_percent == 'Overspent' else 'bi-arrow-down-circle text-danger' }}" style="font-size: 23px;"></i></span>
+                      </p></h4>
+                      
+                    </div>
+                </div>
+                <div class="card mb-3 bg-transparent text-white mt-3" >
+                    
+                    <div class="card-body text-center">
+                      <h3 class="card-text font-monospace">{{ spent_percent }}</h3>
+                      <h4><p class="card-text text-center">{{ total_gap }}</p></h4>
+                    </div>
+                </div>
+                <!-- <div class="pb-5 box box2 mx-auto" style="width:80%; left:0; right:0">
+                    <div class="d-none d-md-block">
+                        <div class="col border-top m-5 text-center">
+                            <div class="col border-bottom mt-3">
+                                <span class="display-4">{{ total_planned }}</span>
+                                <h6 class="font-monospace">Planned Expenditure</h6>
+                            </div>
+                            <div class="col border-bottom mt-3">
+                                <span class="display-4 text-nowrap">{{ total_actuals }}
+                                    <i
+                                        class="bi {{ 'bi-arrow-up-circle text-success' if spent_percent == 'Overspent' else 'bi-arrow-down-circle text-danger' }}"></i></span>
+                                <h6 class="font-monospace">
+                                    Actual Spent
+                                </h6>
+                            </div>
+                            <div class="col border-bottom mt-3">
+                                <span class="display-4">{{ total_gap }}</span>
+                                <h6 class="font-monospace">{{ spent_percent }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row border-top text-center m-1 d-md-none">
+                        <div class="col">
+                            <span class="fs-6">{{ total_planned }}</span>
+                            <div class="font-monospace fs-8">Planned</div>
+                        </div>
+                        <div class="col">
+                            <span class="fs-6 text-nowrap">{{ total_actuals }}
+                                <i
+                                    class="bi {{ 'bi-arrow-up-circle text-success' if spent_percent == 'Overspent' else 'bi-arrow-down-circle text-danger' }}"></i></span>
+                            <div class="font-monospace fs-8">
+                                Actuals
+                            </div>
+                        </div>
+                        <div class="col">
+                            <span class="fs-6">{{ total_gap }}</span>
+                            <h6 class="font-monospace fs-8">{{ spent_percent }}</h6>
+                        </div>
+                </div> -->
+                
+            </div>
+        </div>
+    </section>
+    <section id="section_2" class="d-flex justify-content-center align-items-center">
+        <div class="container align-items-center">
+            <div class="d-none d-md-block">
+                <div class="display-5 text-center mb-5">MONTH ON MONTH EXPENSES</div>
+                <table class="table table-bordered">
+                    <thead class="text-center bg-body-secondary">
+                        <tr>
+                            <th rowspan="2">Month Year</th>
+                            <th colspan="4">Monthly</th>
+                            <th colspan="4">Cummulative</th>
+                        </tr>
+                        <tr>
+                            <th>Planned</th>
+                            <th>Actuals</th>
+                            <th>Gap</th>
+                            <th>%</th>
+                            <th>Planned</th>
+                            <th>Actuals</th>
+                            <th>Gap</th>
+                            <th>%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for month in pf %}
+                        <tr class="{{'text-end' if month['actuals'] > 0 else 'text-end text-body-secondary' }}">
+                            <td class="text-start">{{month['month_year'].strftime('%b-%y')|capitalize}}</td>
+                            <td>{{'%0.2f'|format(month['planned'])}}</td>
+                            <td>{{'%0.2f'|format(month['actuals'])}}</td>
+                            <td>{{'%0.2f'|format(month['gap'])}}</td>
+                            <td>{{'%0.2f'|format(month['percent']*100) +' %'}}</td>
+                            <td>{{'%0.2f'|format(month['cumm_planned'])}}</td>
+                            <td>{{'%0.2f'|format(month['cumm_actuals'])}}</td>
+                            <td>{{'%0.2f'|format(month['gap'])}}</td>
+                            <td>{{'%0.2f'|format(month['cumm_percent']*100) +' %'}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-md-none">
+                <div class="fs-4 text-center mb-5">MONTH ON MONTH EXPENSES</div>
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr class="bg-dark text-white text-center">
+                            <th>Month</th>
+                            <th>Planned</th>
+                            <th>Actuals</th>
+                            <th>Gap</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for month in pf %}
+                        <tr class="text-end">
+                            <td class="{{'text-start' if month['actuals'] >0 else 'text-start text-body-secondary' }}">
+                                {{month['month_year'].strftime('%b-%y')|capitalize}}</td>
+                            <td class="{{'text-end' if month['actuals'] >0 else 'text-end text-body-secondary' }}">
+                                {{'%0.2f'|format(month['planned'])}}</td>
+                            <td class="{{'text-end' if month['actuals'] >0 else 'text-end text-body-secondary' }}">
+                                {{'%0.2f'|format(month['actuals'])}}</td>
+                            <td class="{{'text-end' if month['actuals'] >0 else 'text-end text-body-secondary' }}">
+                                {{'%0.2f'|format(month['gap'])}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <section id="section_3" class="d-flex justify-content-center align-items-center">
+        <div class="container">
+            <div class="display-6 text-center mb-md-5 text-light">PLANNED Vs ACTUALS</div>
+            <div class="fs-8 text-center text-white d-sm-none opacity-75">(for better experience use LANDSCAPE view)
+            </div>
+            <canvas id="myMixed">
+            </canvas>
+        </div>
+    </section>
+    <section id="section_4" class="d-flex justify-content-center align-items-center">
+        <div class="container-fluid mx-5">
+            <div class="d-none d-md-block">
+                <div class="display-5 text-center mb-5">OVERALL EXPENSES</div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="text-center">
+                            <th rowspan="2" valign="middle">Month-Year</th>
+                            <th colspan="2">Fixed Cost</th>
+                            <th colspan="2">Running Cost</th>
+                            <th colspan="2">Activities</th>
+                            <th colspan="2">Obligos</th>
+                            <th colspan="2">Cummulative of Total Expenses</th>
+                        </tr>
+                        <tr class="text-center">
+                            <th>Planned</th>
+                            <th>Actuals</th>
+                            <th>Planned</th>
+                            <th>Actuals</th>
+                            <th>Planned</th>
+                            <th>Actuals</th>
+                            <th>Planned</th>
+                            <th>Actuals</th>
+                            <th>Planned</th>
+                            <th>Actuals</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for project in project_financials %}
+                        <tr class="{{'text-end' if project['fc_actuals'] >0 else 'text-end text-body-secondary' }}">
+                            <td class="text-start">{{project['month_year']}}</td>
+                            <td>{{'%0.2f'|format(project['fc_planned'])}}</td>
+                            <td>{{'%0.2f'|format(project['fc_actuals'])}}</td>
+                            <td>{{'%0.2f'|format(project['rc_planned'])}}</td>
+                            <td>{{'%0.2f'|format(project['rc_actuals'])}}</td>
+                            <td>{{'%0.2f'|format(project['ac_planned'])}}</td>
+                            <td>{{'%0.2f'|format(project['ac_actuals'])}}</td>
+                            <td>{{'%0.2f'|format(project['ob_planned'])}}</td>
+                            <td>{{'%0.2f'|format(project['ob_actuals'])}}</td>
+                            <td>{{'%0.2f'|format(project['cumm_planned'])}}</td>
+                            <td>{{'%0.2f'|format(project['cumm_actuals'])}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-md-none">
+                <div class="fs-4 text-center mb-5">OVERALL EXPENSES</div>
+                <table class="table table-bordered table-sm">
+                    <thead class="text-center">
+                        <tr>
+                            <th colspan="5">Actual Expenses</th>
+                        </tr>
+                        <tr>
+                            <th valign="middle">Fixed Cost</th>
+                            <th valign="middle">Running Cost</th>
+                            <th valign="middle">Obligo</th>
+                            <th valign="middle">Activities</th>
+                            <th valign="middle">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for project in project_financials %}
+                        <tr class="{{'text-end' if project['fc_actuals'] > 0 else 'text-end text-body-secondary' }}">
+                            <td>{{'%0.0f'|format(project['fc_actuals'])}}</td>
+                            <td>{{'%0.0f'|format(project['rc_actuals'])}}</td>
+                            <td>{{'%0.0f'|format(project['ob_actuals'])}}</td>
+                            <td>{{'%0.0f'|format(project['ac_actuals'])}}</td>
+                            <td>{{'%0.0f'|format(project['cumm_actuals'])}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <section id="section_5" class="d-flex justify-content-center align-items-center">
+        <div class="container">
+            <div class="display-6 text-center mb-md-5 text-light">All EXPENSES</div>
+            <div class="fs-8 text-center text-white d-sm-none opacity-75">(for better experience use LANDSCAPE view)
+            </div>
+            <canvas id="all_expenses_mixed_chart">
+            </canvas>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@2.3.0/dist/chartjs-chart-treemap.min.js"></script>
+    <script>
+        const scrollSpy = new bootstrap.ScrollSpy(document.body, {
+            target: '#simple-list-example'
+        });
+        // const dataDoughnut = {
+        //  labels: {{ doughnutChart_labels | safe}},
+        //  datasets: [{
+        //      label: '{{doughnutChart_title | safe}}',
+        //      data: {{ doughnutChart_data | safe}},
+        //      backgroundColor: {{ project_type_color | safe}},    
+        //      hoverOffset: 4
+        //      }]
+        //  };
+        //const configDoughnut = {
+        //  type: 'doughnut',
+        //  data: dataDoughnut,
+        //};
+        //const configPie = {
+        //  type: 'pie',
+        //  data: dataDoughnut,
+        //};
+
+        //const pieChart = new Chart(
+        //  document.getElementById('myPie'),
+        //  configPie
+        //);
+        //const doughnutChart = new Chart(
+        //  document.getElementById('myDoughnut'),
+        //  configDoughnut
+        //);
+        // ## PLANNED Vs ACTUALS BAR AND LINE CHART
+        const dataMixed = {
+            labels: {{ labels_mixed_chart | safe}},
+        datasets: [{
+            type: 'line',
+            label: 'Cumm_planned',
+            data: {{ cumm_planned_datalist | safe}},
+            fill: false,
+            borderColor: '#9CB946',
+            stack: 'stack2',
+                    }, {
+            type: 'line',
+            label: 'Cumm_actuals',
+            data: {{ cumm_actuals_datalist | safe}},
+            fill: false,
+            borderColor: '#116DEE',
+            stack: 'stack3',
+                    }, {
+            type: 'bar',
+            label: 'Planned',
+            data: {{ planned_data | safe}},
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: '#6346B9',
+            stack: 'stack0',
+                    }, {
+            type: 'bar',
+            label: 'Actual',
+            data: {{ actuals_data | safe}},
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: '#EE9211',
+            stack: 'stack1',
+                    },]
+                };
+        const configMixed = {
+            type: 'line',
+            data: dataMixed,
+            options: {
+                plugins: {
+                    /*title: {
+                      display: true,
+                      text: 'Planned vs Actuals',
+                      font: {
+                        size: 30,
+                      } 
+                    }*/
+                },
+                scales: {
+                    y: {
+                        stacked: true
+                    }
+                }
+            }
+        };
+
+        const mixedChart = new Chart(
+            document.getElementById('myMixed'),
+            configMixed
+        );
+
+        // ## PLANNED Vs ACTUALS BAR AND LINE CHART
+        const data_all_expenses = {
+            labels: {{ labels_mixed_chart | safe}},
+        datasets: [{
+            type: 'line',
+            label: 'Planned',
+            data: {{ total_cumm_planned | safe}},
+            fill: false,
+            borderColor: '#9CB946',
+            stack: 'stack2',
+                }, {
+            type: 'line',
+            label: 'Actuals',
+            data: {{ total_cumm_actuals | safe}},
+            fill: false,
+            borderColor: '#116DEE',
+            stack: 'stack3',
+                }, {
+            type: 'bar',
+            label: 'Fixed Cost',
+            data: {{ fixed_cost | safe}},
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: '#6346B9',
+            stack: 'stack0',
+                }, {
+            type: 'bar',
+            label: 'Running Cost',
+            data: {{ running_cost | safe}},
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: '#EE9211',
+            stack: 'stack1',
+                }, {
+            type: 'bar',
+            label: 'Activities',
+            data: {{ activities_cost | safe}},
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: '#9CB946',
+            stack: 'stack4',
+                }, {
+            type: 'bar',
+            label: 'Obligos',
+            data: {{ obligos_cost | safe}},
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: '#116DEE',
+            stack: 'stack5',
+                }]
+            };
+        const config_all_expenses = {
+            type: 'line',
+            data: data_all_expenses,
+            options: {
+                plugins: {
+                    /*title: {
+                      display: true,
+                      text: 'Planned vs Actuals',
+                      font: {
+                        size: 30,
+                      } 
+                    }*/
+                },
+                scales: {
+                    y: {
+                        stacked: true
+                    }
+                }
+            }
+        };
+
+        const all_expenses_chart = new Chart(
+            document.getElementById('all_expenses_mixed_chart'),
+            config_all_expenses,
+        );
+    </script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+
+</html>

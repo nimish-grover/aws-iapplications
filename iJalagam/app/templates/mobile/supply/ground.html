@@ -1,0 +1,84 @@
+{% extends 'mobile/base.html' %}
+{% block title %} Groundwater {% endblock %}
+{% from 'mobile/components.html' import chart %}
+{% block content %}
+<div id="cardCarousel" class="carousel slide">
+    <div class="carousel-inner">
+      <div class="carousel-item active">        
+        {{chart()}}
+      </div>
+      <div class="carousel-item">
+        <h6>Ground Water Supply</h6>
+        <table class="table table-bordered table-sm fs-7 mb-0">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>                  
+                {% for row in groundwater %}
+                    <tr></tr>
+                        <td class="text-start">{{row.name | title}}</td>
+                        <td class="text-end">{{row.value}}</td>
+                    </tr>
+                {% endfor %}                
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="chartData" id="chartData" value="{{chart_data}}">
+{% endblock %}
+{% block scripts %}
+<script>
+    var chartDom = document.getElementById('main');
+    var myChart = echarts.init(chartDom);
+    let chart_data = JSON.parse(document.getElementById('chartData').value);
+    chart_data = chart_data.slice(0,2);
+    var option;
+
+    option = {
+    tooltip: {
+        trigger: 'item'
+    },
+    legend: {
+        show:true,
+        orient:'vertical',
+        bottom: '5%',
+        left: 'center',
+        top: 'center'
+    },
+    series: [
+        {
+        name: 'Access From',
+        type: 'pie',
+        radius: ['60%', '90%'],
+        avoidLabelOverlap: false,
+        itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2
+        },
+        label: {
+            show: false,
+            position: 'center'
+        },
+        emphasis: {
+            label: {
+            show: true,
+            fontSize: 40,
+            fontWeight: 'bold'
+            }
+        },
+        labelLine: {
+            show: false
+        },
+        data: chart_data
+        }
+    ]
+    };
+
+    option && myChart.setOption(option);
+</script>
+{% endblock %}

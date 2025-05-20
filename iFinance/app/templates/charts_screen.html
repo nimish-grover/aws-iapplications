@@ -1,0 +1,335 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>{{project_title}}</title>
+{% endblock %}
+
+{% block nav %}
+{{project_title}}
+{%endblock%}
+{% block content %}
+
+<div class="container-fluid mt-3 mb-3 box box1" style="width: 100%;">
+    <!-- <h1 class="mt-3 mb-3 text-center text-primary">Projects Dashboard</h1> -->
+    <div class="card text-center bg-transparent h-100 " style="border:none ;">
+        <div class="card-header bg-transparent border-bottom p-0" style="border-width: 20px; border-color: black;">
+            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+
+                <div class="nav-item" role="presentation" style="width: 100%;">
+                    <div class="row">
+                        <div class="col"><button class="nav-link active fs-7" id="pills-planned-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-planned" type="button" role="tab" aria-controls="pills-planned"
+                                aria-selected="true" style="width: 100%;">Obligos & Activities</button></div>
+
+                        <div class="col"><button class="nav-link fs-7" id="pills-all-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-all" type="button" role="tab" aria-controls="pills-all"
+                                aria-selected="false" style="width: 100%;">All Expenses </button></div>
+
+                    </div>
+                </div>
+
+            </ul>
+        </div>
+
+
+        <div class="card-body bg-transparent">
+            <div class="tab-content">
+
+                <div class="tab-pane fade show active" id="pills-planned" role="tabpanel"
+                    aria-labelledby="pills-planned-tab">
+
+                    <div id="projects-container-planned" style="background-color:white;">
+                        <div class="card border-primary mb-3 justify-content-center box2" style="width: 100%;">
+                            <div class="card-header align-items-center p-0 border-bottom border-primary bg-primary text-light"
+                                style="margin: 0px;">
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="col">
+                                        <b>
+                                            <div class="text-center fs-6 fw-semibold ">OBLIGOS & ACTIVITIES</div>
+                                        </b>
+                                    </div>
+                                    <div class="col-2 pt-1 align-items-center">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body justify-content-center">
+                                <canvas id="myMixed">
+                                </canvas>
+
+                            </div>
+                        </div>
+                        {% for month in pf %}
+                        <div class="card border-primary mb-3 justify-content-center box2" style="width: 100%;">
+                            <div class="card-header align-items-center p-0 border-bottom border-primary bg-primary text-light"
+                                style="margin: 0px;">
+                                <div class="row justify-content-around" style="width: auto;">
+                                    <div class="col fs-7 fw-semibold ms-3 text-start">
+                                        {{month['month_year'].strftime('%b-%y')|capitalize}}
+                                    </div>
+                                    <div class="col-8 fs-7 text-end me-3 ">Funds Utilised:
+                                        {{'%0.2f'|format(month['percent']*100) +' %'}}</div>
+                                </div>
+                            </div>
+                            <div class="card-body justify-content-center p-1">
+                                <div class="row">
+                                    <div class="col-4 text-center">
+                                        <div class="card-text font-monospace fs-8">Planned</div>
+                                        <h6>
+                                            <p class="card-text text-center text fs-7">
+                                                <b>{{'%0.2f'|format(month['planned'])}}</b></p>
+                                        </h6>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <div class="card-text font-monospace fs-8">Actual</div>
+                                        <h6
+                                            class="card-text text-center fs-7 {%if month['spent'] == 'Overspent'%}text-success {%else%} text-danger {%endif%}">
+                                            <b>{{'%0.2f'|format(month['actuals'])}}</b>
+                                        </h6>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <div class="card-text text-center">
+                                            <div class="card-text font-monospace fs-8">{{month['spent']}}</div>
+                                            <h6 class="card-text text-center fs-7"><b>{{'%0.2f'|format(month['gap'])}}</b>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {%endfor%}
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
+
+                    <div id="projects-container-planned bg-transparent" style="background-color:white;">
+                        <div class="card border-primary mb-3 justify-content-center box2" style="width: 100%;">
+                            <div class="card-header align-items-center p-0 border-bottom border-primary bg-primary text-light"
+                                style="margin: 0px;">
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="col">
+                                        <b>
+                                            <div class="text-center fs-6 py-2 fw-semibold ">ALL EXPENSES</div>
+                                        </b>
+                                    </div>
+                                    <div class="col-2 pt-1 align-items-center">
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                            </a>
+                            <div class="card-body justify-content-center">
+                                <canvas id="all_expenses_mixed_chart">
+                                </canvas>
+                            </div>
+                        </div>
+                        {% for project in project_financials %}
+                        <div class="card border-primary mb-3 justify-content-center box2" style="width: 100%;">
+                            <div class="card-header align-items-center py-2 border-bottom border-primary bg-primary text-light"
+                                style="margin: 0px;">
+                                <div class="row justify-content-around" style="width: auto;">
+                                    <div class="col fs-7 fw-semibold ms-3 text-start">
+                                        {{project['month_year'] |capitalize}}
+                                    </div>
+                                    <!-- <div class="col-8 fs-7 text-end me-3">Funds Utilised:
+                                        </div> -->
+                                </div>
+                            </div>
+                            
+                            <div class="card-body justify-content-center p-1">
+                                {%for label, var in labels.items()%}
+                                <div class="card-text text-center fs-7 fw-semibold " >{{label}}</div>
+                                <div class="row">
+                                    <div class="col-4 text-center">
+                                        <div class="card-text fs-8">Planned</div>
+                                        <h6>
+                                            <p class="card-text text-center fs-7">
+                                                <b>{{'%0.2f'|format(project[var+'_planned'])}}</b></p>
+                                        </h6>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <div class="card-text font-monospace fs-8">Actual</div>
+                                        <h6
+                                            class="card-text text-center fs-7 {%if project[var] == 'Overspent'%}text-success{%else%}text-danger{%endif%}">
+                                            <b>{{'%0.2f'|format(project[var+'_actuals'])}}</b>
+                                        </h6>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <div class="card-text text-center">
+                                            <div class="card-text font-monospace fs-8">{{project[var]}}</div>
+                                            <h6 class="card-text text-center fs-7"><b>{{'%0.2f'|format(project[var+'_gap'])}}</b>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                {%endfor%}
+                            </div>
+                        </div>
+                        {%endfor%}
+                        
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{%endblock%}
+
+{% block script %}
+<script>
+    const scrollSpy = new bootstrap.ScrollSpy(document.body, {
+        target: '#simple-list-example'
+    });
+    const dataMixed = {
+        labels: {{ labels_mixed_chart | safe}},
+    datasets: [{
+        type: 'line',
+        label: 'Cumm_planned',
+        data: {{ cumm_planned_datalist | safe}},
+        fill: false,
+        borderColor: '#9CB946',
+        stack: 'stack2',
+            }, {
+        type: 'line',
+        label: 'Cumm_actuals',
+        data: {{ cumm_actuals_datalist | safe}},
+        fill: false,
+        borderColor: '#116DEE',
+        stack: 'stack3',
+            }, {
+        type: 'bar',
+        label: 'Planned',
+        data: {{ planned_data | safe}},
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: '#6346B9',
+        stack: 'stack0',
+            }, {
+        type: 'bar',
+        label: 'Actual',
+        data: {{ actuals_data | safe}},
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: '#EE9211',
+        stack: 'stack1',
+            },]
+        };
+        const configMixed = {
+    type: 'line',
+    data: dataMixed,
+    options: {
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            x: {
+                categoryPercentage: 0.8, // Adjust this value
+                barPercentage: 0.9, // Adjust this value
+                stacked: true
+            },
+            y: {
+                stacked: true,
+                min: 0,
+                ticks: {
+                    callback: function(value, index, values) {
+                        // Convert the value to K format
+                        return value >= 0 ? (value / 1000).toFixed(1) + 'K' : '0';
+                    }
+                }
+            }
+        }
+    }
+};
+
+
+    const mixedChart = new Chart(
+        document.getElementById('myMixed'),
+        configMixed
+    );
+
+    // ## PLANNED Vs ACTUALS BAR AND LINE CHART
+    const data_all_expenses = {
+        labels: {{ labels_mixed_chart | safe}},
+    datasets: [{
+        type: 'line',
+        label: 'Planned',
+        data: {{ total_cumm_planned | safe}},
+        fill: false,
+        borderColor: '#9CB946',
+        stack: 'stack2',
+        }, {
+        type: 'line',
+        label: 'Actuals',
+        data: {{ total_cumm_actuals | safe}},
+        fill: false,
+        borderColor: '#116DEE',
+        stack: 'stack3',
+        }, {
+        type: 'bar',
+        label: 'Fixed Cost',
+        data: {{ fixed_cost | safe}},
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: '#6346B9',
+        stack: 'stack0',
+        }, {
+        type: 'bar',
+        label: 'Running Cost',
+        data: {{ running_cost | safe}},
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: '#EE9211',
+        stack: 'stack1',
+        }, {
+        type: 'bar',
+        label: 'Activities',
+        data: {{ activities_cost | safe}},
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: '#9CB946',
+        stack: 'stack4',
+        }, {
+        type: 'bar',
+        label: 'Obligos',
+        data: {{ obligos_cost | safe}},
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: '#116DEE',
+        stack: 'stack5',
+        }]
+    };
+    const config_all_expenses = {
+    type: 'line',
+    data: data_all_expenses,
+    options: {
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            x: {
+                offset: true // Ensure bars start from leftmost side
+            },
+            y: {
+                stacked: true,
+                min: 0,
+                ticks: {
+                    callback: function(value, index, values) {
+                        // Convert the value to K format
+                        return value >= 0 ? (value / 1000).toFixed(1) + 'K' : '0';
+                    }
+                }
+            }
+        }
+    }
+};
+
+
+    const all_expenses_chart = new Chart(
+        document.getElementById('all_expenses_mixed_chart'),
+        config_all_expenses,
+    );
+</script>
+{% endblock %}

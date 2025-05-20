@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Add Records</title>
+{% endblock %}
+{%block nav%}
+Financial Records
+{%endblock%}
+{% block content %}
+<div class="container-fluid mt-3 mb-3 box box1" style="width: 100%;">
+    <div class="card border-primary mb-3 justify-content-center box2 mt-3" style="width: 100%;">
+        <div class="card-header align-items-center p-0 border-bottom border-primary bg-primary text-light"
+            style="margin: 0px;">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col">
+                    <b>
+                        <div class="text-center fs-6 fw-semibold ">ADD RECORDS</div>
+                    </b>
+                </div>
+                <div class="col-2 pt-1 align-items-center">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body justify-content-center">
+            <form method="post" action="{{ url_for('dashboard.add_finance') }}">
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Select Project</label>
+                    <select class="form-select" id="project" name="project">
+                        <option value="" selected disabled>Select Project </option>
+                        {% for type in projects %}
+                        <option value="{{type['id']}}">{{type['shortname']}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Select Month</label>
+                    <select class="form-select" id="month" name="month">
+                        <option value="" selected disabled>Select month </option>
+                        {% for type in months %}
+                        <option value="{{type['long_month']}}">{{type['long_month']}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Select Year</label>
+                    <select class="form-select" id="year" name="year">
+                        <option value="" selected disabled>Select Year</option>
+                        {% for type in years %}
+                        <option value="{{type}}">{{type}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Select Project Cost</label>
+                    <select class="form-select" id="cost" name="cost">
+                        <option value="" selected disabled>Select Cost Type </option>
+                        {% for type in project_cost %}
+                        <option value="{{type}}">{{type}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Actual Cost</label>
+                    <input type="text" class="form-control" id="actual" name="actual" placeholder="Enter Actual Cost">
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Planned Cost</label>
+                    <input type="text" class="form-control" id="planned" name="planned" placeholder="Enter Planned Cost">
+                </div>
+                
+                <div class="text-center"><button type="submit" class="btn btn-primary mt-3">Submit</button></div>
+                
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+{%endblock%}

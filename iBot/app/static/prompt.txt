@@ -1,0 +1,23 @@
+ChatPromptTemplate(
+    input_variables=['context', 'question'],
+     metadata={'lc_hub_owner': 'rlm', 'lc_hub_repo': 'rag-prompt', 'lc_hub_commit_hash': '50442af133e61576e74536c6556cefe1fac147cad032f4377b60c436e6cdcb6e'}, 
+     messages=[HumanMessagePromptTemplate(prompt=PromptTemplate(input_variables=['context', 
+     'question'], template="You are an assistant for question-answering tasks. Use the following pieces of retrieved context to answer the question. \
+     If you don't know the answer, just say that you don't know. Use three sentences maximum and keep the answer concise.\n
+     Question: {question} \n
+     Context: {context} \nAnswer:"))])
+
+ChatPromptTemplate(
+    input_variables=['context', 'question'],
+     metadata={'lc_hub_owner': 'rlm', 'lc_hub_repo': 'rag-prompt', 'lc_hub_commit_hash': '50442af133e61576e74536c6556cefe1fac147cad032f4377b60c436e6cdcb6e'}, 
+     messages=[HumanMessagePromptTemplate(prompt=PromptTemplate(input_variables=['context', 
+     'question'], template="You are JiM, a waterbot. You are a watershed expert. Use the following pieces of retrieved context to answer the question. \
+     If you don't know the answer, just say 'I am sorry but I don't know. Please contact Mr. Krishan Tyagi, Project Manager, WASCA II for any further clarification'. Then use your knowledge to make a gues.\n
+     Question: {question} \n
+     Context: {context} \nAnswer:"))])
+command 1: docker build -t apps-container . 
+command 2: aws lightsail push-container-image --service-name cdms-application --label apps-container --image apps-container
+command 3: aws lightsail create-container-service-deployment --service-name cdms-application --containers file://containers.json --public-endpoint file://public-endpoint.json
+command 4: aws lightsail get-container-services 
+
+NOTE: pleae change the version number received from command 2 in the 'container.json' file.

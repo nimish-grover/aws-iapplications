@@ -1,0 +1,113 @@
+{% extends 'mobile/base.html' %}
+{% block title %} Human {% endblock %}
+{% from 'mobile/components.html' import select, block_button, chart, table_title %}
+{% block content %}
+<div id="cardCarousel" class="carousel slide">
+    <div class="carousel-inner">
+      <div class="carousel-item active">        
+        {{chart()}}
+      </div>      
+      <div class="carousel-item">
+        {{table_title(title='Human Consumption', subtitle='(in Ha M)')}}
+        <table class="table table-bordered table-sm fs-7 mb-0">
+            <thead class="text-center">
+                <tr>
+                    <th>S.No.</th>
+                    <th>Description</th>
+                    <th>Population</th>
+                    <th>Consumption</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in human %}
+                <tr>
+                    <td class="text-center">{{loop.index}}</td>
+                    <td class="text-start">{{row['category'] | title}}</td>
+                    <td class="text-end">{{row['count']}}</td>
+                    <td class="text-end">{{row['value']}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">Total</td>
+                    <td class="text-end">{{ human | map(attribute='count') | sum | round(0) }}</td>
+                    <td class="text-end">{{ human | map(attribute='value') | sum | round(0) }}</td>
+                </tr>
+            </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="chartData" id="chartData" value="{{chart_data}}"> 
+{% endblock %}
+{% block scripts %}
+<script>
+    // echart
+    let chart_data = JSON.parse(document.getElementById('chartData').value);
+    var chartDom = document.getElementById('main');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+    // title: {
+    //    text: 'Human Population'
+    // },
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+        type: 'shadow'
+        }
+    },
+    legend: {
+        orient: 'horizontal',
+        right: 10,
+        top: 'upper'
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'value',
+        boundaryGap: [0, 0.01]
+    },
+    yAxis: {
+        type: 'category',
+        data: ['' ]
+    },
+    series: [
+        {
+        name: chart_data[0]['category'],
+        type: 'bar',
+        data: [chart_data[0]['value']],
+        label:{
+            show: true,
+            // position: 'center',
+            // align: 'center',
+            verticalAlign:'middle',
+            formatter:'{c} Ha M'
+        },
+        color:[chart_data[0]['background']]
+        },
+        {
+        name: chart_data[1]['category'],
+        type: 'bar',
+        data: [chart_data[1]['value']],
+        label:{
+            show: true,
+            // position: [50, 10],
+            // align: 'center',
+            verticalAlign:'middle',
+            formatter:'{c} Ha M'
+        },
+        color:[chart_data[1]['background']]
+        }
+    ]
+    };
+
+    option && myChart.setOption(option);
+</script>
+{% endblock %}

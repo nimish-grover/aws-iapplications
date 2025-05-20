@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Add Project</title>
+{% endblock %}
+{%block nav%}
+Projects
+{%endblock%}
+{% block content %}
+<div class="container-fluid mt-3 mb-3 box box1" style="width: 100%;">
+    <div class="card border-primary mb-3 justify-content-center box2 mt-3" style="width: 100%;">
+        <div class="card-header align-items-center p-0 border-bottom border-primary bg-primary text-light"
+            style="margin: 0px;">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col">
+                    <b>
+                        <div class="text-center fs-6 fw-semibold ">ADD PROJECT</div>
+                    </b>
+                </div>
+                <div class="col-2 pt-1 align-items-center">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body justify-content-center">
+            <form method="post" action="{{ url_for('dashboard.add_project') }}">
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Short Name</label>
+                    <input type="text" class="form-control" id="short_name" name="short_name"
+                        placeholder="Enter Short Name">
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Full Name</label>
+                    <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Enter Full Name">
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Project Number</label>
+                    <input type="text" class="form-control" id="number" name="number" placeholder="Enter Project Number">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Project Start Date</label>
+                    <input type="date" class="form-control" id="start_date" name="start_date">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Project End Date</label>
+                    <input type="date" class="form-control" id="end_date" name="end_date">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Commision Value</label>
+                    <input type="text" class="form-control" id="comm_val" name="comm_val"
+                        placeholder="Enter Commision Value">
+                </div>
+                <div class="form-group">
+                    <label for="exampleSelect1" class="form-label mt-2">Project Type</label>
+                    <select class="form-select" id="type" name="type">
+                        <option value="" selected disabled>Select Project Type</option>
+                        {% for type in project_type%}
+                        <option value="{{type}}">{{type}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Project Objective</label>
+                    <textarea class="form-control" id="objective" name="objective" rows="3"
+                        placeholder="Enter Project Objective"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Implementing States</label>
+                    <textarea type="text" class="form-control" id="states" name="states" rows="2"
+                        placeholder="Enter Implementing States"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Implementing Partner</label>
+                    <input type="text" class="form-control" id="partner" name="partner"
+                        placeholder="Enter Implementing Partner">
+                </div>
+                <div class="text-center"><button type="submit" class="btn btn-primary mt-3">Submit</button></div>
+                
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+{%endblock%}

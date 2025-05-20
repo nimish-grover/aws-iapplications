@@ -1,0 +1,179 @@
+{%extends 'base.html'%}
+{% block title %}
+<title>Important Links - E-Saksham</title>
+{%endblock%}
+{%block content%}
+<!-- for desktops and laptops -->
+<div class="d-none d-md-block">
+<div class="container-fluid m-0 p-0" style="background-color: #A3A2A2; width: 100%;">
+    <div class="row roboto pt-4 justify-content-center text-center">
+        <div class="fs-1 fw-semibold text-white pt-3">Important Links</div>
+        <div class="container mt-3" id="overlay" style="width: fit-content; z-index: 2;">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb p-3 m-0">
+                    <li class="breadcrumb-item"><a href="{{url_for('learning.home')}}" class="text-secondary"
+                            style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="{{url_for('learning.important_links')}}"
+                            style="text-decoration: none;">Important Links</a></li>
+                </ol>
+            </nav>
+        </div>
+
+    </div>
+    <div class="row" style="margin-top: -30px; z-index: 1;">
+        <div class="container" id="overlay" style="width: 45%; height: 100px;"></div>
+    </div>
+    <div class="row p-0" style="height: 50px; min-width: 100%; margin-top:-70px; background-color: white;"></div>
+</div>
+<div class="container-fluid m-0 p-0 bg-white justify-content-center" style="width: 100%; display: flex;">
+    <div class="container-fluid py-5 mb-5" style="width: 50%;">
+        <table class="table table-striped text-center">
+            <thead class="table-secondary">
+                <tr>
+                    <th scope="col">S. No.</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Link</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Bhuvan Open Data Archive</td>
+                    <td><a href="http://bhuvan.nrsc.gov.in/data" target="_blank" style="text-decoration: none;">Visit <i
+                                class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a></td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Bhuvan Panchayat</td>
+                    <td><a href="http://www.bhuvan-panchayat.nrsc.gov.in/" target="_blank" style="text-decoration: none;">Visit <i
+                                class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a></td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Bhuvan State Portals</td>
+                    <td><a href="http://bhuvan.nrsc.gov.in/state/" target="_blank" style="text-decoration: none;">Visit <i
+                                class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a></td>
+                </tr>
+                <tr>
+                    <th scope="row">4</th>
+                    <td>Bhuvan Portal (Free GIS Data)</td>
+                    <td><a href="http://bhuvan.nrsc.gov.in/gis/" target="_blank" style="text-decoration: none;">Visit <i
+                                class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a></td>
+                </tr>
+                <tr>
+                    <th scope="row">5</th>
+                    <td>Bhuvan Portal (Mgnrega)</td>
+                    <td><a href="http://bhuvan.nrsc.gov.in/governance/mgnrega" target="_blank" style="text-decoration: none;">Visit <i
+                                class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a></td>
+                </tr>
+                <tr>
+                    <th scope="row">6</th>
+                    <td>Bhuvan Portal (Watersheds)</td>
+                    <td><a href="http://bhuvan.nrsc.gov.in/projects/iwmp/" target="_blank" style="text-decoration: none;">Visit <i
+                                class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a></td>
+                </tr>
+                <tr>
+                    <th scope="row">7</th>
+                    <td>Bhuvan 2D Portal</td>
+                    <td><a href="http://bhuvan.nrsc.gov.in/map" target="_blank" style="text-decoration: none;">Visit <i
+                                class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a></td>
+                </tr>
+                <tr>
+                    <th scope="row">8</th>
+                    <td>GIZ MGNREGA</td>
+                    <td><a href="https://www.giz.de/en/worldwide/29773.html" target="_blank" style="text-decoration: none;">Visit <i
+                                class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+
+<!-- for mobiles -->
+<div class=" d-sm-block d-md-none">
+    <div class="container-fluid m-0 p-0" style="background-color: #A3A2A2; width: 100%;">
+        <div class="row roboto pt-4 justify-content-center text-center">
+            <div class="fs-1 fw-semibold text-white pt-3">Important Links</div>
+            <div class="container mt-3" id="overlay" style="width: fit-content; z-index: 2;">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb p-3 m-0">
+                        <li class="breadcrumb-item"><a href="{{url_for('learning.home')}}" class="text-secondary"
+                                style="text-decoration: none;">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><a href="{{url_for('learning.important_links')}}"
+                                style="text-decoration: none;">Important Links</a></li>
+                    </ol>
+                </nav>
+            </div>
+    
+        </div>
+        <div class="row" style="margin-top: -30px; z-index: 1;">
+            <div class="container" id="overlay" style="width: 80%; height: 100px;"></div>
+        </div>
+        <div class="row p-0" style="height: 50px; min-width: 100%; margin-top:-70px; background-color: white;"></div>
+    </div>
+    <div class="container-fluid m-0 p-0 bg-white justify-content-center" style="width: 100%; display: flex;">
+        <div class="container-fluid py-3 mb-3" style="width: 90%;">
+            <table class="table table-striped text-center">
+                <thead class="table-secondary">
+                    <tr>
+                        <th scope="col">S. No.</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Link</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Bhuvan Open Data Archive</td>
+                        <td><a href="http://bhuvan.nrsc.gov.in/data" target="_blank" style="text-decoration: none;">Visit <i
+                                    class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Bhuvan Panchayat</td>
+                        <td><a href="http://www.bhuvan-panchayat.nrsc.gov.in/" target="_blank" style="text-decoration: none;">Visit <i
+                                    class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bhuvan State Portals</td>
+                        <td><a href="http://bhuvan.nrsc.gov.in/state/" target="_blank" style="text-decoration: none;">Visit <i
+                                    class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>Bhuvan Portal (Free GIS Data)</td>
+                        <td><a href="http://bhuvan.nrsc.gov.in/gis/" target="_blank" style="text-decoration: none;">Visit <i
+                                    class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <td>Bhuvan Portal (Mgnrega)</td>
+                        <td><a href="http://bhuvan.nrsc.gov.in/governance/mgnrega" target="_blank" style="text-decoration: none;">Visit <i
+                                    class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">6</th>
+                        <td>Bhuvan Portal (Watersheds)</td>
+                        <td><a href="http://bhuvan.nrsc.gov.in/projects/iwmp/" target="_blank" style="text-decoration: none;">Visit <i
+                                    class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">7</th>
+                        <td>Bhuvan 2D Portal</td>
+                        <td><a href="http://bhuvan.nrsc.gov.in/map" target="_blank" style="text-decoration: none;">Visit <i
+                                    class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">8</th>
+                        <td>GIZ MGNREGA</td>
+                        <td><a href="https://www.giz.de/en/worldwide/29773.html" target="_blank" style="text-decoration: none;">Visit <i
+                                    class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{%endblock%}

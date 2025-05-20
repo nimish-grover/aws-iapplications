@@ -1,0 +1,117 @@
+<!-- chats.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container" style="overflow-y: auto; height:80vh;" id="chatMessages">
+    <!-- Chat messages will be dynamically added here -->
+</div>
+<div class="fixed-bottom">
+    <form class="container mx-5 px-5" id="chatForm">
+        <div class="d-inline-block position-relative mb-5 w-100">
+            <textarea type="" class="form-control d-inline-block pe-5" name="user_message" id="userMessage"
+                placeholder="Type your message..." aria-label="Type your message..."
+                aria-describedby="button-addon2" tabindex="0"></textarea>
+            <input type="submit" value="Send"
+                class="btn btn-primary btn-sm position-absolute mt-3 m-2 top-0 end-0" id="submitButton">
+        </div>
+    </form>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const chatMessages = document.getElementById('chatMessages');
+        const chatForm = document.getElementById('chatForm');
+        const userMessageInput = document.getElementById('userMessage');
+
+        // Function to append a message to the chat interface
+        function appendMessage(role, message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add(role + '-message', 'mb-1');
+            messageDiv.innerHTML = `
+                <img src="${role === 'user' ? '/ibot/static/images/user.png' : '/ibot/static/images/waterbot_bg.png'}" alt="Logo" height="24" class="d-inline-block align-text-top">
+                ${role === 'user' ? 'You' : 'JiM'}
+            `;
+            chatMessages.appendChild(messageDiv);
+
+            const alertDiv = document.createElement('div');
+            alertDiv.classList.add('alert', 'alert-light');
+            alertDiv.textContent = message;
+            chatMessages.appendChild(alertDiv);
+        }
+
+        // Function to handle streaming response
+        function handleStreamingResponse(response) {
+            const reader = response.body.getReader();
+            let received = '';
+
+            reader.read().then(function processText({ done, value }) {
+                if (done) {
+                    console.log("Stream complete");
+                    return;
+                }
+
+                received += new TextDecoder().decode(value);
+                const messages = received.split('\n');
+
+                // Append received messages to the chat interface
+                messages.forEach((message, index) => {
+                    if (index === messages.length - 1 && !message.trim()) {
+                        // Skip last message if it's empty
+                        return;
+                    }
+                    appendMessage('bot', message.trim());
+                });
+
+                // Continue reading next chunk
+                reader.read().then(processText);
+            });
+        }
+
+        // Function to send user message to the server
+        function sendMessage(message) {
+            fetch('/ibot/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user_message: message })
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('User message sent successfully');
+                } else {
+                    console.error('Failed to send user message');
+                }
+            })
+            .catch(error => console.error('Error sending user message:', error));
+        }
+
+        // Event listener for form submission
+        chatForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const userMessage = userMessageInput.value.trim();
+            if (userMessage) {
+                appendMessage('user', userMessage);
+                sendMessage(userMessage);
+                userMessageInput.value = '';
+            }
+        });
+
+        // Start streaming response when the page loads
+        fetch('/ibot/rag', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ user_message: '' })
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Initial request sent successfully');
+                handleStreamingResponse(response);
+            } else {
+                console.error('Failed to send initial request');
+            }
+        })
+        .catch(error => console.error('Error sending initial request:', error));
+    });
+</script>
+{% endblock %}

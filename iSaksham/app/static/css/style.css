@@ -1,0 +1,131 @@
+.roboto {
+    font-family: 'Roboto';
+
+}
+
+#overlay {
+    background-color: white;
+    border-radius: 70px;
+}
+
+.form-size {
+    height: 50px;
+    width: 100%;
+}
+
+.location-circle{
+    width: 200px; /* Set the width of the circular element */
+    height: 200px; /* Set the height of the circular element */
+    background-color: #0d6efd; /* Set the background color */
+    border-radius: 50%; /* Set border-radius to 50% for a circular shape */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff; /* Set the text color */
+    font-size: 24px;
+    border: 2px solid #fff;
+    transition: border-width 0.3s ease;
+}
+.address-container:hover .location-circle {
+border-width: 8px; /* Increase border width on hover */
+}
+
+.card-hover-shadow {
+    transition: box-shadow 0.3s ease;
+}
+
+.panel-heading {
+    cursor: pointer; /* Change cursor to pointer */
+}
+.panel-title {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Align items vertically */
+}
+
+.accordion-toggle {
+    flex: 1; /* Allow question text to grow flexibly */
+    overflow: hidden; /* Hide overflow text if necessary */
+    white-space: normal; /* Allow text to wrap to next line */
+}
+
+.accordion-toggle:before {
+    font-family: 'FontAwesome';
+    content: "\f067"; /* Plus icon */
+    color: grey;
+    font-size: large;
+    padding-right: 1rem; /* Adjust padding */
+}
+
+.panel-heading.collapsed .accordion-toggle:before {
+    content: "\f068"; /* Minus icon */
+}
+.panel-body-mobile{
+    padding-left: 2rem;
+}
+
+    /* Hide radio buttons */
+    .rating {
+        unicode-bidi: bidi-override;
+        direction: rtl;
+        text-align: center;
+    }
+
+    .rating>input {
+        display: none;
+    }
+
+    .rating>label {
+        color: #ccc;
+        font-size: 3em;
+        cursor: pointer;
+    }
+
+    .rating>input:checked~label {
+        color: #ffc700;
+    }
+
+    .rating>input:checked~label:before {
+        content: "\2605";
+        position: relative;
+    }
+
+    .rating>label:before {
+        content: "\2606";
+        position: relative;
+    }
+        /* Hide radio buttons */
+        .rating-mobile {
+        unicode-bidi: bidi-override;
+        direction: rtl;
+        text-align: center;
+    }
+
+    .rating-mobile>input {
+        display: none;
+    }
+
+    .rating-mobile>label {
+        color: #ccc;
+        font-size: 3em;
+        cursor: pointer;
+    }
+
+    .rating-mobile>input:checked~label {
+        color: #ffc700;
+    }
+
+    .rating-mobile>input:checked~label:before {
+        content: "\2605";
+        position: relative;
+    }
+
+    .rating-mobile>label:before {
+        content: "\2606";
+        position: relative;
+    }
+
+    .vertical-separator {
+        height: 100%;
+        width: 8%;
+    }
+

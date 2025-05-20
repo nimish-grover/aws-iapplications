@@ -1,0 +1,210 @@
+.page-content {
+    min-height: calc(100vh - 116px);
+    /* Adjust the value (100px) to match the height of your footer */
+}
+
+.active-nav {
+    font-weight: 600;
+    color: black;
+}
+
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffffff;
+    z-index: 9999;
+    /* Ensure it's above other elements */
+    transition: opacity 0.3s;
+}
+
+.loader-hidden {
+    opacity: 0;
+    pointer-events: none;
+    /* Disable mouse events when hidden */
+}
+
+#footer {
+
+    height: 116px;
+    background-color: #202121;
+    color: white;
+    padding: 10px;
+    bottom: 0;
+
+}
+#footer-mobile {
+
+    height: fit-content;
+    background-color: #202121;
+    color: white;
+    padding: 10px;
+    bottom: 0;
+
+}
+
+/* Your custom styles here */
+.loading-icon {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.sk-cube-grid {
+    width: 40px;
+    height: 40px;
+    margin: 100px auto;
+}
+
+.sk-cube {
+    width: 33%;
+    height: 33%;
+    background-color: #0d6efd;
+    float: left;
+    animation: sk-cube-grid 1.3s infinite ease-in-out;
+}
+
+.sk-cube1 {
+    animation-delay: 0.2s;
+}
+
+.sk-cube2 {
+    animation-delay: 0.3s;
+}
+
+.sk-cube3 {
+    animation-delay: 0.4s;
+}
+
+.sk-cube4 {
+    animation-delay: 0.1s;
+}
+
+.sk-cube5 {
+    animation-delay: 0.2s;
+}
+
+.sk-cube6 {
+    animation-delay: 0.3s;
+}
+
+.sk-cube7 {
+    animation-delay: 0s;
+}
+
+.sk-cube8 {
+    animation-delay: 0.1s;
+}
+
+.sk-cube9 {
+    animation-delay: 0.2s;
+}
+
+@keyframes sk-cube-grid {
+    33% {
+        transform: scale(0.5);
+    }
+
+    66% {
+        transform: scale(1);
+    }
+}
+
+/* Styles for the scroll to top button */
+#scrollToTopBtn {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Fixed/sticky position */
+    bottom: 20px;
+    /* Place the button at the bottom of the page */
+    right: 30px;
+    /* Place the button 30px from the right */
+    z-index: 99;
+    /* Make sure it does not overlap */
+    border: none;
+    /* Remove borders */
+    outline: none;
+    /* Remove outline */
+    background-color: #0d6efd;
+    color: white;
+    /* Text color */
+    cursor: pointer;
+    /* Add a mouse pointer on hover */
+    padding: 15px;
+    /* Some padding */
+    border-radius: 50%;
+    /* Rounded corners */
+    font-size: 18px;
+    /* Increase font size */
+    height: 50px;
+    width: 50px;
+}
+
+#scrollToTopBtn:hover {
+    background-color: #1f4e96;
+    /* Add a dark-grey background on hover */
+}
+
+.splash {
+    cursor: pointer;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    /* Adjust opacity as needed */
+    transition: all ease-in-out 600ms;
+    z-index: 9999;
+    /* Ensure the splash screen appears on top of other elements */
+}
+
+.splash.hidden {
+    display: none;
+}
+
+.splash-header {
+    height: 90%;
+    color: white;
+    font-family: roboto;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#splash-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* Align text center */
+}
+html, body {
+    overflow-x: hidden;
+}
+
+@media only screen and (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+    }
+}
+
+.fs-6{
+    font-size: 1rem;
+}
+
+.fs-7{
+    font-size: 0.8rem;
+}
+
+.fs-8{
+    font-size: 0.6rem;
+}

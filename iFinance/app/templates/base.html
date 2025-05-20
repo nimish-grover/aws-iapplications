@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="transparent" />
+    <meta name="description" content="This is my NRMAE Finance application" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="manifest" href="{{url_for('static',filename='manifest.json')}}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" href="{{url_for('static',filename='icons/favicon.ico')}}">
+
+    <!-- <link rel="manifest" href="static/icon/site.webmanifest"> -->
+
+    {% block title %}
+    {% endblock %}
+    <style>
+        .loader {
+            
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 89% ;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(255, 255, 255);
+            /* Semi-transparent white background */
+            z-index: 9999;
+            /* Ensure it's above other elements */
+            transition: opacity 0.3s;
+            position: fixed;
+        }
+
+        .loader-hidden {
+            opacity: 0;
+            pointer-events: none;
+            /* Disable mouse events when hidden */
+        }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+
+    </style>
+</head>
+
+<body class="body text-light">
+
+    <div id="navbar">
+        <nav class="navbar fixed-top bg-primary p-2" data-bs-theme="dark" style=" border-bottom: 1px solid #fff;">
+            <div class="container-fluid">
+                <div class="col-2">
+                    <a class="navbar-brand d-flex align-items-center" href="{{url_for('dashboard.financials')}}">
+                        <img src="{{url_for('static', filename='icons/icon-64x64.png')}}" height="24" alt="Icon"
+                            class="navbar-icon">
+
+                    </a>
+                </div>
+                <div class="col"> <a href="/" style="text-decoration: none;">
+                        <div class="text-light text-center fs-6 fw-semibold"> {% block nav %}{% endblock %}</div>
+                    </a></div>
+                <div class="col-2 fs-7">FinApp</div>
+
+
+            </div>
+        </nav>
+    </div>
+
+
+
+    <div id="content">
+
+        {% block content %}
+        
+        {% endblock %}
+        <div class="loader">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+            
+    
+        
+        
+    </div>
+
+    <div id="footer">
+        <footer class="fixed-bottom text-light pb-0 border-top-3 p-2 bg-primary" style="border-top: 1px solid #fff;">
+            <div class="container text-center">
+                <div class="row mx-5">
+                    <!-- <div class="col">
+                        <a href="/ifinance/view_yearwise" style="text-decoration: none;"><i
+                                class="fa-solid fa-calendar-days" style="color: #ffffff;"></i></a>
+                        <p class="fs-8 m-0">Yearwise</p>
+                    </div>
+                    <div class="col">
+                        <a href="/ifinance/view_finance" style="text-decoration: none;"><i class="fa-solid fa-table"
+                                style="color: #ffffff;"></i></a>
+                        <p class="fs-8 m-0">Monthwise</p>
+                    </div> -->
+                    <div class="col">
+                        <a href="/ifinance/view_profile" style="text-decoration: none;"> <img src="{{url_for('static', filename='icons/user.png')}}" alt="user" height="24"></a>
+                        <p class="fs-8 m-0">Profile</p>
+                    </div>
+                    <div class="col">
+                        <a href="/ifinance/" style="text-decoration: none;"><img src="{{url_for('static', filename='icons/dashboard.png')}}" alt="user" height="24"></a>
+                        <p class="fs-8 m-0">Dashboard</p>
+                    </div>
+
+                    <div class="col">
+                        <a href="/ifinance/projects" style="text-decoration: none;"><img src="{{url_for('static', filename='icons/project.png')}}" alt="user" height="24"></a>
+                        <p class="fs-8 m-0">Projects</p>
+                    </div> 
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+
+    <!-- <script src="https://kit.fontawesome.com/b8fa5f2ca2.js" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@2.3.0/dist/chartjs-chart-treemap.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    
+    <script>
+        // Function to show the loader
+        function showLoader() {
+            document.querySelector('.loader').classList.remove('loader-hidden');
+        }
+
+        // Function to hide the loader
+        function hideLoader() {
+            document.querySelector('.loader').classList.add('loader-hidden');
+        }
+
+        // Example function to make API call
+        function makeAPICall() {
+            showLoader(); // Show loader before making the API call
+
+            // Simulate API call with setTimeout
+            setTimeout(() => {
+                // Simulated API call completed
+                hideLoader(); // Hide loader after API call is complete
+            }, 2000); // Simulating 2 seconds delay, replace with actual API call
+        }
+
+        // Example: Call makeAPICall function automatically based on user input
+        // Replace this with your actual code where API calls are triggered
+        // For example, if you have an input field, you can call makeAPICall inside its change event handler
+        makeAPICall(); // Call the function automatically
+    </script>
+    
+    <!-- <script>
+
+        function logout() {
+        
+          // Make logout request
+          fetch('/logout')
+            .then(response => {
+            
+              // Clear sessionStorage
+              sessionStorage.clear();
+              
+              // Redirect user or display logged out message
+              window.location.href = '/login';
+              
+            });
+        
+        }
+        
+        // Attach logout to button
+        document.getElementById('logout').addEventListener('click', logout);
+        
+        </script> -->
+    {% block script %}
+    {% endblock %}
+</body>
+
+</html>

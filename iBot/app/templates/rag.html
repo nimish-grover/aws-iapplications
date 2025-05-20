@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="chatMessages" class="container mt-5 pt-1"></div>
+<!-- <div class="bot-spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</div> -->
+<div class="fixed-bottom">
+    <div class="container">
+        <div class="mb-2">
+            <div class="d-inline-block position-relative w-100">
+                <textarea type="" class="form-control d-inline-block pe-6" name="user_message" id="userMessage"
+                    placeholder="Ask your question..." aria-label="Type your message..."
+                    aria-describedby="button-addon2"></textarea>
+                <button onclick="submitQuery()" class="btn btn-primary btn-sm position-absolute mt-3 m-2 top-0 end-0"
+                    id="submitButton">Send</button>
+                <div class="btn btn-primary btn-sm position-absolute mt-3 m-2 top-0 end-0 px-4 visually-hidden"
+                    id="loader">
+                    <div class='spinner-border text-light' style="height:15px; width:15px;" role='status'>
+                        <span class='visually-hidden'>Loading...</span>
+                    </div>
+                </div>
+                <div class="fs-8 mn-5 text-center text-secondary">"JiM" can make mistakes.</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function submitQuery() {
+        disableSend();
+        chatMessages = document.getElementById('chatMessages');
+        user_message = document.getElementById('userMessage').value.trim();
+        if (!user_message) return;
+        append_chat('user', user_message);
+        document.getElementById('userMessage').value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        loader = createLoader();
+        append_chat('bot', loader);
+        post_query(user_message);
+    }
+
+    function disableSend(){
+        html_div = '<div class="spinner-border spinner-border-sm" role="status">'
+        html_div += '<span class="visually-hidden">Loading...</span>'
+        html_div += '</div>'
+        sendButton = document.getElementById('submitButton');
+        sendButton.classList.add('disabled');
+        sendButton.innerHTML = html_div;
+
+    }
+
+     function createLoader(){
+            html_text = '<div class="bot-spinner">';
+            html_text += '<div class="bounce1"></div>';
+            html_text += '<div class="bounce2"></div>';
+            html_text += '<div class="bounce3"></div>';
+            html_text += '</div>';
+            return html_text;
+        }
+    async function post_query(query) {
+        message_div = document.getElementById("chatMessages").lastChild
+        chatMessages = document.getElementById('chatMessages');
+        fetchOptions = {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json' // Set content type to JSON
+            },
+            body: JSON.stringify({ message: query }),
+        }
+
+        const response = await fetch('/ibot/response', fetchOptions)
+        const decoder = new TextDecoder();
+        const reader = response.body.getReader();
+        let chunks = "";
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            chunks += decoder.decode(value);
+            html_text = markdownToHTML(chunks)
+            message_div.innerHTML = html_text;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        sendButton = document.getElementById('submitButton');
+        sendButton.classList.remove('disabled');
+        submitButton.innerHTML = 'Send';
+
+    }
+    function append_chat(role, message) {
+        message_image = document.createElement('img')
+        message_image.setAttribute('height', '24')
+        message_image.classList.add('d-inline-block', 'align-text-top', 'pe-1')
+        message_label = document.createElement('label');
+        message_label.classList.add('fs-6', 'fst-monotype');       
+        message_user = document.createElement('pre');
+        message_user.classList.add('alert', 'alert-light', 'mb-2');
+        if (role == 'user') {
+            message_image.setAttribute('src', '/ibot/static/images/user.png')
+            message_label.innerHTML = 'You';
+        }
+        else {
+            message_image.setAttribute('src', '/ibot/static/images/waterbot_bg.png')
+            message_label.innerHTML = 'JiM';
+        }
+        message_user.innerHTML = message;
+        chat_container = document.getElementById('chatMessages');
+        chat_container.appendChild(message_image);
+        chat_container.appendChild(message_label);
+        chat_container.appendChild(message_user);
+    }
+
+    // Function to convert Markdown to HTML
+    function markdownToHTML(markdown) {
+        // Define simple rules to convert Markdown to HTML
+        markdown = markdown
+            .replace(/\* (.*?)\n/g, '<li>$1</li>') // Convert Markdown lists to HTML lists
+            .replace(/\n/g, '<br>') // Convert newlines to <br> tags
+            .replace(/> (.*?)\n/g, '<blockquote>$1</blockquote>'); // Convert blockquotes
+
+        return markdown;
+    }
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,31 @@
+from iWork.app.db import db
+
+class OldWorkType(db.Model):
+    ''' 
+    These are the earlier work types under MGNREGA and have been included in the database
+    to cater to the old formats of MIS and to map work_codes with asset id. 
+    '''
+    __tablename__ = 'old_work_types'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(80))
+    nrega_id = db.Column(db.Integer, nullable=False, unique=True)
+    work_category_id = db.Column(db.ForeignKey('nrega_work_categories.id'), nullable=False)
+
+    work_category = db.relationship('WorkCategory')
+
+    def json(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'nrega_id': self.nrega_id
+        }
+
+    @classmethod
+    def get_work_categories(cls):
+        # return cls.query.order_by(cls.name).all()
+        return [
+            {'id':1,'name':'Andhra Pradesh'},
+            {'id':2,'name':'Arunachal Pradesh'},
+            {'id':3,'name':'Assam'}
+            ]

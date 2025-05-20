@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>View Records</title>
+{% endblock %}
+{% block nav %}
+Financial Records
+{% endblock %}
+{% block content %}
+<!-- <a href="/add_finance" class="btn btn-primary btn-lg floating-button text-center"><i class="fa-solid fa-plus fa-lg"></i></a> -->
+
+<div class="container-fluid mt-3 mb-3 box box1" style="width: 100%;">
+    <div class="card border-primary mb-3 justify-content-center box2 mt-3" style="width: 100%;">
+        <div class="card-header align-items-center p-0 border-bottom border-primary bg-primary text-light"
+            style="margin: 0px;">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col">
+                    <b>
+                        <div class="text-center fs-6 fw-semibold ">VIEW MONTHLY RECORDS</div>
+                    </b>
+                </div>
+                <div class="col-2 pt-1 align-items-center">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body justify-content-center">
+            <form id="financeForm" method="post" action="{{ url_for('dashboard.view_finance') }}">
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Select Project</label>
+                    <select class="form-select" id="project" name="project">
+                        <option value="" selected disabled>Select Project </option>
+                        {% for type in projects %}
+                        <option value="{{type['id']}}">{{type['shortname']}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Select Project</label>
+                    <select class="form-select" id="cost" name="cost">
+                        <option value="" selected disabled>Select Cost Type </option>
+                        {% for type in project_cost %}
+                        <option value="{{type}}">{{type}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Select Month</label>
+                    <select class="form-select" id="month" name="month">
+                        <option value="" selected disabled>Select month </option>
+                        {% for type in months %}
+                        <option value="{{type['long_month']}}">{{type['long_month']}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Select Year</label>
+                    <select class="form-select" id="year" name="year">
+                        <option value="" selected disabled>Select Year</option>
+                        {% for type in years %}
+                        <option value="{{type}}">{{type}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div id="expandable-card">
+
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary mt-3">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Event listener for project dropdown change
+    document.getElementById('project').addEventListener('change', function () {
+        const projectId = this.value; // Get selected project ID
+        // const formAction = `{{url_for('dashboard.view_finance')}}`; // Construct form action URL
+        // document.getElementById('financeForm').action = formAction; // Set form action attribute
+    });
+});
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Function to update input fields based on API data
+        function updateInputFields(data) {
+            const actualValue = parseFloat(data.actual);
+            const plannedValue = parseFloat(data.planned);
+
+            if (!isNaN(actualValue) && !isNaN(plannedValue)) {
+                // If both values are valid numbers, update the input fields
+                document.getElementById('expandable-card').innerHTML = `
+                    <div class="form-group">
+                        <label for="actual" class="form-label mt-2">Actual Cost</label>
+                        <input type="text" class="form-control" id="actual" name="actual" placeholder="Enter Actual Cost" value="${actualValue}">
+                    </div>
+                    <div class="form-group">
+                        <label for="planned" class="form-label mt-2">Planned Cost</label>
+                        <input type="text" class="form-control" id="planned" name="planned" placeholder="Enter Planned Cost" value="${plannedValue}">
+                    </div>
+                `;
+            } else {
+                // If any value is not a valid number, display an error message
+                document.getElementById('expandable-card').innerHTML = `
+                    <div class="alert alert-danger mt-3" role="alert">
+                        Error: Invalid data received from the server.
+                    </div>
+                `;
+            }
+        }
+
+        // Event listener for year dropdown change
+        document.getElementById('year').addEventListener('change', function () {
+            const project = document.getElementById('project').value;
+            const cost = document.getElementById('cost').value;
+            const month = document.getElementById('month').value;
+            const year = document.getElementById('year').value;
+
+            // Make API call with selected values
+            makeAPICall();
+            fetch(`get_finance/${project}/${cost}/${month}/${year}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Update input fields with API data
+                    updateInputFields(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    // Display an error message if there's an issue with the API call
+                    document.getElementById('expandable-card').innerHTML = `
+                        <div class="alert alert-danger mt-3" role="alert">
+                            Error: Failed to fetch data from the server.
+                        </div>
+                    `;
+                });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Update Year Wise Record</title>
+{% endblock %}
+{%block nav%}
+Yearwise Records
+{%endblock%}
+{% block content %}
+<div class="container-fluid mt-3 mb-3 box box1" style="width: 100%;">
+    <div class="card border-primary mb-3 justify-content-center box2 mt-3" style="width: 100%;">
+        <div class="card-header align-items-center p-0 border-bottom border-primary bg-primary text-light"
+            style="margin: 0px;">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col">
+                    <b>
+                        <div class="text-center fs-6 fw-semibold ">UPDATE YEARWISE RECORD</div>
+                    </b>
+                </div>
+                <div class="col-2 pt-1 align-items-center">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body justify-content-center">
+            {%for item in pywf%}
+            <form method="post" action="{{ url_for('dashboard.update_yearwise',id=item.id) }}">
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Select Project</label>
+                    <select class="form-select" id="project" name="project">
+                        <option value="" disabled>Select Project </option>
+                        {% for type in projects %}
+                        <option value="{{type['id']}}" {% if type['id'] == item.id %} selected {%endif%}>{{type['shortname']}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Enter Year</label>
+                    <input type="text" class="form-control" id="year" name="year" placeholder="Enter Year" value="item.year">
+                </div>
+               
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Project Budget</label>
+                    <input type="text" class="form-control" id="budget" name="budget" placeholder="Enter Budget Value" value="item.budgeted">
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Project Planned Value</label>
+                    <input type="text" class="form-control" id="planned" name="planned" placeholder="Enter Planned Value" value="item.planned">
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Project Allocated Value</label>
+                    <input type="text" class="form-control" id="allocated" name="allocated" placeholder="Enter Allocated Value " value="item.allocated">
+                </div>
+
+
+                
+                <div class="text-center"><button type="submit" class="btn btn-primary mt-3">Submit</button></div>
+                
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+{%endblock%}

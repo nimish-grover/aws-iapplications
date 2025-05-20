@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %}
+<title> Users</title>
+<style>
+    .top-right {
+        position: absolute;
+        top: 0.6rem;
+        right: 0.6rem;
+    }
+
+    .fs-7 {
+        font-size: 0.6rem !important;
+    }
+
+    .fs-8 {
+        font-size: 0.5rem !important;
+    }
+
+    .profile-image {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        /* Make it a circle */
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        /* Adjust font size as needed */
+        font-weight: bold;
+
+    }
+</style>
+{% endblock %}
+{%block nav%}
+Users
+{%endblock%}
+{% block content %}
+<div class="container-fluid d-flex justify-content-center box box1" style="width: 100%; ">
+    <div class="row justify-content-center">
+        {% for user in users %}
+
+        <div class="card mt-2 p-3 border-primary " style=" height: fit-content; width: 95%;">
+            <div class="row align-items-center">
+                <div class="col-3">
+                    <div class="profile-image bg-primary text-light text-center mx-2">
+                        {{user.name[0]| upper()}}
+
+                    </div>
+                </div>
+                <div class="col-9 ">
+
+                    <div class="text-secondary top-right fs-7">
+                        <button data-bs-toggle="modal" data-bs-target="#staticBackdrop_{{ user.id }}" type="button"
+                            class="bt btn" id="deleteuserbtn" style="top: 0.7rem;">
+                            <i class="fa fa-xmark"></i>
+                        </button>
+
+                        <div class="modal fade" id="staticBackdrop_{{ user.id }}" data-bs-backdrop="static"
+                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content bg-primary text-light">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete User</h1>
+                                        <button type="button" class="btn-close bg-light" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body fs-5">
+                                        Are You Sure? You want to delete {{ user.name }} !!
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">No</button>
+                                        <form id="deleteForm_{{ user.id }}" action="" method="post">
+                                            <button type="submit" class="btn btn-light text-dark submit-button"
+                                                onclick="showToast()">Yes</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="/update_user/{{ user.id }}" id="updateuserbtn" style="text-decoration: none;">
+                        <div class="container fw-bold fs-5">{{ user.name }}</div>
+
+                        <div class="container mt-2">
+                            <div class="fs-6">{{ user.username }}</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+
+
+{%endblock%}

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIZ Honorarium Matrix Calculator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .radio-group {
+            margin: 10px 0;
+        }
+
+        .radio-label {
+            margin-left: 5px;
+            font-weight: normal;
+        }
+
+        .points-display {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e3f2fd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>GIZ Honorarium Matrix Calculator</h1>
+        
+        <div class="form-group">
+            <label>Project Details</label>
+            <input type="text" id="projectName" placeholder="Project Name">
+            <input type="text" id="projectNumber" placeholder="Project Number">
+        </div>
+
+        <div class="form-group">
+            <label>Consultant Category</label>
+            <select id="category" onchange="updateFields()">
+                <option value="">Select Category</option>
+                <option value="A">Group A - Administrative Services</option>
+                <option value="B">Group B - Legal/Financial/Accounts</option>
+                <option value="C">Group C - Personnel/Organization</option>
+                <option value="D">Group D - Technical</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Educational Background</label>
+            <div class="radio-group">
+                <input type="radio" name="education" value="1" id="graduate">
+                <label class="radio-label" for="graduate">Graduate degree</label>
+            </div>
+            <div class="radio-group">
+                <input type="radio" name="education" value="2" id="postgraduate">
+                <label class="radio-label" for="postgraduate">Post graduate degree</label>
+            </div>
+            <div class="radio-group">
+                <input type="radio" name="education" value="3" id="phd">
+                <label class="radio-label" for="phd">Advanced Degree (PhD)</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Work Experience</label>
+            <div class="radio-group">
+                <input type="radio" name="experience" value="1" id="exp1">
+                <label class="radio-label" for="exp1">< 5 years</label>
+            </div>
+            <div class="radio-group">
+                <input type="radio" name="experience" value="2" id="exp2">
+                <label class="radio-label" for="exp2">5 - 10 years</label>
+            </div>
+            <div class="radio-group">
+                <input type="radio" name="experience" value="3" id="exp3">
+                <label class="radio-label" for="exp3">10 - 20 years</label>
+            </div>
+            <div class="radio-group">
+                <input type="radio" name="experience" value="4" id="exp4">
+                <label class="radio-label" for="exp4">> 20 years</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Task Complexity</label>
+            <div class="radio-group">
+                <input type="radio" name="complexity" value="1" id="comp1">
+                <label class="radio-label" for="comp1">Low - Simple tasks</label>
+            </div>
+            <div class="radio-group">
+                <input type="radio" name="complexity" value="2" id="comp2">
+                <label class="radio-label" for="comp2">Medium - Professional tasks</label>
+            </div>
+            <div class="radio-group">
+                <input type="radio" name="complexity" value="3" id="comp3">
+                <label class="radio-label" for="comp3">High - Complex tasks</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Additional Points</label>
+            <div class="radio-group">
+                <input type="checkbox" id="sectorKnowledge" value="2">
+                <label class="radio-label" for="sectorKnowledge">Sector Knowledge</label>
+            </div>
+            <div class="radio-group">
+                <input type="checkbox" id="technicalExpertise" value="2">
+                <label class="radio-label" for="technicalExpertise">Specific technical expertise</label>
+            </div>
+            <div class="radio-group">
+                <input type="checkbox" id="internationalExp" value="1">
+                <label class="radio-label" for="internationalExp">International experience</label>
+            </div>
+            <div class="radio-group">
+                <input type="checkbox" id="stateExp" value="1">
+                <label class="radio-label" for="stateExp">State experience</label>
+            </div>
+        </div>
+
+        <button onclick="calculatePoints()">Calculate Honorarium</button>
+
+        <div class="points-display">
+            <h3>Total Points: <span id="totalPoints">0</span></h3>
+        </div>
+
+        <div class="result">
+            <h3>Daily Fee Range: <span id="feeRange">-</span></h3>
+        </div>
+    </div>
+
+    <script>
+        function calculatePoints() {
+            let points = 0;
+            
+            // Education
+            const education = document.querySelector('input[name="education"]:checked');
+            if (education) points += parseInt(education.value);
+            
+            // Experience
+            const experience = document.querySelector('input[name="experience"]:checked');
+            if (experience) points += parseInt(experience.value);
+            
+            // Complexity
+            const complexity = document.querySelector('input[name="complexity"]:checked');
+            if (complexity) points += parseInt(complexity.value);
+            
+            // Additional points
+            const additionalChecks = ['sectorKnowledge', 'technicalExpertise', 'internationalExp', 'stateExp'];
+            additionalChecks.forEach(id => {
+                const checkbox = document.getElementById(id);
+                if (checkbox && checkbox.checked) points += parseInt(checkbox.value);
+            });
+
+            document.getElementById('totalPoints').textContent = points;
+            calculateFeeRange(points);
+        }
+
+        function calculateFeeRange(points) {
+            const category = document.getElementById('category').value;
+            let feeRange = '';
+
+            switch(category) {
+                case 'A':
+                    if (points < 4) feeRange = '2,600';
+                    else if (points < 8) feeRange = '2,700 to 5,000';
+                    else if (points < 12) feeRange = '5,100 to 6,900';
+                    else feeRange = '7,000 to 9,800';
+                    break;
+                case 'B':
+                    if (points < 4) feeRange = '2,600';
+                    else if (points < 8) feeRange = '2,700 to 5,000';
+                    else if (points < 12) feeRange = '5,100 to 6,900';
+                    else feeRange = '7,000 to 12,300';
+                    break;
+                case 'C':
+                case 'D':
+                    if (points < 4) feeRange = '2,600';
+                    else if (points < 8) feeRange = '2,700 to 5,000';
+                    else if (points < 12) feeRange = '5,100 to 12,300';
+                    else if (points < 16) feeRange = '12,400 to 22,100';
+                    else feeRange = '22,200 to 30,900';
+                    break;
+                default:
+                    feeRange = 'Please select a category';
+            }
+
+            document.getElementById('feeRange').textContent = 'INR ' + feeRange;
+        }
+
+        function updateFields() {
+            calculatePoints();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+{% extends 'base.html' %}
+{% block title %}Water Demand{% endblock %}
+{% block content %}
+{{super()}}
+<div style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
+    aria-label="breadcrumb">
+    {% if breadcrumbs %}
+    <ol class="breadcrumb fs-8 my-1">
+        {% for breadcrumb in breadcrumbs %}
+        <li class="{{'breadcrumb-item active' if loop.index == breadcrumbs|length else 'breadcrumb-item text-primary'}}">
+            {{breadcrumb}}
+        </li>
+        {% endfor %}
+    </ol>
+    {% endif %}
+</div>
+<ul class="nav nav-tabs nav-pills nav-fill fs-7" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active py-1" id="human-tab" data-bs-toggle="tab" data-bs-target="#human" type="button"
+            role="tab" aria-controls="home" aria-selected="true">Human</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link py-1" id="agriculture-tab" data-bs-toggle="tab" data-bs-target="#agriculture" type="button"
+            role="tab" aria-controls="agriculture" aria-selected="false">Agriculture</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link py-1" id="livestock-tab" data-bs-toggle="tab" data-bs-target="#livestock" type="button"
+            role="tab" aria-controls="livestock" aria-selected="false">Livestock</button>
+    </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div class="tab-pane active" id="human" role="tabpanel" aria-labelledby="human-tab" tabindex="0">
+        <div class="card mx-3 my-2 shadow-sm">
+            <div class="card-header text-center fw-bold fs-7 py-1">Human Count</div>
+            <div class="card-body">
+                <canvas id="humanCountChart" height="100" aria-label="Human Count Chart" role="img"></canvas>
+            </div>
+        </div>
+        <div class="card mx-3 my-2 shadow-sm">
+            <div class="card-header text-center py-1">
+                <div class="fs-6 fw-bold mb-0">Human</div>
+                <div class="fs-7 fw-normal text-center text-secondary mt-n4">Consumption in Hectare Metres</div>
+            </div>
+            <div class="card-body">
+                <canvas id="humanConsumeChart" aria-label="Human Consume Chart" role="img"></canvas>
+            </div>
+            <div class="card-footer text-end py-1">
+                <form action="{{url_for('PWA.home')}}" method="post">
+                    <input type="hidden" name="payload" id="payload" value="{{payload | safe}}">
+                    <input type="submit" class="btn btn-secondary btn-sm shadow-sm" value="Back"/>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane" id="agriculture" role="tabpanel" aria-labelledby="agriculture" tabindex="1">
+        <div class="card mx-3 my-2 shadow-sm">
+            <div class="card-header text-center fw-bold fs-7 py-1">Agriculture Count</div>
+            <div class="card-body">
+                <canvas id="agriCountChart" height="100" aria-label="Agri Count Chart" role="img"></canvas>
+            </div>
+        </div>
+        <div class="card mx-3 my-2 shadow-sm">
+            <div class="card-header text-center py-1">
+                <div class="fs-6 fw-bold mb-0">Agriculture</div>
+                <div class="fs-7 fw-normal mt-n4 text-center text-secondary">Consumption in Hectare Metres</div>
+            </div>
+            <div class="card-body">
+                <canvas id="agriConsumeChart" aria-label="Agri Consume Chart" role="img"></canvas>
+            </div>
+            <div class="card-footer text-end py-1">
+                <form action="{{url_for('PWA.home')}}" method="post">
+                    <input type="hidden" name="payload" id="payload" value="{{payload | safe}}">
+                    <input type="submit" class="btn btn-secondary btn-sm shadow-sm" value="Back"/>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane" id="livestock" role="tabpanel" aria-labelledby="livestock-tab" tabindex="2">
+        <div class="card mx-3 my-2 shadow-sm">
+            <div class="card-header text-center fw-bold fw-bold fs-7 py-1">Livestock Count</div>
+            <div class="card-body">
+                <canvas id="livestockCountChart" height="100" aria-label="Livestock Count Chart" role="img"></canvas>
+            </div>
+        </div>
+        <div class="card mx-3 my-2 shadow-sm">
+            <div class="card-header text-center py-1">
+                <div class="fs-6 fw-bold mb-0">Livestock</div>
+                <div class="fs-7 fw-normal mt-n4 text-center text-secondary">Consumption in Hectare Metres</div>
+            </div>
+            <div class="card-body">
+                <canvas id="livestockConsumeChart" aria-label="Livestock Consume Chart" role="img"></canvas>
+            </div>
+            <div class="card-footer text-end py-1">
+                <form action="{{url_for('PWA.home')}}" method="post">
+                    <input type="hidden" name="payload" id="payload" value="{{payload | safe}}">
+                    <input type="submit" class="btn btn-secondary btn-sm shadow-sm" value="Back"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" name="human" id="humanChartDetails" data-labels="{{human_chart_details}}">
+<input type="hidden" name="agriculture" id="agricultureChartDetails" value="{{agriculture_chart_details}}">
+<input type="hidden" name="livestock" id="livestockChartDetails" data-labels="{{livestock_chart_details}}">
+{% endblock %}
+{% block script %}
+<script>
+    $(document).ready(() => {
+
+        // Variables & Constants
+        const humanCountCtx = document.getElementById('humanCountChart');
+        const humanConsumeCtx = document.getElementById('humanConsumeChart');
+        const agriCountCtx = document.getElementById('agriCountChart');
+        const agriConsumeCtx = document.getElementById('agriConsumeChart');
+        const livestockCountCtx = document.getElementById('livestockCountChart');
+        const livestockConsumeCtx = document.getElementById('livestockConsumeChart');
+        var human_chart_details = document.getElementById('humanChartDetails').dataset.labels;
+        const agriculture_chart_details = document.getElementById('agricultureChartDetails').dataset.labels;
+        const livestock_chart_details = document.getElementById('livestockChartDetails').dataset.labels;
+        const barBackgroundColor = [
+            'rgba(255, 99, 132, 1)', // red
+            'rgba(54, 162, 235, 1)', // blue
+            'rgba(75, 192, 192, 1)', // green
+            'rgba(153, 102, 255, 1)', // purple
+            'rgba(255, 205, 86, 1)', // yellow
+            'rgba(201, 203, 207, 1)', // grey
+            'rgba(255, 159, 64, 1)' // orange
+        ];
+        const barChartOptions = {
+            indexAxis: 'y',
+            scales: {
+                y: {
+                    grid: { display: false },
+                },
+                x: {
+                    grid: { display: false },
+                }
+            },
+            // Elements options apply to all of the options unless overridden in a dataset
+            // In this case, we are setting the border of each horizontal bar to be 2px wide
+            // elements: {
+            //     bar: {
+            //         borderWidth: 2,
+            //     }
+            // },
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false,
+                    position: 'right',
+                },
+                title: {
+                    display: false,
+                    text: 'Population Count'
+                }
+            }
+        };
+        const doughtutOptions = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    display: false
+                },
+                title: {
+                    display: false,
+                    text: 'Water Budget Chart'
+                }
+            }
+        };
+        // <--H U M A N-->
+        const humanCountData = {
+            labels: {{ human_chart_details['chart_labels']| safe
+    }},
+        datasets: [{
+            label: '{{human_chart_details['chart_title']|safe}}',
+            data: {{ human_chart_details['chart_count_data']| safe }},
+        backgroundColor: barBackgroundColor,
+        hoverOffset: 4
+            }]
+        };
+    // config
+    const humanCountConfig = {
+        type: 'bar',
+        data: humanCountData,
+        options: barChartOptions,
+    };
+
+    // setup
+    const humanConsumeData = {
+        labels: {{ human_chart_details['chart_labels']| safe}},
+    datasets: [{
+        label: '{{human_chart_details['chart_title']|safe}}',
+        data: {{ human_chart_details['chart_consume_data']| safe }},
+        backgroundColor: barBackgroundColor,
+        hoverOffset: 4
+            }]
+        };
+    // config
+    const humanConsumeConfig = {
+        type: 'doughnut',
+        data: humanConsumeData,
+        options: doughtutOptions,
+    };
+
+    // <--A G R I C U L T U R E-->
+    const agriCountData = {
+        labels: {{ agriculture_chart_details['chart_labels']| safe}},
+    datasets: [{
+        label: '{{agriculture_chart_details['chart_title']|safe}}',
+        data: {{ agriculture_chart_details['chart_count_data']| safe }},
+        backgroundColor: barBackgroundColor,
+        hoverOffset: 4
+            }]
+        };
+    // config
+    const agriCountConfig = {
+        type: 'bar',
+        data: agriCountData,
+        options: barChartOptions,
+    };
+
+    // setup
+    const agriConsumeData = {
+        labels: {{ agriculture_chart_details['chart_labels']| safe}},
+    datasets: [{
+        label: '{{agriculture_chart_details['chart_title']|safe}}',
+        data: {{ agriculture_chart_details['chart_consume_data']| safe }},
+        backgroundColor: barBackgroundColor,
+        hoverOffset: 4
+            }]
+        };
+    // config
+    const agriConsumeConfig = {
+        type: 'doughnut',
+        data: agriConsumeData,
+        options: doughtutOptions,
+    };
+
+    // <--L I V E S T O C K-->
+    const livestockCountData = {
+        labels: {{ livestock_chart_details['chart_labels']| safe}},
+    datasets: [{
+        label: '{{livestock_chart_details['chart_title']|safe}}',
+        data: {{ livestock_chart_details['chart_count_data']| safe }},
+        backgroundColor: barBackgroundColor,
+        hoverOffset: 4
+            }]
+        };
+    // config
+    const livestockCountConfig = {
+        type: 'bar',
+        data: livestockCountData,
+        options: barChartOptions,
+    };
+
+    // setup
+    const livestockConsumeData = {
+        labels: {{ livestock_chart_details['chart_labels']| safe}},
+    datasets: [{
+        label: '{{livestock_chart_details['chart_title']|safe}}',
+        data: {{ livestock_chart_details['chart_consume_data']| safe }},
+        backgroundColor: barBackgroundColor,
+        hoverOffset: 4
+            }]
+        };
+    // config
+    const livestockConsumeConfig = {
+        type: 'doughnut',
+        data: livestockConsumeData,
+        options: doughtutOptions,
+    };
+    new Chart(humanCountCtx, humanCountConfig);
+    new Chart(humanConsumeCtx, humanConsumeConfig);
+    new Chart(agriCountCtx, agriCountConfig);
+    new Chart(agriConsumeCtx, agriConsumeConfig);
+    new Chart(livestockConsumeCtx, livestockConsumeConfig);
+    new Chart(livestockCountCtx, livestockCountConfig);
+
+
+    });
+</script>
+{% endblock %}

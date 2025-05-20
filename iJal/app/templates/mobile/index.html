@@ -1,0 +1,130 @@
+
+{% extends 'mobile/base.html' %}
+{% block title %} Select Block {% endblock %}
+{% from 'mobile/components.html' import select, submit_button %}
+{% block content %}
+
+<h5 class="card-title">Select your block</h5>
+{{select(id='dd_state', dd_array=states,label='Select State' )}}
+{{select(id='dd_district', dd_array=[],label='Select District' )}}
+{{select(id='dd_block', dd_array=[],label='Select Block' )}}  
+
+{{submit_button()}}
+<input type="hidden" id="district_url" value="{{url_for('.districts')}}">
+<input type="hidden" id="block_url" value="{{url_for('.blocks')}}">
+<input type="hidden" id="home_url" value="{{url_for('.index')}}">
+{% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Fetch function to handle API calls
+        async function fetchData(url, payload) {
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                return [];
+            }
+        }
+
+        // Utility function to populate select elements
+        function populateSelect(element, data, placeholder = 'Select an option') {
+            element.innerHTML = ''; // Clear previous options
+            const placeholderOption = createOption({'text':placeholder, 'value':''});
+            placeholderOption.disabled = true;
+            placeholderOption.selected = true;
+            element.appendChild(placeholderOption);
+
+            data.forEach(item => {
+                const option = createOption({'text':item.name, 'value':item.id});
+                element.appendChild(option);
+            });
+            if (element.hasAttribute('disabled')) {
+                element.removeAttribute('disabled');
+            }
+        }
+
+        // Create option for select element
+        function createOption(params) {
+            const option = document.createElement('option');
+            option.textContent = params.text;
+            option.value = params.value;
+            return option
+        }
+
+        // References to the select elements
+        let district_url = document.getElementById('district_url');
+        let block_url = document.getElementById('block_url');
+        let home_url = document.getElementById('home_url');
+        let dd_states = document.getElementById('dd_state');
+        let dd_districts = document.getElementById('dd_district');
+        let dd_blocks = document.getElementById('dd_block');
+        let btn_submit = document.getElementById('btn_submit');
+
+        // disable submit button on load
+        btn_submit.setAttribute('disabled','disabled');
+
+        // Enable dropdown state on page load
+        dd_states.removeAttribute('disabled','disabled');
+
+        // Event listener for dd_states
+        dd_states.addEventListener('change', async function () {
+            const state_id = this.value;
+            const url = district_url.value; // Replace with actual endpoint
+            const payload = { state_id: state_id };
+
+            const districts = await fetchData(url, payload);
+            populateSelect(dd_districts, districts, 'Select District');
+            dd_blocks.innerHTML = ''; // Clear blocks if state changes
+            dd_blocks.appendChild(createOption({'text': 'Select Block', 'value': ''}));
+            dd_blocks.setAttribute('disabled','disabled');
+        });
+
+        // Event listener for dd_districts
+        dd_districts.addEventListener('change', async function () {
+            const district_id = this.value;
+            const url = block_url.value; // Replace with actual endpoint
+            const payload = { district_id: district_id };
+
+            const blocks = await fetchData(url, payload);
+            populateSelect(dd_blocks, blocks, 'Select Block');
+        });
+        
+        dd_blocks.addEventListener('change', ()=>{
+            btn_submit.removeAttribute('disabled');
+        })
+
+        // submit data
+        btn_submit.addEventListener('click', async (event)=>{
+            event.preventDefault();
+            const state_id = dd_states.value;
+            const state_name = dd_states.options[dd_states.selectedIndex].text;
+            const district_id = dd_districts.value;
+            const district_name = dd_districts.options[dd_districts.selectedIndex].text;
+            const block_id = dd_blocks.value;
+            const block_name = dd_blocks.options[dd_blocks.selectedIndex].text;
+            const url = home_url.value;
+            toggleSpinner();
+            payload = {
+                'state_id': state_id, 'state_name':state_name,
+                'district_id':district_id, 'district_name':district_name,
+                'block_id': block_id, 'block_name':block_name
+            }
+            const redirect_url = await fetchData(url, payload);
+            window.location.href = redirect_url;
+        });
+    });
+</script>
+{% endblock %}

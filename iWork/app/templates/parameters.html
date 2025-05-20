@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+{% block title %} View Parameters {% endblock %}
+{% block content %}
+<div class="d-none d-lg-block">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 mb-5">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="text-center">
+                            <h3>View Parameters</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3 d-flex justify-content-center">
+                            <div class="col-4">
+                                <label for="selectPermissibleWork" class="form-label fs-7">Select Permissible Work</label>
+                                <select class="form-select form-select-sm" id="selectPermissibleWork"
+                                name="selectPermissibleWork" aria-label="Select Asset ID">
+                                <option selected disabled>--Select Permissible Work--</option>
+                                {% for row in permissible_works %}
+                                <option value="{{row.id}}">{{row.permissible_work}}</option>
+                                {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div id="inputContainer">
+                            <!-- Input Textbox come here -->
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-8">
+                                <div class="container visually-hidden" id="messageContainer">
+                                    <!--Alert messages appear here-->
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="container text-end visually-hidden" id="buttonContainer">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm me-2" id="btnCancel">Cancel</button>
+                                    <button type="button" class="btn btn-primary btn-sm me-2" id="btnSubmit" disabled>Set Order</button>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const dd_permissible_work = document.getElementById('selectPermissibleWork');
+        const input_container = document.getElementById('inputContainer');
+        const button_container = document.getElementById('buttonContainer');
+        const message_container = document.getElementById('messageContainer');
+
+        async function fetch_data(url_extension, payload) {
+            const api_url = '/iwork/'
+            try {
+                toggleSpinner();
+                const response = await fetch(api_url + url_extension, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=UTF-8'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                throw error;
+            } finally {
+                toggleSpinner();
+            }
+        }
+
+        dd_permissible_work.addEventListener('change', function () {
+            url = 'parameters';
+            payload = { 'permissible_work_id': dd_permissible_work.value };
+            if (!button_container.classList.contains('visually-hidden')) {
+                button_container.classList.add('visually-hidden');
+            }
+
+            fetch_data(url, payload)
+                .then(data => {
+                    add_input_elements(data);
+                    button_container.classList.remove('visually-hidden');
+                }).catch(error => console.error('Error fetching data:', error));
+        });
+
+        function add_input_elements(input_data) {
+            input_container.innerHTML = '';
+            index = 0
+            input_data.forEach(data => {
+                if (data['parameter_order']){
+                    index = data['parameter_order']
+                } else {
+                    index = index + 1;
+                }
+                
+                inner_html = `
+                <div class="row">
+                    <fieldset class="col-8" disabled>
+                        <div class="d-flex justify-content-between">
+                            <label for="txtInput${data['id']}" class="form-label fs-7 fw-semibold">
+                                ${data['label'].toLowerCase().replace(/\b\w/g, char => char.toUpperCase()) + '(in ' + data['unit'] + ')'} 
+                                <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip" 
+                                data-bs-placement="right" data-bs-html="true" 
+                                data-bs-title="${data['description']}"></i>
+                            </label> 
+                            <div>
+                                <span><a href="/iwork/update_parameter/${data['id']}" class="link-offset-2 link-underline link-underline-opacity-0 me-2 text-dark"><i class="fa-solid fa-pencil"></i></a></span>
+                                <span><a href="/iwork/delete_parameter/${data['input_permissible_id']}" class="link-offset-2 link-underline link-underline-opacity-0 me-2 text-danger"><i class="fa-regular fa-circle-xmark"></i></a></span>
+                            </div>                    
+                        </div> 
+                        <input type="text" class="form-control form-control-sm" id="txtInput${data['id']}"
+                         name="input${data['id']}" placeholder="${data['name']}" required>                        
+                    </fieldset>
+                    <div class="col-4">
+                        <label for="txtInput${data['input_permissible_id']}" class="form-label fs-7 fw-semibold">Order Preference</label>
+                        <input type="number" class="form-control form-control-sm" id="txtInput_${data['input_permissible_id']}"
+                         name="input_${data['input_permissible_id']}" value="${index}" min="1" max="${input_data.length}" 
+                         aria-label="groupSetOrder" tabindex="${index}" required> 
+                    </div>
+                </div>
+                `;
+                const inputDiv = document.createElement("div");
+                inputDiv.className = "mb-1";
+                inputDiv.innerHTML = inner_html;
+                input_container.appendChild(inputDiv);
+                
+            });
+            // const buttonDiv = document.createElement("div");
+            // buttonDiv.classList.add('d-flex','justify-content-between')
+            // buttonDiv.innerHTML = `
+                
+            // `;
+            // input_container.appendChild(buttonDiv);
+
+            //TODO
+            activateSetOrder();
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+        }
+        function activateSetOrder(){
+            const btn_cancel = document.getElementById('btnCancel');
+            const btn_submit = document.getElementById('btnSubmit');
+            const inputs = document.querySelectorAll('input[aria-label="groupSetOrder"]');
+
+            btn_cancel.addEventListener('click', function(){
+                input_container.innerHTML='';
+                dd_permissible_work.selectedIndex = 0;
+            });
+            btn_submit.addEventListener('click', function(){
+                url='set_order';
+                payload = prepare_payload();
+                fetch_data(url,payload).then(data => {
+                    input_container.innerHTML='';
+                    dd_permissible_work.selectedIndex = 0;
+                    console.log(data)
+                }).catch(error => console.log(error))
+            });
+            function prepare_payload(){
+                json_array = [];
+                inputs.forEach(element => {
+                    json_value = {'input_id':element.id, 'input_value':element.value}
+                    json_array.push(json_value);
+                });
+                return json_array;
+            }
+            
+            
+            function validateInputs() {
+
+                let values = [];
+                let isValid = true;
+
+                inputs.forEach(input => {
+                    const value = parseInt(input.value);
+                    const min = parseInt(input.min);
+                    const max = parseInt(input.max);
+
+                    // Check if the value is required and within the valid range
+                    if (isNaN(value) || value < min || value > max) {
+                        isValid = false;
+                    } else {
+                        values.push(value);
+                    }
+                });
+
+                // Check if all input values are unique
+                const uniqueValues = new Set(values);
+                if (uniqueValues.size !== values.length) {
+                    isValid = false;
+                }
+
+                // Enable or disable the submit button based on validation
+                btnSubmit.disabled = !isValid;
+                if (!isValid){                    
+                    message_container.innerHTML=`
+                        <div class="alert alert-danger alert-dismissible fade show py-1 fs-7" role="alert">
+                            <strong>Warning!</strong> Order preferences must be unique to enable 'Set Order'
+                            <button type="button" class="btn-close py-2 fs-8" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    `
+                    if(message_container.classList.contains('visually-hidden')){
+                        message_container.classList.remove('visually-hidden')
+                    }
+                } else {
+                    if(!message_container.classList.contains('visually-hidden')){
+                        message_container.classList.add('visually-hidden')
+                    }
+                }
+            }
+
+            // Attach event listeners to all input fields to validate on any change
+            inputs.forEach(input => {
+                input.addEventListener('input', validateInputs);
+            });
+        }
+    });
+</script>
+{% endblock %}

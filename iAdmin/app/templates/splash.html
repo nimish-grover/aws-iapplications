@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            background-color: smokewhite;
+            overflow: hidden;
+        }
+
+        .splash-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .center {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        .circle {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #6b46c1;
+            border-radius: 50%;
+            overflow: hidden;
+            -webkit-backface-visibility: hidden;
+            -moz-backface-visibility: hidden;
+            -webkit-transform: translate3d(0, 0, 0);
+            -moz-transform: translate3d(0, 0, 0);
+        }
+
+        .wave {
+            background-color: #6b46c1;
+            position: absolute;
+            top: 110%;
+            height: 200%;
+            width: 200%;
+            border-radius: 38%;
+            left: -50%;
+            animation: wave 30s linear infinite;
+        }
+
+        @keyframes wave {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(3600deg); }
+        }
+
+        .wave.start-fill {
+            top: 0%;
+            transition: top 2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .full-screen {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            background: #6b46c1;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            transition: all 3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .full-screen.expand {
+            transform: translate(-50%, -50%) scale(50);
+            border-radius: 0;
+            opacity: 1;
+        }
+
+        .hello-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 2rem;
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+            z-index: 3;
+        }
+
+        .fade-out {
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="splash-container">
+        <div class="center">
+            <div class="circle">
+                <div class="wave"></div>
+            </div>
+        </div>
+        <div class="full-screen"></div>
+        <div class="hello-text">
+        Jalagam
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const wave = document.querySelector('.wave');
+            const circle = document.querySelector('.circle');
+            const center = document.querySelector('.center');
+            const fullScreen = document.querySelector('.full-screen');
+            const helloText = document.querySelector('.hello-text');
+
+            // Animation sequence
+            setTimeout(() => {
+                // Start water fill
+                wave.classList.add('start-fill');
+
+                // After water fills, start expansion
+                setTimeout(() => {
+                    center.classList.add('fade-out');
+                    fullScreen.style.opacity = '1';
+                    fullScreen.classList.add('expand');
+
+                    // Show hello text
+                    setTimeout(() => {
+                        helloText.style.opacity = '1';
+
+                        // Redirect to home page
+                        setTimeout(() => {
+                            window.location.href = '/index.html'; // Change this to your home page URL
+                        }, 2000);
+                    }, 1000);
+                }, 1000);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

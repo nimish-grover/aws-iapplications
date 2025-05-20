@@ -1,0 +1,179 @@
+{% extends 'mobile/base.html' %}
+{% block title %} Rainfall {% endblock %}
+{% from 'mobile/components.html' import chart %}
+{% block content %}
+<div id="cardCarousel" class="carousel slide">
+    <div class="carousel-inner">
+      <div class="carousel-item active">        
+        {{chart()}}
+      </div>
+      <div class="carousel-item">
+        <h6>Rainfall</h6>
+        <div class="overflow-y-scroll" style="height:30vh !important;">
+          <table class="table table-bordered table-sm fs-7 mb-0">
+              <thead class="text-center">
+                  <tr>
+                      <th>Observation Month</th>
+                      <th>Normal</th>
+                      <th>Actual</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for rainfall in monthwise_rainfall %}
+                  <tr>
+                      <td class="text-start">{{rainfall.month}}</td>
+                      <td class="text-end">{{rainfall.normal}}</td>
+                      <td class="text-end">{{rainfall.actual}}</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+              <tfoot>
+                <tr>
+                    <td>Total Rainfall</td>
+                    <td class="text-end">{{ monthwise_rainfall | map(attribute='normal') | sum | round(0) }}</td>
+                    <td class="text-end">{{ monthwise_rainfall | map(attribute='actual') | sum | round(0) }}</td>
+                </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="chartData" id="chartData" value="{{chart_data}}">
+
+{% endblock %}
+{% block scripts %}
+<script>
+    let chart_data = JSON.parse(document.getElementById('chartData').value);
+    const months = chart_data.map(item => item.month);
+    const actuals = chart_data.map(item => item.actual);
+    const normals = chart_data.map(item => item.normal);
+    var chartDom = document.getElementById('main');
+    var myChart = echarts.init(chartDom);
+    var option;
+    actual_max = Math.max(...actuals)
+    normal_max = Math.max(...normals)
+    y_axis_max = Math.ceil(Math.max(actual_max, normal_max)/100)*100
+    console.log(y_axis_max);
+    option = {
+      legend: {
+        right: 'center',
+        top: 'bottom'
+      },
+      title:{
+        text: "Annual Rainfall - Actual vs Normal",
+        left: 'center',
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          crossStyle: {
+            color: '#999'
+          }
+        }
+      },
+      toolbox: {
+        feature: {
+          dataView: { show: false, readOnly: false },
+          magicType: { show: false, type: ['line', 'line'] },
+          restore: { show: false },
+          saveAsImage: { show: false }
+        }
+      },
+      // legend: {
+      //   show: false,
+      //   data: ['Month', 'Rainfall']
+      // },
+      xAxis: [
+        {
+          type: 'category',
+          data: months,
+          axisPointer: {
+            type: 'shadow'
+          },
+          axisLabel: {
+            fontSize: 8
+          }
+        }
+      ],
+      yAxis: [
+        {
+          type: 'value',
+          color: 'red',
+          name: 'Actual (in mm)',
+          show: false,
+          min: 0,
+          max: y_axis_max,
+          interval: 25,
+          itemStyle: {
+            color: 'red'
+          },
+          axisLabel: {
+            formatter: '{value}'
+          }
+        },
+        {
+          type: 'value',
+          name: 'Normal (in mm)',
+          show: false,
+          min: 0,
+          max: y_axis_max,
+          interval: 25,
+          axisLabel: {
+            formatter: '{value}'
+          }
+        }
+      ],
+      series: [
+        {
+          name: 'Normal',
+          type: 'line',
+          lineStyle: {
+            normal: {
+              color: 'blue',
+              width: 2,
+              type: 'solid'
+            }
+          },
+          smooth: true,
+          tooltip: {
+            valueFormatter: function (value) {
+              return value + ' mm';
+            }
+          },
+          data: normals,
+        },
+        {
+          name: 'Actual',
+          type: 'line',
+          lineStyle: {
+            normal: {
+              color: 'red',
+              width: 2,
+              type: 'solid'
+            }
+          },
+          itemStyle: {
+            normal: {
+              color: 'red',
+              width: 2,
+              type: 'solid'
+            }
+          },
+          smooth: true,
+          yAxisIndex: 1,
+          tooltip: {
+            valueFormatter: function (value) {
+              return value + ' mm';
+            }
+          },
+          data: actuals,
+        }
+      ]
+    };
+
+
+    option && myChart.setOption(option);
+</script>
+{% endblock %}

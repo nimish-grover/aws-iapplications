@@ -1,0 +1,119 @@
+{% extends 'mobile/base.html' %}
+{% block title %} Surface Water {% endblock %}
+{% from 'mobile/components.html' import select, block_button, chart %}
+{% block content %}
+<div id="cardCarousel" class="carousel slide">
+    <div class="carousel-inner">
+      <div class="carousel-item active">        
+        {{chart()}}
+      </div>
+      <div class="carousel-item">
+        <h6>Surface Water Supply</h6>
+        <table class="table table-bordered table-sm fs-7 mb-0">
+            <thead>
+                <tr>
+                    <th>S.No.</th>
+                    <th>Waterbody</th>
+                    <th>Count</th>
+                    <th>Storage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for waterbody in waterbodies %}
+                <tr>
+                    <td class="text-center">{{loop.index}}</td>
+                    <td class="text-start">{{waterbody.category | upper()}}</td>
+                    <td class="text-end">{{waterbody.count}}</td>
+                    <td class="text-end">{{waterbody.value}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">Total</td>
+                    <td class="text-end">{{ waterbodies | map(attribute='count') | sum | round(0) }}</td>
+                    <td class="text-end">{{ waterbodies | map(attribute='value') | sum | round(0) }}</td>
+                </tr>
+            </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="chartData" id="chartData" value="{{chart_data}}">
+{% endblock %}
+{% block scripts %}
+<script>
+    var chartDom = document.getElementById('main');
+    var myChart = echarts.init(chartDom);
+    let chart_data = JSON.parse(document.getElementById('chartData').value)
+    const category = chart_data.slice(0, 6).map(item => item.category);
+    const values = chart_data.slice(0, 6).map(item => item.value);
+    var option;
+
+    option = {
+        grid:{
+            left: 50,
+        },
+        title:{
+            text:'Waterbody Storage',
+            left:'center'
+        },
+        xAxis: {
+            // max: 'dataMax'
+        },
+        yAxis: {
+            type: 'category',
+            data: category,
+            axisLabel: {
+                fontSize: 8
+            }
+        },
+        series: [
+            {
+            name: 'Storage',
+            type: 'bar',
+            data: transformArray(values,
+            chart_data.map(item => item.background) 
+            // [  
+                // '#c23531',
+                // '#2f4554',
+                // '#61a0a8',
+                // '#d48265',
+                // '#91c7ae',
+                // '#749f83',
+                // '#ca8622',
+                // '#bda29a',
+                // '#6e7074',
+                // '#546570',
+                // '#c4ccd3'
+            // ]
+        ),
+            // label: {
+            //     show: true,
+            //     position: 'right',
+            //     valueAnimation: true
+            // }
+            }
+        ],
+        legend: {
+            show: false
+        },
+    };
+
+    option && myChart.setOption(option);
+
+    function transformArray(input_array, color) {
+    let output_array = [];
+    input_array.forEach((value, idx) => {
+        object = {
+        value: value/1000, // to convert to Th Ha M
+        itemStyle: {
+            color: color[idx]
+        }
+        }
+        output_array.push(object);
+    });
+    return output_array;
+    }
+</script>
+{% endblock %}

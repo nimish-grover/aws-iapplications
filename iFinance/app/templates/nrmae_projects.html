@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Projects Dashboard</title>
+{% endblock %}
+{%block nav%}
+{{project}} Projects
+{%endblock%}
+{% block content %}
+<!-- <a href="/add_project" class="btn btn-primary btn-lg floating-button text-center"><i class="fa-solid fa-plus fa-lg"></i></a> -->
+<div class="container-fluid mt-3 mb-3 box2 " style="width: 100%;">
+<div class="row">
+    
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert alert-danger" role="alert">
+    {{ messages[0] }}
+    </div>
+    {% endif %}
+    {% endwith %}   
+    {% for project in projects %}
+    <div class="col-md-2">
+        <div class="card border-primary mb-3 justify-content-center box2" style="width: 100%;">
+            <div class="card-header align-items-center p-0 border-bottom border-primary bg-primary text-light"
+                style="margin: 0px;">
+                <div class="text-center fs-6 py-2 fw-semibold text-upper">{{ project['shortname'] | upper()}}</div>
+            </div>
+            <div class="card-body" data-bs-toggle="collapse" href="#collapse{{ loop.index }}" role="button"
+                aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                <div class="mb-3">
+                    <div class="mb-2">
+                        <div class="fs-7">Project Name</div>
+                        <div class="fs-7 fw-semibold">
+                            {{project['fullname']}}
+                        </div>
+                    </div>
+                    {% if project['project_number']%}
+                    <div class="mb-2">
+                        <div class="fs-7">Project Number</div>
+                        <div class="fs-7 fw-semibold ">
+                            {{ project['project_number'] }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="mb-2">
+                        <div class="fs-7">Commission Value</div>
+                        <div class="fs-7 fw-semibold">
+                            &#8364; {{'%0.2f'|format(project['comm_value']) }}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="fs-7">Project Duration</div>
+                        <div class="fs-7 fw-semibold">
+                            {{ project['from_date'] | upper()}} to {{ project['to_date'] | upper()}}
+                        </div>
+                    </div>
+                    <div class="collapse" id="collapse{{ loop.index }}">
+                        <!-- Add your additional content here -->
+                        <div class="mt-2 mb-2">
+                            <div class="fs-7">Project Objective</div>
+                            <div class="fs-7 fw-semibold ">
+                                {{project['project_objective']}}
+                            </div>
+                        </div>
+
+                        <div class="mb-2">
+                            <div class="fs-7">Implementing Partner</div>
+                            <div class="fs-7 fw-semibold">
+                                {{project['implementing_partner']}}
+                            </div>
+                        </div>
+                        <div>
+                            <div class="fs-7">Implementing States</div>
+                            <div class="fs-7 fw-semibold">
+                                {{project['implementing_states']}}
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-between">
+                    {% if project['dv'] or project['av'] %}
+                    <div class="lead fs-7">
+                        <span class="fw-bold fs-7">AV/DV:
+                            {% if project['dv']| length > 0 %}
+                            {{ project['dv'] }}
+                            {% else %}
+                            {{ project['av'] }}
+                            {% endif %}
+                        </span>
+                    </div>
+                    {%endif%}
+                    <div class="lead fs-7">
+                        {% if project['fm']%}
+                        <span class="fw-bold">FM:
+                            {{project['fm']}}
+                        </span>
+                        {%endif%}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+
+{%endblock%}

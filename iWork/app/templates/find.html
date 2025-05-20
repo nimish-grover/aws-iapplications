@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %} Find {% endblock %}
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+            <input type="text" class="form-control mb-3" aria-label="Search" id="inputSearch"
+                placeholder="type to search...">
+            <div class="list-group">
+                {% for permissible_work in permissible_works %}
+                <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+                    <div class="fs-7 fw-semibold">{{loop.index}}. {{permissible_work.permissible_work}}</div>
+                    <div class="d-flex w-100 justify-content-between fs-7 fw-light">
+                        <small><strong>Work Type: </strong>{{permissible_work.work_type}}</small>
+                        <small><strong>Category {{permissible_work.category}}</strong></small>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('inputSearch').addEventListener('input', function () {
+            filterSearch(this);
+        });
+
+        function filterSearch(inputText) {
+            const searchInput = inputText.value.toLowerCase();  // Get the search input value in lowercase
+            const listItems = document.querySelectorAll('.list-group-item'); // Select all list-group items
+
+            listItems.forEach(item => {
+                const text = item.textContent.toLowerCase(); // Get the text content of each item in lowercase
+                if (text.includes(searchInput)) {
+                    item.style.display = ''; // Show the item if it matches the search query
+                } else {
+                    item.style.display = 'none'; // Hide the item if it doesn't match the search query
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

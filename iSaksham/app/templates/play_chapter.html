@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Import Google Icon Font-->
+    <title>{{chapter_db.title}}</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <meta name="theme-color" content="transparent" />
+    <meta name="description" content="This is esaksham application">
+    <link rel="shortcut icon" href="{{url_for('static',filename='assets/favicon.ico')}}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='assets/cropped-e-fv-192x192.png') }}" sizes="192x192">
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/base.css')}}">
+    <style>
+        .circle {
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .scrollable-menu {
+            overflow-y: auto;
+        }
+
+        
+    </style>
+</head>
+
+<body class="vh-100 bg-white" style="overflow: hidden; overflow-y: hidden;">
+    <div class="d-none d-md-block">
+        <nav class="navbar bg-primary navbar-expand-lg">
+            <div class="row justify-content-end m-0" style="width: 100%;">
+                <div class="col-2 justify-content-end d-grid pe-0">
+                    <form action="{{url_for('learning.course_2018')}}" method="get">
+                        <input class="btn btn-primary fw-semibold" type="submit" value="Back to Course"></input>
+                    </form>
+
+                </div>
+                <div class="col-1 justify-content-end d-grid ps-0">
+                    <button class="btn btn-primary no-loader" onclick="toggleFullScreen()"><i
+                            class="fa-solid fa-up-right-and-down-left-from-center"></i></i></button>
+                </div>
+
+            </div>
+        </nav>
+
+        <div class="row p-0 m-0" style="width: 100%;">
+            <div class="col-3">
+                <div class="scrollable-menu list-group vh-100">
+
+                    
+                        <div class="accordion accordion-flush mb-5" id="accordion">
+
+                            {% for title in accordion_title %}
+                            <div class="accordion-item py-2">
+                                <div class="accordion-header">
+                                    <button class="accordion-button no-loader text-truncate" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#desktop-{{title.id}}"
+                                        aria-expanded="true" aria-controls="{{title.id}}">
+                                        <div class="text-truncate" data-bs-toggle="tooltip"
+                                            data-bs-title="{{title.name}}" style="max-width: 90%;">
+                                            {{title.name}}
+                                        </div>
+
+                                    </button>
+                                </div>
+                                <div id="desktop-{{title.id}}" class="accordion-collapse collapse in show">
+                                    <div class="accordion-body p-0">
+                                        <div class="list-group list-group-flush">
+                                            {% for module in accordion_content %}
+                                            {% for chapter in module %}
+                                            {% if chapter.module_id == title.id%}
+                                            <a class="list-group-item list-group-item-action {% if chapter.id == chapter_db['id'] %}active{%endif%}"
+                                                href="{{url_for('learning.play_chapter',id = chapter.id)}}"
+                                                style="text-decoration: none;">
+                                                <div class="row p-2">
+                                                    {% if 'FAQ' in chapter.title %}
+                                                    <div class="col-1 p-0">
+                                                        <i class="fa-solid fa-circle-question"></i>
+                                                    </div>
+                                                    {% elif 'Quiz' in chapter.title %}
+                                                    <div class="col-1 p-0">
+                                                        <i class="fa-regular fa-clock"></i>
+                                                    </div>
+                                                    {% else %}
+                                                    <div class="col-1 p-0">
+                                                        <i class="fa-brands fa-youtube"></i>
+                                                    </div>
+                                                    {% endif %}
+
+                                                    <div class="col-9 p-0">
+                                                        <div class="fs-6 text-truncate" data-bs-toggle="tooltip"
+                                                            data-bs-title="{{chapter.title}}">{{chapter.title}}</div>
+                                                    </div>
+                                                    <div class="col-2 p-0 d-grid justify-content-end">
+                                                        <div class="fs-7">{{chapter.length}}</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            {%endif%}
+                                            {%endfor%}
+                                            {%endfor%}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+
+                </div>
+            </div>
+            <div class="col-9">
+                {% if current_user.is_authenticated %}
+                {% if iframe %}
+                <div class="row justify-content-center align-items-center" style="height: 90%;">
+                    <div class="row">
+                        <div class="container d-flex pt-5 px-0" style="width: fit-content;">
+                            <iframe width="1228" height="500" src="{{chapter_db.link}}" title="{{chapter_db.title}}"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="row justify-content-between mx-5">
+                        <div class="col-1"></div>
+                        {%if previous_chapter%}
+                        <div class="col border">
+                            <a href="{{url_for('learning.play_chapter',id = previous_chapter.id)}}"
+                                style="text-decoration: none;">
+
+                                <div class="row py-4">
+                                    <div class="col-4 align-items-center d-grid justify-content-center">
+                                        <div class="circle border border-secondary">
+                                            <i class="fa-solid fa-arrow-left fa-2xl"></i>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <div class="text-secondary">
+                                                Previous
+                                            </div>
+                                            <div class="fs-5">{{previous_chapter.title}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </a>
+                        </div>
+
+                        {%endif%}
+                        <div class="col border d-grid">
+                            <a href="{{url_for('learning.play_chapter',id = next_chapter.id)}}"
+                                style="text-decoration: none;">
+
+                                <div class="col">
+                                    <div class="row py-4">
+                                        <div class="col-8 d-grid">
+                                            <div class="row {%if previous_chapter%} text-end {%else%} text-start{%endif%}">
+                                                <div class="text-secondary">
+                                                    Next
+                                                </div>
+                                                <div class="fs-5">{{next_chapter.title}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 align-items-center d-grid justify-content-center">
+                                            <div class="circle border border-secondary">
+                                                <i class="fa-solid fa-arrow-right fa-2xl"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </a>
+                        </div>
+                        <div class="col-1"></div>
+                    </div>
+                </div>
+                {%else%}
+                <div class="row d-grid justify-content-center align-items-center" style="height: 90%;">
+                    <div class="fs-3">
+                        Content Will be available soon for this chapter!!
+                    </div>
+                </div>
+                {%endif%}
+                {% else %}
+                <div class="row d-grid justify-content-center align-items-center" style="height: 90%;">
+                    <div class="fs-3">
+                        Please <a href="{{url_for('admin.login')}}">login</a> to view course content!!
+                    </div>
+                </div>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+    <!-- for mobiles -->
+    <div class=" d-sm-block d-md-none">
+        <nav class="navbar bg-primary">
+            <div class="row m-0" style="width: 100%;">
+                <div class="col">
+                    <button class="navbar-toggler no-loader" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
+                        aria-label="Toggle navigation">
+                        <span class=""><i class="fa fa-bars" style="color:#e6e6ff"></i></span>
+                    </button>
+                </div>
+
+
+                <div class="col-2 justify-content-end d-grid me-1">
+                    <form action="{{url_for('learning.course_2018')}}" method="get">
+                        <input class="btn btn-primary fw-semibold" type="submit" value="Back to Course"></input>
+                    </form>
+
+                </div>
+
+
+            </div>
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel" style="width: 80%;">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Course Content</h5>
+                    <button type="button" class="btn-close no-loader" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="scrollable-menu list-group vh-100">
+
+                        
+                            <div class="accordion" id="accordion">
+
+                                {% for title in accordion_title %}
+                                <div class="accordion-item ">
+                                    <div class="accordion-header">
+                                        <button class="accordion-button no-loader text-truncate" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#mobile-{{title.id}}"
+                                            aria-expanded="true" aria-controls="{{title.id}}">
+                                            <div class="text-truncate" data-bs-toggle="tooltip"
+                                                data-bs-title="{{title.name}}" style="max-width: 90%;">
+                                                {{title.name}}
+                                            </div>
+    
+                                        </button>
+                                    </div>
+                                    <div id="mobile-{{title.id}}" class="accordion-collapse collapse in show">
+                                        <div class="accordion-body p-0">
+                                            <div class="list-group list-group-flush">
+                                                {% for module in accordion_content %}
+                                                {% for chapter in module %}
+                                                {% if chapter.module_id == title.id%}
+                                                <a class="list-group-item list-group-item-action {% if chapter.id == chapter_db['id'] %}active{%endif%}"
+                                                    href="{{url_for('learning.play_chapter',id = chapter.id)}}"
+                                                    style="text-decoration: none;">
+                                                    <div class="row p-2">
+                                                        {% if 'FAQ' in chapter.title %}
+                                                        <div class="col-1 p-0">
+                                                            <i class="fa-solid fa-circle-question"></i>
+                                                        </div>
+                                                        {% elif 'Quiz' in chapter.title %}
+                                                        <div class="col-1 p-0">
+                                                            <i class="fa-regular fa-clock"></i>
+                                                        </div>
+                                                        {% else %}
+                                                        <div class="col-1 p-0">
+                                                            <i class="fa-brands fa-youtube"></i>
+                                                        </div>
+                                                        {% endif %}
+
+                                                        <div class="col-9">
+                                                            <div class="fs-6 text-truncate" data-bs-toggle="tooltip"
+                                                            data-bs-title="{{chapter.title}}">{{chapter.title}}</div>
+                                                        </div>
+                                                        <div class="col-2 p-0 d-grid justify-content-end">
+                                                            <div class="fs-7">{{chapter.length}}</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                {%endif%}
+                                                {%endfor%}
+                                                {%endfor%}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        
+
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="row p-0 m-0" style="width: 100%;">
+
+            {% if current_user.is_authenticated %}
+            {% if iframe %}
+            <div class="row justify-content-center align-items-center" style="height: 90%;">
+
+                <div class="container d-flex pt-5 px-1" style="width: fit-content;">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe height="200" width="400" class="embed-responsive-item" src="{{chapter_db.link}}"
+                            title="{{chapter_db.title}}" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    </div>
+
+                </div>
+
+                <div class="row ms-3 mt-3">
+                    
+                    {%if previous_chapter%}
+                    
+                    <div class="col border align-items-center d-grid">
+                        <a href="{{url_for('learning.play_chapter',id = previous_chapter.id)}}"
+                            style="text-decoration: none;">
+
+                            <div class="row">
+                                <div class="col-4 align-items-center d-grid justify-content-center">
+                                    <div class="circle border border-secondary">
+                                        <i class="fa-solid fa-arrow-left fa-lg"></i>
+                                    </div>
+
+                                </div>
+                                <div class="col-8">
+                                    <div class="row">
+                                        <div class="text-secondary fs-7">
+                                            Previous
+                                        </div>
+                                        <div class="fs-6">{{previous_chapter.title}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </a>
+                    </div>
+
+                    {%endif%}
+                    <div class="col border d-grid">
+                        <a href="{{url_for('learning.play_chapter',id = next_chapter.id)}}"
+                            style="text-decoration: none;">
+
+                            <div class="col">
+                                <div class="row py-4">
+                                    <div class="col-8 justify-content-end d-grid">
+                                        <div class="row {%if previous_chapter%} text-end {%else%} text-start{%endif%}">
+                                            <div class="text-secondary fs-7">
+                                                Next
+                                            </div>
+                                            <div class="fs-6">{{next_chapter.title}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 align-items-center d-grid justify-content-center">
+                                        <div class="circle border border-secondary">
+                                            <i class="fa-solid fa-arrow-right fa-lg"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {%else%}
+            <div class="row d-grid mt-5 p-5 text-center align-items-center ms-1" style="height: 90%;">
+                <div class="fs-3">
+                    Content Will be available soon for this chapter!!
+                </div>
+            </div>
+            {%endif%}
+            {% else %}
+            <div class="row d-grid mt-5 p-5 text-center align-items-center ms-1" style="height: 90%;">
+                <div class="fs-3 align-items-center">
+                    Please <a href="{{url_for('admin.login')}}">login</a> to view course content!!
+                </div>
+            </div>
+            {%endif%}
+        </div>
+    </div>
+    </div>
+    <div class="loader">
+        <div class="row" style="margin-bottom: 6rem;">
+            <div class="loading-icon">
+                <div class="sk-cube-grid">
+                    <div class="sk-cube sk-cube1"></div>
+                    <div class="sk-cube sk-cube2"></div>
+                    <div class="sk-cube sk-cube3"></div>
+                    <div class="sk-cube sk-cube4"></div>
+                    <div class="sk-cube sk-cube5"></div>
+                    <div class="sk-cube sk-cube6"></div>
+                    <div class="sk-cube sk-cube7"></div>
+                    <div class="sk-cube sk-cube8"></div>
+                    <div class="sk-cube sk-cube9"></div>
+                </div>
+            </div>
+            <p id="textAfter30Secs" style="display: none; margin-top: -90px;" class="text-center fw-semibold">
+                It's
+                taking longer than usual. Please Wait !!</p>
+            <p id="textAfter1Minute" class="text-center fw-semibold" style="display: none; margin-top: -90px;">
+                We're
+                working on it. Please stay with us !!</p>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/b8fa5f2ca2.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js"
+        integrity="sha512-R/QOHLpV1Ggq22vfDAWYOaMd5RopHrJNMxi8/lJu8Oihwi4Ho4BRFeiMiCefn9rasajKjnx9/fTQ/xkWnkDACg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"
+        integrity="sha512-Z8CqofpIcnJN80feS2uccz+pXWgZzeKxDsDNMD/dJ6997/LSRY+W4NmEt9acwR+Gt9OHN0kkI1CTianCwoqcjQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="{{url_for('static',filename = 'js/base.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js"></script>
+
+    {% block script %}
+
+    {%endblock%}
+
+    <script>
+
+        function toggleFullScreen() {
+            var iframe = document.getElementById('embeddedFrame');
+            if (!document.fullscreenElement) {
+                iframe.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+    </script>
+</body>
+
+</html>

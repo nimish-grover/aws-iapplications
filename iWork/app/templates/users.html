@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %} Users {% endblock %}
+{% block content %}
+<div class="container mt-3">
+  <h2>Users</h2>
+  <!-- Search Input -->
+  <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search for users...">
+
+  <!-- User List -->
+  <ol class="list-group list-group-numbered" id="userList">
+    {% for user in users %}
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">{{user.name}}</div>
+        <div class="fw-lighter">{{user.username}}</div>
+      </div>
+      <span class="badge text-bg-primary rounded-pill">{{user.entry_count}}</span>
+    </li>
+    {% endfor %}
+  </ol>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+  // JavaScript for search functionality
+document.getElementById('searchInput').addEventListener('input', function () {
+  let filter = this.value.toLowerCase();
+  let listItems = document.querySelectorAll('#userList li');
+
+  listItems.forEach(function (item) {
+    let name = item.querySelector('.fw-bold').innerText.toLowerCase();
+    let username = item.querySelector('.fw-lighter').innerText.toLowerCase();
+
+    // Check if either name or username contains the search query
+    if (name.includes(filter) || username.includes(filter)) {
+      if (item.classList.contains('d-none')) item.classList.remove('d-none');// Show the item
+    } else {
+      item.classList.add('d-none');// Hide the item
+    }
+  });
+});
+
+</script>
+{% endblock %}

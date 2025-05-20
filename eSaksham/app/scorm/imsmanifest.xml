@@ -1,0 +1,464 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest identifier="_5raHl28DcKF" version="1.0" xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+    <lom xmlns="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd">
+      <general>
+        <title>
+          <langstring xml:lang="x-none">GIS Based Planning</langstring>
+        </title>
+      </general>
+      <lifecycle>
+        <version>
+          <langstring xml:lang="x-none">1</langstring>
+        </version>
+        <status>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">Final</langstring>
+          </value>
+        </status>
+      </lifecycle>
+      <metametadata>
+        <metadatascheme>ADL SCORM 1.2</metadatascheme>
+      </metametadata>
+      <educational>
+        <typicallearningtime>
+          <datetime>PT0H0M0S</datetime>
+        </typicallearningtime>
+      </educational>
+      <rights>
+        <cost>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">yes</langstring>
+          </value>
+        </cost>
+        <copyrightandotherrestrictions>
+          <source>
+            <langstring xml:lang="x-none">LOMv1.0</langstring>
+          </source>
+          <value>
+            <langstring xml:lang="x-none">yes</langstring>
+          </value>
+        </copyrightandotherrestrictions>
+      </rights>
+    </lom>
+  </metadata>
+  <organizations default="GIS_Based_Planning_ORG">
+    <organization identifier="GIS_Based_Planning_ORG">
+      <title>GIS Based Planning</title>
+      <item identifier="GIZ_SCO" isvisible="true" identifierref="__5raHl28DcKF_RES">
+        <title>GIS Based Planning</title>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="__5raHl28DcKF_RES" type="webcontent" href="/esaksham/scorm/index_lms.html" adlcp:scormtype="sco">
+      <file href="/esaksham/scorm/story_content/thumbnail.jpg" />
+      <file href="/esaksham/scorm/mobile/6ez7IeCDm4l.png" />
+      <file href="/esaksham/scorm/story_content/6d7C2k6Rk7V.js" />
+      <file href="/esaksham/scorm/story_content/5pFhei9Y940.js" />
+      <file href="/esaksham/scorm/story_content/63rwAI7bUgN.js" />
+      <file href="/esaksham/scorm/mobile/5hqosHzP0lV_P_974_118_693_471.png" />
+      <file href="/esaksham/scorm/mobile/5hqosHzP0lV_P_1527_870_124_253.png" />
+      <file href="/esaksham/scorm/mobile/5hqosHzP0lV_P_1692_830_107_226.png" />
+      <file href="/esaksham/scorm/mobile/5hqosHzP0lV_P_1849_863_124_253.png" />
+      <file href="/esaksham/scorm/mobile/5fPZzYbq71Q_P_309_610_662_368.png" />
+      <file href="/esaksham/scorm/mobile/5fPZzYbq71Q_P_0_276_121_234.png" />
+      <file href="/esaksham/scorm/mobile/5fPZzYbq71Q_P_51_17_211_259.png" />
+      <file href="/esaksham/scorm/mobile/5fPZzYbq71Q_P_281_-2_114_188.png" />
+      <file href="/esaksham/scorm/story_content/5bLHIj9T7Nx.js" />
+      <file href="/esaksham/scorm/story_content/5jVHoGa5r0Y_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/6MhWpOzBkJH_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/6aBYF2XnibJ.png" />
+      <file href="/esaksham/scorm/mobile/5roDQdScd1S_Y_M_322_322.png" />
+      <file href="/esaksham/scorm/mobile/6RBr5XZohuz_Y_M_306_306.png" />
+      <file href="/esaksham/scorm/mobile/5hVAUvVi80s_Y_M_222_222.png" />
+      <file href="/esaksham/scorm/mobile/5roDQdScd1S_M_322_322.png" />
+      <file href="/esaksham/scorm/mobile/6DbngKDH74a_M_168_168.png" />
+      <file href="/esaksham/scorm/mobile/6VNgbn4mmRC_M_168_168.png" />
+      <file href="/esaksham/scorm/mobile/5rrNSYb6P9K_M_168_168.png" />
+      <file href="/esaksham/scorm/story_content/6ASgWkPkzIW_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/6UgOjRBbOsU_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/5VxJl1Lh6kL_M_168_168.png" />
+      <file href="/esaksham/scorm/mobile/6dtCypsrvus_X_M_92_92.png" />
+      <file href="/esaksham/scorm/mobile/5YfUFh9wPGE_Y_M_166_166.png" />
+      <file href="/esaksham/scorm/mobile/5zBv3EsBR8r_P_0_128_1895_1273.png" />
+      <file href="/esaksham/scorm/mobile/5y1Wx5EUPqU.png" />
+      <file href="/esaksham/scorm/mobile/6LjXJjqDo57.png" />
+      <file href="/esaksham/scorm/mobile/6mkB6XHaoPH_B15_RDCDCDC.png" />
+      <file href="/esaksham/scorm/mobile/6mkB6XHaoPH.png" />
+      <file href="/esaksham/scorm/mobile/6EnbQUv7SUC.png" />
+      <file href="/esaksham/scorm/mobile/6IydrORgQwg.png" />
+      <file href="/esaksham/scorm/mobile/6p6WPdixHXe.png" />
+      <file href="/esaksham/scorm/mobile/5wVowednFyl_B15_RDCDCDC.png" />
+      <file href="/esaksham/scorm/mobile/5wVowednFyl.png" />
+      <file href="/esaksham/scorm/mobile/63p7WpJuCEv_Y.png" />
+      <file href="/esaksham/scorm/mobile/5pbONsea6n5_Y.png" />
+      <file href="/esaksham/scorm/mobile/6WPur57vYsY_M_106_106_B15_RDCDCDC.png" />
+      <file href="/esaksham/scorm/mobile/6WPur57vYsY_M_106_106.png" />
+      <file href="/esaksham/scorm/mobile/5Y47V13zp9j.png" />
+      <file href="/esaksham/scorm/mobile/5UwDYauguCQ.png" />
+      <file href="/esaksham/scorm/mobile/5eRocbLO0qH_M_84_84_B15_RDCDCDC.png" />
+      <file href="/esaksham/scorm/mobile/5eRocbLO0qH_M_84_84.png" />
+      <file href="/esaksham/scorm/mobile/5oniWWQFJAM.png" />
+      <file href="/esaksham/scorm/mobile/6GGo5o8tXby.png" />
+      <file href="/esaksham/scorm/mobile/6mwLofRvMVf_M_114_114_B15_RDCDCDC.png" />
+      <file href="/esaksham/scorm/mobile/6mwLofRvMVf_M_114_114.png" />
+      <file href="/esaksham/scorm/story_content/6iI7L9O9CCs_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/6LWsSz1Lq26_80_P_34_43_1560_891.jpg" />
+      <file href="/esaksham/scorm/mobile/5pkyylDR283_B-63_C-49.png" />
+      <file href="/esaksham/scorm/mobile/6FSJ4lMk0Ii.png" />
+      <file href="/esaksham/scorm/story_content/6Dv8qCz20sB_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/5neCrMM9NL4_P_0_137_1895_1251.png" />
+      <file href="/esaksham/scorm/mobile/61DSpN7LIS8.png" />
+      <file href="/esaksham/scorm/mobile/5ewVz7bcv7H.png" />
+      <file href="/esaksham/scorm/mobile/5hkPGfPuTmF.png" />
+      <file href="/esaksham/scorm/mobile/6I6Zp0BJpSG.png" />
+      <file href="/esaksham/scorm/mobile/6Fcs2Gu10Re.png" />
+      <file href="/esaksham/scorm/mobile/6rHGBCM8YlC.png" />
+      <file href="/esaksham/scorm/mobile/5pMzZakkMfV.png" />
+      <file href="/esaksham/scorm/mobile/6ZYy9wlscEA.png" />
+      <file href="/esaksham/scorm/mobile/5zSRYWbFAaR.png" />
+      <file href="/esaksham/scorm/mobile/6kGh7v1VAem.png" />
+      <file href="/esaksham/scorm/mobile/6Iy0TEYo9P3.png" />
+      <file href="/esaksham/scorm/mobile/5hA4RcOEgjn.png" />
+      <file href="/esaksham/scorm/mobile/6OU4IOjEYxo.png" />
+      <file href="/esaksham/scorm/mobile/5VrWKE1Si8m.png" />
+      <file href="/esaksham/scorm/mobile/6fP6sqTsqmi.png" />
+      <file href="/esaksham/scorm/story_content/6oor4NnBTqC_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/6Kkrq0t7OcM.png" />
+      <file href="/esaksham/scorm/mobile/6AnjwM6xte0.png" />
+      <file href="/esaksham/scorm/mobile/6r9DCrkLvhJ_M_630_630.png" />
+      <file href="/esaksham/scorm/mobile/68KCt7VXvi1.png" />
+      <file href="/esaksham/scorm/mobile/6gSPofqLVSx.png" />
+      <file href="/esaksham/scorm/mobile/6fXeeYPO3nC.png" />
+      <file href="/esaksham/scorm/mobile/6HrFrhTme8q.png" />
+      <file href="/esaksham/scorm/mobile/69wUliSDjS6.png" />
+      <file href="/esaksham/scorm/mobile/6ptmfgIQEiY.png" />
+      <file href="/esaksham/scorm/story_content/5k89jcRKO1u_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/6nDseFhSTOr.png" />
+      <file href="/esaksham/scorm/mobile/64f9jQvNi70_P_443_108_672_1419.gif" />
+      <file href="/esaksham/scorm/mobile/5zkHCFF2Ca8.png" />
+      <file href="/esaksham/scorm/mobile/5gCHcrzU6en.gif" />
+      <file href="/esaksham/scorm/mobile/5puyOlGJP9b.png" />
+      <file href="/esaksham/scorm/mobile/5mK67qAwGMx.png" />
+      <file href="/esaksham/scorm/mobile/6bVoRLWAOxe_P_92_23_173_309.gif" />
+      <file href="/esaksham/scorm/story_content/6rQVWtLDCTX_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/5neCrMM9NL4_P_0_165_1895_1212.png" />
+      <file href="/esaksham/scorm/mobile/6rF8EPgchDo.png" />
+      <file href="/esaksham/scorm/mobile/6lJKOQB29pv.png" />
+      <file href="/esaksham/scorm/mobile/6KVuOI6UT33.png" />
+      <file href="/esaksham/scorm/mobile/6Gob75LfXoZ.png" />
+      <file href="/esaksham/scorm/mobile/5ff3VbLmwcs.png" />
+      <file href="/esaksham/scorm/mobile/6eyIQP107cd.png" />
+      <file href="/esaksham/scorm/story_content/664rUEjLcUq_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/video_5p9iP4KVoNL_22_48_960x540.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_6cQqammyQ32_video_5p9iP4KVoNL_22_48_960x540.jpg" />
+      <file href="/esaksham/scorm/mobile/6JdfkT20QNe.png" />
+      <file href="/esaksham/scorm/mobile/5VReesZCiiQ.png" />
+      <file href="/esaksham/scorm/mobile/5XEw6mshhpz.png" />
+      <file href="/esaksham/scorm/mobile/6FluuRiBolx_P_0_0_1916_963.png" />
+      <file href="/esaksham/scorm/mobile/6Q6YeAO4Cn2_P_0_0_1919_958.png" />
+      <file href="/esaksham/scorm/mobile/6bvEKmsq0Ax.png" />
+      <file href="/esaksham/scorm/mobile/5s4UUWAcDNb_80_P_1091_109_956_1151.jpg" />
+      <file href="/esaksham/scorm/mobile/5uAxnSDNvjF_M_868_868.png" />
+      <file href="/esaksham/scorm/story_content/5rd9SAvLUAl_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/6XFssd8CdIJ_80_P_0_107_2048_1151.jpg" />
+      <file href="/esaksham/scorm/story_content/6mYM47weDn5_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/5yNusLMb2tU.png" />
+      <file href="/esaksham/scorm/story_content/5dPpZSbMV0n_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/5zpuxEzZb6z.png" />
+      <file href="/esaksham/scorm/mobile/6KganmaeEWv.png" />
+      <file href="/esaksham/scorm/mobile/6QdxFppokeq.png" />
+      <file href="/esaksham/scorm/mobile/60xGxL7s3UN.png" />
+      <file href="/esaksham/scorm/mobile/6LIUi2pJ3M1.png" />
+      <file href="/esaksham/scorm/mobile/699NXQDKi3x.png" />
+      <file href="/esaksham/scorm/story_content/6oM4TmI0Ing_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5fpLrO4iebs_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/62hXyJ88Ail_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5npJNJx2eKf_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/6heMqI5xr0y_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/video_6rpk6OdV9Nm_22_48_846x476.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_6GQ4rfJCkjT_video_6rpk6OdV9Nm_22_48_846x476.jpg" />
+      <file href="/esaksham/scorm/mobile/6CjRLiW2ITG.png" />
+      <file href="/esaksham/scorm/mobile/6lP3ez5wRsT.png" />
+      <file href="/esaksham/scorm/mobile/5le1mmsMgLC.png" />
+      <file href="/esaksham/scorm/story_content/5wkAen9nhgJ_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/video_5bnkeux74hi_22_48_846x476.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_6MbQO1aj1Dy_video_5bnkeux74hi_22_48_846x476.jpg" />
+      <file href="/esaksham/scorm/story_content/5wvpnil2Owu_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/6qUfIEgUYgD_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5wvpwhe4vGg_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5meNMMdobFx_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5aNwdwBR2NJ_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/6GMgibBkPF0.png" />
+      <file href="/esaksham/scorm/story_content/video_6NXohKFHCZJ_22_48_846x476.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_5YhBQPJfXJ3_video_6NXohKFHCZJ_22_48_846x476.jpg" />
+      <file href="/esaksham/scorm/story_content/6k5CnE7xfgZ_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/6rnkceEsHgr_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5z5ttvWr6Hi_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5rx6TZVBD4z_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/6f9bwWR7cDc_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/6HHtnapvCWB_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5vPQQWQqNMr_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5jig3dfA3vV_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/6SowSy3Jt0g_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/6aSWUjkVXVI_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/5aeCPtBgmF2_C-10.png" />
+      <file href="/esaksham/scorm/story_content/5b4awqvFgkM_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/5rJ2jrDrNte.png" />
+      <file href="/esaksham/scorm/mobile/6CpSrr0MdfA.png" />
+      <file href="/esaksham/scorm/mobile/6Jo0tQLGOBW.png" />
+      <file href="/esaksham/scorm/mobile/6Gb1RkcXykv.png" />
+      <file href="/esaksham/scorm/mobile/5kqVGSfh0JG.png" />
+      <file href="/esaksham/scorm/mobile/6TNmeHEZRkR.png" />
+      <file href="/esaksham/scorm/mobile/5fGzEc409fL.png" />
+      <file href="/esaksham/scorm/mobile/5z5sy6Lw6mq.png" />
+      <file href="/esaksham/scorm/mobile/6WNLXMTkmsS.png" />
+      <file href="/esaksham/scorm/mobile/65LLOKrcVpQ.png" />
+      <file href="/esaksham/scorm/mobile/61793HpQY4a.png" />
+      <file href="/esaksham/scorm/mobile/6k2yoaBMyoD.png" />
+      <file href="/esaksham/scorm/mobile/5tfR9KW5iWq.png" />
+      <file href="/esaksham/scorm/mobile/6IFCDw2UsHT.png" />
+      <file href="/esaksham/scorm/story_content/60eYJvS3I7e_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/video_60cAr2cN0kK_22_48_846x476.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_5mFlQXMijPI_video_60cAr2cN0kK_22_48_846x476.jpg" />
+      <file href="/esaksham/scorm/story_content/5aidBXAShAe_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/60FOANTVCRo_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/video_6gUZ6WPGdSO_22_48_854x480.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_6fPi6rqEGLU_video_6gUZ6WPGdSO_22_48_854x480.jpg" />
+      <file href="/esaksham/scorm/mobile/6MmMiIsWDtD.png" />
+      <file href="/esaksham/scorm/story_content/6HNlCl9EJmR_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/5fre1hANS0N_P_0_0_1856_937.png" />
+      <file href="/esaksham/scorm/mobile/5fre1hANS0N.png" />
+      <file href="/esaksham/scorm/mobile/6qj2uQSUFIg_P_0_0_1857_931.png" />
+      <file href="/esaksham/scorm/mobile/6dC09hyXj24_P_0_0_1850_932.png" />
+      <file href="/esaksham/scorm/mobile/5WMRjPB3Gjh_P_1150_351_444_611.png" />
+      <file href="/esaksham/scorm/mobile/6dC09hyXj24.png" />
+      <file href="/esaksham/scorm/mobile/6avAmw7GwwR.png" />
+      <file href="/esaksham/scorm/mobile/6fZ0Pax3nSS_P_0_270_46_29.png" />
+      <file href="/esaksham/scorm/mobile/6fZ0Pax3nSS.png" />
+      <file href="/esaksham/scorm/story_content/5dOIx4liE5q_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/66gR4HVyeCl_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5wjs7PZzSRQ_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/video_5hS6WWkRy0e_22_48_854x480.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_5dzW5snmxLO_video_5hS6WWkRy0e_22_48_854x480.jpg" />
+      <file href="/esaksham/scorm/story_content/video_6qn5duIBwfW_22_48_854x480.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_5infaQZM4kv_video_6qn5duIBwfW_22_48_854x480.jpg" />
+      <file href="/esaksham/scorm/story_content/5wsgOQmrRrC_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/video_5tjg7PRE0M0_22_48_846x476.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_6RutI0vPT76_video_5tjg7PRE0M0_22_48_846x476.jpg" />
+      <file href="/esaksham/scorm/story_content/5y5moEsLo34_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5x9BR83Kv9F_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/video_6LjGDWPcEgV_22_48_854x480.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_6jO5bBx0hXc_video_6LjGDWPcEgV_22_48_854x480.jpg" />
+      <file href="/esaksham/scorm/story_content/5blUBem9zt8_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5zMDLeBHMjj_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/6XSHM2Dv4U4_80.jpg" />
+      <file href="/esaksham/scorm/mobile/6UCk5EAzBBK_80.jpg" />
+      <file href="/esaksham/scorm/mobile/6Qpj9y6yOPs_80_P_525_2_1056_788.jpg" />
+      <file href="/esaksham/scorm/mobile/5VSJKy2eULo.png" />
+      <file href="/esaksham/scorm/mobile/5uvs5X75T0o.png" />
+      <file href="/esaksham/scorm/mobile/5yapzjntZgM_80.jpg" />
+      <file href="/esaksham/scorm/mobile/5lAPQTd9Yix_80.jpg" />
+      <file href="/esaksham/scorm/story_content/6RP363bEXyR_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/6DKs1aNTdKN_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/6OPJWfpUlAq_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/68nrY9eGde0_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/video_6guUQfW06Xn_22_48_854x480.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_6Srqfl4fGdk_video_6guUQfW06Xn_22_48_854x480.jpg" />
+      <file href="/esaksham/scorm/mobile/6JptOpMaLQG_80.jpg" />
+      <file href="/esaksham/scorm/mobile/6osu2FFIRjB_80.jpg" />
+      <file href="/esaksham/scorm/mobile/5jWtY5j9qvu.png" />
+      <file href="/esaksham/scorm/mobile/6KS8qsux1v0_80.jpg" />
+      <file href="/esaksham/scorm/story_content/5tfrOqjY3lA_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5r8DqctGOey_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/6YR44E6J2nI_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/video_5qWCJN8kYct_22_48_854x480.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_6baVL6tStps_video_5qWCJN8kYct_22_48_854x480.jpg" />
+      <file href="/esaksham/scorm/mobile/5qnzTGTTIvA_80.jpg" />
+      <file href="/esaksham/scorm/mobile/6nlCPhsNU7g_80.jpg" />
+      <file href="/esaksham/scorm/mobile/6cUis6Zxrqc_80.jpg" />
+      <file href="/esaksham/scorm/mobile/676WxlonFCL_80.jpg" />
+      <file href="/esaksham/scorm/mobile/6mcORRbxWGd_80.jpg" />
+      <file href="/esaksham/scorm/story_content/zoomIcon.png" />
+      <file href="/esaksham/scorm/mobile/6O0kzfZIMjR.jpg" />
+      <file href="/esaksham/scorm/story_content/5gQaWuuE5Pj_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/6pNyJSp1myw_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/6ovuOdzXwXH_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/video_5WDJa1FVZPh_22_48_940x412.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_6OjDwL4toZk_video_5WDJa1FVZPh_22_48_940x412.jpg" />
+      <file href="/esaksham/scorm/story_content/video_5ztc3sF7pvu_22_48_940x420.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_6qxhthsk78J_video_5ztc3sF7pvu_22_48_940x420.jpg" />
+      <file href="/esaksham/scorm/story_content/5jFB4mRUcpt_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/62dDEx75dCZ_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5YBBkUX8lGN_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/5tmxf4ii9cP_80.jpg" />
+      <file href="/esaksham/scorm/mobile/68towyy2YsZ_X_M_146_146.png" />
+      <file href="/esaksham/scorm/mobile/6GYYH3y946Z_M_100_100.png" />
+      <file href="/esaksham/scorm/mobile/6p6oukKRZld.png" />
+      <file href="/esaksham/scorm/mobile/6FKFX3tvvii_80_P_5_6_295_151.jpg" />
+      <file href="/esaksham/scorm/mobile/6oN1KFwQaIC_80_P_0_0_918_569.jpg" />
+      <file href="/esaksham/scorm/mobile/6TjXN30qNUv.png" />
+      <file href="/esaksham/scorm/mobile/6gCgf5t4xz3_P_0_43_259_150.png" />
+      <file href="/esaksham/scorm/mobile/6nOCjhFvtjI_80.jpg" />
+      <file href="/esaksham/scorm/mobile/6cfBOnn9F8L.png" />
+      <file href="/esaksham/scorm/story_content/6DDFqZC0kyE_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/6MCM0LDGlzs_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5bS6EOZJP82_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/video_5aXT7gxRAF9_22_48_854x480.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_5WkMpCWZynS_video_5aXT7gxRAF9_22_48_854x480.jpg" />
+      <file href="/esaksham/scorm/story_content/video_68scHGZtoHf_22_48_854x480.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_6imE4ke5BQx_video_68scHGZtoHf_22_48_854x480.jpg" />
+      <file href="/esaksham/scorm/mobile/6EqAVrl0r5o_80.jpg" />
+      <file href="/esaksham/scorm/mobile/5hQgoTyiuvD_80.jpg" />
+      <file href="/esaksham/scorm/mobile/65r5aNHb3HN_80_P_328_14_1638_837.jpg" />
+      <file href="/esaksham/scorm/mobile/64Db60DstsZ.png" />
+      <file href="/esaksham/scorm/mobile/6AMgXs206GF_80.jpg" />
+      <file href="/esaksham/scorm/story_content/video_5YC297JiCiS_22_48_854x480.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_6WiC6fufP7g_video_5YC297JiCiS_22_48_854x480.jpg" />
+      <file href="/esaksham/scorm/story_content/5zsoYve7F40_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/poster_6flPo8jD1Tf_video_5aXT7gxRAF9_22_48_854x480.jpg" />
+      <file href="/esaksham/scorm/story_content/6BrWyF9SwBY_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/6pjBDt1FrLA_80.jpg" />
+      <file href="/esaksham/scorm/mobile/6DXfLM3EnGj_80.jpg" />
+      <file href="/esaksham/scorm/mobile/5n5FFLJYMeS_80.jpg" />
+      <file href="/esaksham/scorm/story_content/6YRs9PBxsPd_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5qPtHJAeY00_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5rfdza670as_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/poster_6Ml6tIlXcWt_video_5aXT7gxRAF9_22_48_854x480.jpg" />
+      <file href="/esaksham/scorm/story_content/video_6Nwh5Wd2ggb_22_48_854x480.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_6RKgfMhVO3C_video_6Nwh5Wd2ggb_22_48_854x480.jpg" />
+      <file href="/esaksham/scorm/story_content/6dxP2FxyBFt_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/5Vm9FAi4W2a_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/story_content/video_6jT4OsHCXN7_22_48_960x540.mp4" />
+      <file href="/esaksham/scorm/mobile/poster_63vWgjPnCa1_video_6jT4OsHCXN7_22_48_960x540.jpg" />
+      <file href="/esaksham/scorm/story_content/5hcaYlvB3ND_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/5cpWVJ8ReAC_M_868_868.png" />
+      <file href="/esaksham/scorm/story_content/5YCCujlOCHD_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/mobile/6NHc7VlPkAN_80.jpg" />
+      <file href="/esaksham/scorm/story_content/6DngLQNb5uS_44100_48_0.mp3" />
+      <file href="/esaksham/scorm/meta.xml" />
+      <file href="/esaksham/scorm/story_content/user.js" />
+      <file href="/esaksham/scorm/mobile/txt__default_6rWmIk2NkwP.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_6h8hyqtsc49.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_5c8R7PUY3O6.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_5dW1hQ7ttNh.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_5eP7uGVwXbW.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_6rBQK3fFJ0J.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_6LWqKOlCCcz.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_6O1JmM61wZ3.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_6nCk0LIZcjS.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_611aQa7SxAA.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_5lEEAygmvkL.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_6b9yEkQMOAf.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_6JPLdQVPVvK.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_6esRczxu7iz.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_6YHvcJuLwSj.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_5iacrlr1kKf.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_62VyuPyykyJ.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_6Lc0R5zR7WB.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_61v9xzKDbBv.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_6mYWFdCsORV.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_5r9S3nKYM2U.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_5yap7Nl4jZL.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_6h6Zefzp4NV.png" />
+      <file href="/esaksham/scorm/mobile/Shape6aop1Rqle1t.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_6hVTMHORzQ8.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_6X8hgMr0l36.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_5sFgNM4Odz0.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_64tWrmj1Tnf.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_6AFwvIYZLOQ.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_6ntWCJI0Gjw.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_5j2rmdz7leU.png" />
+      <file href="/esaksham/scorm/mobile/txt__default_6Aw5MkgQWvT.png" />
+      <file href="/esaksham/scorm/html5/data/css/output.min.css" />
+      <file href="/esaksham/scorm/html5/data/js/5b2qzrcxsbQ.js" />
+      <file href="/esaksham/scorm/html5/data/js/5bVSphIjuoh.js" />
+      <file href="/esaksham/scorm/html5/data/js/5dRV4TPpiGE.js" />
+      <file href="/esaksham/scorm/html5/data/js/5gvEYgfjTgw.js" />
+      <file href="/esaksham/scorm/html5/data/js/5iV15VtQ7dD.js" />
+      <file href="/esaksham/scorm/html5/data/js/5iWSvHuojoY.js" />
+      <file href="/esaksham/scorm/html5/data/js/5kWIIQ11ZUf.js" />
+      <file href="/esaksham/scorm/html5/data/js/5m0JH3vAmNe.js" />
+      <file href="/esaksham/scorm/html5/data/js/5nYPwmFiUPH.js" />
+      <file href="/esaksham/scorm/html5/data/js/5o22lFnzRs7.js" />
+      <file href="/esaksham/scorm/html5/data/js/5qBRmDUlD7Q.js" />
+      <file href="/esaksham/scorm/html5/data/js/5tZXIXArKYv.js" />
+      <file href="/esaksham/scorm/html5/data/js/5v0nFhliDr2.js" />
+      <file href="/esaksham/scorm/html5/data/js/5VhGW1BCl3W.js" />
+      <file href="/esaksham/scorm/html5/data/js/5vj05nxUPNk.js" />
+      <file href="/esaksham/scorm/html5/data/js/5XDbZL83KQK.js" />
+      <file href="/esaksham/scorm/html5/data/js/5xOjCrenCRm.js" />
+      <file href="/esaksham/scorm/html5/data/js/5yIe66DODLA.js" />
+      <file href="/esaksham/scorm/html5/data/js/5yJBv7PpJqB.js" />
+      <file href="/esaksham/scorm/html5/data/js/5yntN6IQNjA.js" />
+      <file href="/esaksham/scorm/html5/data/js/5Z7CTJMeS5S.js" />
+      <file href="/esaksham/scorm/html5/data/js/5ZThXlIKySv.js" />
+      <file href="/esaksham/scorm/html5/data/js/60YoK4hZ37s.js" />
+      <file href="/esaksham/scorm/html5/data/js/610LvYS4uev.js" />
+      <file href="/esaksham/scorm/html5/data/js/62HfV19a1un.js" />
+      <file href="/esaksham/scorm/html5/data/js/62oIzQqhtgG.js" />
+      <file href="/esaksham/scorm/html5/data/js/65MmBiVAiM0.js" />
+      <file href="/esaksham/scorm/html5/data/js/67wk5P5MOmW.js" />
+      <file href="/esaksham/scorm/html5/data/js/68FnbtV1QBQ.js" />
+      <file href="/esaksham/scorm/html5/data/js/68ik0FSSNoL.js" />
+      <file href="/esaksham/scorm/html5/data/js/6a2TYqqWcDG.js" />
+      <file href="/esaksham/scorm/html5/data/js/6B3Ncv9ouxZ.js" />
+      <file href="/esaksham/scorm/html5/data/js/6CkK6clRCEo.js" />
+      <file href="/esaksham/scorm/html5/data/js/6DFltHR3MYi.js" />
+      <file href="/esaksham/scorm/html5/data/js/6DULTkoFYQF.js" />
+      <file href="/esaksham/scorm/html5/data/js/6FTVTO02xfv.js" />
+      <file href="/esaksham/scorm/html5/data/js/6htbnC5UMZU.js" />
+      <file href="/esaksham/scorm/html5/data/js/6IkrQ95QRl4.js" />
+      <file href="/esaksham/scorm/html5/data/js/6iMqkwcSzDD.js" />
+      <file href="/esaksham/scorm/html5/data/js/6irbJezjWLl.js" />
+      <file href="/esaksham/scorm/html5/data/js/6JsZA1XqPC7.js" />
+      <file href="/esaksham/scorm/html5/data/js/6kQ6nY7GKwu.js" />
+      <file href="/esaksham/scorm/html5/data/js/6l9HnX1dNGB.js" />
+      <file href="/esaksham/scorm/html5/data/js/6L9O0ydcf8b.js" />
+      <file href="/esaksham/scorm/html5/data/js/6LJQXEGy0PE.js" />
+      <file href="/esaksham/scorm/html5/data/js/6LWWKAn7j1x.js" />
+      <file href="/esaksham/scorm/html5/data/js/6MKXG3etNhA.js" />
+      <file href="/esaksham/scorm/html5/data/js/6mzNYOpBZ0V.js" />
+      <file href="/esaksham/scorm/html5/data/js/6OegTnknH3j.js" />
+      <file href="/esaksham/scorm/html5/data/js/6Or9IvvPC9u.js" />
+      <file href="/esaksham/scorm/html5/data/js/6os8a5mMYZX.js" />
+      <file href="/esaksham/scorm/html5/data/js/6p69xtXcQ7P.js" />
+      <file href="/esaksham/scorm/html5/data/js/6po8CodeULb.js" />
+      <file href="/esaksham/scorm/html5/data/js/6PZvK7NnUsQ.js" />
+      <file href="/esaksham/scorm/html5/data/js/6q1iwMxexmH.js" />
+      <file href="/esaksham/scorm/html5/data/js/6QjZKvvucQp.js" />
+      <file href="/esaksham/scorm/html5/data/js/6qRaO2Z4LKQ.js" />
+      <file href="/esaksham/scorm/html5/data/js/6Wt3af0Hc9E.js" />
+      <file href="/esaksham/scorm/html5/data/js/data.js" />
+      <file href="/esaksham/scorm/html5/data/js/frame.js" />
+      <file href="/esaksham/scorm/html5/data/js/paths.js" />
+      <file href="/esaksham/scorm/html5/lib/hls/hls.min.js" />
+      <file href="/esaksham/scorm/html5/lib/scripts/bootstrapper.min.js" />
+      <file href="/esaksham/scorm/html5/lib/scripts/frame.desktop.min.js" />
+      <file href="/esaksham/scorm/html5/lib/scripts/frame.mobile.min.js" />
+      <file href="/esaksham/scorm/html5/lib/scripts/slides.min.js" />
+      <file href="/esaksham/scorm/html5/lib/stylesheets/desktop.min.css" />
+      <file href="/esaksham/scorm/html5/lib/stylesheets/mobile.min.css" />
+      <file href="/esaksham/scorm/html5/lib/stylesheets/mobile-fonts/open-sans-bold.woff" />
+      <file href="/esaksham/scorm/html5/lib/stylesheets/mobile-fonts/open-sans-light.woff" />
+      <file href="/esaksham/scorm/html5/lib/stylesheets/mobile-fonts/open-sans-regular.woff" />
+      <file href="/esaksham/scorm/analytics-frame.html" />
+      <file href="/esaksham/scorm/story.html" />
+      <file href="/esaksham/scorm/index_lms.html" />
+      <file href="/esaksham/scorm/lms/AICCComm.html" />
+      <file href="/esaksham/scorm/lms/blank.html" />
+      <file href="/esaksham/scorm/lms/browsersniff.js" />
+      <file href="/esaksham/scorm/lms/goodbye.html" />
+      <file href="/esaksham/scorm/lms/scormdriver.js" />
+    </resource>
+  </resources>
+</manifest>

@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block title %} Recharge Pit{% endblock %}
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+            <nav class="ms-2 fs-8" style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+            <ol class="breadcrumb fs-8">
+                {% for breadcrumb in breadcrumbs %}
+                <li class="breadcrumb-item {% if loop.index == breadcrumbs|length %}text-primary{% endif %}">{{
+                    breadcrumb['name'] }}</li>
+                {% endfor %}
+            </ol>
+            </nav>
+            <div class="container mb-2 d-flex justify-content-center align-items-center">
+                <div class="progresses">
+                    <div class="steps completed">
+                        <span><i class="fa fa-check"></i></span>
+                    </div>
+                    <span class="line completed"></span>
+                    <div class="steps completed">
+                        <span><i class="fa fa-check"></i></span>
+                    </div>
+                    <span class="line completed"></span>
+                    <div class="steps completed">
+                        <span class="font-weight-bold">3</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="text-center">
+                        <h3 class="m-0">Recharge Pit Parameters</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="mb-1">
+                        <label for="txtWorkCode" class="form-label fs-7 mb-0">Work Code</label>
+                        <label type="text" class="form-control form-control-sm fs-7 text-wrap" id="txtWorkCode"
+                            name="txtWorkCode" disabled style="background:#e9ecef">
+                            work code</label>
+                    </div>
+                    <div class="mb-1">
+                        <label for="txtWorkName" class="form-label fs-7 mb-0">Work Name</label>
+                        <label type="text" class="form-control form-control-sm fs-7 text-wrap" id="txtWorkName"
+                            name="txtWorkName" disabled style="background:#e9ecef">
+                            work name</label>
+                    </div>
+                    <div class="mb-1">
+                        <label for="txtPermissibleWork" class="form-label fs-7 mb-0">Permissible Work</label>
+                        <label type="text" class="form-control form-control-sm fs-7 text-wrap" id="txtPermissibleWork"
+                            name="txtPermissibleWork" disabled style="background:#e9ecef">
+                            permissible work</label>
+                    </div>
+                    <div class="mb-1">
+                        <div>
+                            <label for="shapeOfPit" class="form-label fs-7 mb-0 me-5">Shape of the Pit</label>
+                        </div>
+                        <input type="radio" class="btn-check" name="shapeOfPit" id="circularPit" autocomplete="off"
+                            checked>
+                        <label class="btn btn-outline-dark btn-sm me-2 fs-7 p-0 px-1" for="circularPit"><i
+                                class="fa-regular fa-circle"></i>
+                            Circular</label>
+
+                        <input type="radio" class="btn-check" name="shapeOfPit" id="rectangularPit" autocomplete="off">
+                        <label class="btn btn-outline-dark btn-sm fs-7 p-0 px-1" for="rectangularPit"><i
+                                class="fa-regular fa-square"></i>
+                            Rectangular</label>
+                    </div>
+                    <div class="visually-hidden" id="rectangularContainer">
+                        <div class="mb-1">
+                            <label for="txtPitLength" class="form-label fs-7">
+                                Length (in meters)
+                                <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip"
+                                    data-bs-placement="right" data-bs-html="true"
+                                    data-bs-title="Area covered by the plantation activity"></i>
+                            </label>
+                            <input type="text" class="form-control form-control-sm" id="txtPitLength"
+                                name="txtPitLength" placeholder="Length in meters" required>
+                        </div>
+                        <div class="mb-1">
+                            <label for="txtPitWidth" class="form-label fs-7">
+                                Width (in meters)
+                                <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip"
+                                    data-bs-placement="right" data-bs-html="true"
+                                    data-bs-title="Area covered by the plantation activity"></i>
+                            </label>
+                            <input type="text" class="form-control form-control-sm" id="txtPitWidth" name="txtPitWidth"
+                                placeholder="Width in meters" required>
+                        </div>
+                    </div>
+                    <div class="mb-1" id="circularContainer">
+                        <label for="txtPitRadius" class="form-label fs-7">
+                            Radius (in meters)
+                            <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip"
+                                data-bs-placement="right" data-bs-html="true"
+                                data-bs-title="Area covered by the plantation activity"></i>
+                        </label>
+                        <input type="text" class="form-control form-control-sm" id="txtPitRadius" name="txtPitRadius"
+                            placeholder="Radius of the Pit" required>
+                    </div>
+                    <div class="mb-1">
+                        <label for="txtPitDepth" class="form-label fs-7">
+                            Depth (in meters)
+                            <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip"
+                                data-bs-placement="right" data-bs-html="true"
+                                data-bs-title="Area covered by the plantation activity"></i>
+                        </label>
+                        <input type="text" class="form-control form-control-sm" id="txtPitDepth" name="txtPitDepth"
+                            placeholder="Depth in meters" required>
+                    </div>
+                    <div class="text-center my-2">
+                        <input type="submit" class="btn btn-primary btn-sm" value="Submit" id="submitButton" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const rd_shape_buttons = document.querySelectorAll('input[name="shapeOfPit"]');
+        const div_rectangular = document.getElementById('rectangularContainer');
+        const div_circular = document.getElementById('circularContainer');
+        rd_shape_buttons.forEach(rd_shape => {
+            rd_shape.addEventListener('change', function () {
+                if (div_rectangular.classList.contains('visually-hidden')) {
+                    div_rectangular.classList.remove('visually-hidden');
+                    div_circular.classList.add('visually-hidden');
+                } else {
+                    div_rectangular.classList.add('visually-hidden');
+                    div_circular.classList.remove('visually-hidden');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

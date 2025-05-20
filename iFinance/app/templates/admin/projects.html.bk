@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NRMAe Projects</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" />
+
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="theme-color" content="transparent" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/project.css') }}">
+</head>
+
+<body>
+  <div class="loader"></div>
+
+    <nav class="navbar  bg-primary fixed-top" data-bs-theme="dark"  style="background-image: url('/static/assets/landing-bg.jpg')">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <div class="fs-5 fw-bold d-none d-md-block text-white">{{'NRM & Agroecology Projects' |
+            upper}}</div>
+          <div class="fs-5 fw-bold d-sm-none text-white">{{'NRMAe Projects' | upper}}</div>
+        </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+              aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+              aria-labelledby="offcanvasNavbarLabel" style="background-image: url('/static/assets/landing-bg.jpg')">
+              <div class="offcanvas-header">
+                  <h5 class="offcanvas-title" id="offcanvasNavbarLabel">{{'NRM & Agroecology Projects' |
+                    upper}}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body">
+                  <div class="text-end">
+                      <a href="{{ url_for('.financials') }}" class="text-white btn btn-sm">Dashboard
+                          &nbsp;<i class="bi bi-arrow-right-circle"></i>
+                      </a>
+                  </div>
+                  <div class="position-sticky pt-1 sidebar-sticky">
+                    <div class="row">
+                      <div class="col-2" style="width:100%; height: 100vh; background-image: url('/static/assets/landing-bg.jpg')">          
+                              <form method="post" action="{{ url_for('.projects') }}" enctype="multipart/form-data" class="mt-5">
+                                  <!--PROJECT NAME FILTER-->
+                                  <div class="mt-5">
+                              
+                                      <div class="accordion bg-transparent" id="accordionExample">
+                                        <div class="accordion-item bg-transparent">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button bg-transparent font-monospace fs-6 text-white"
+                                                    type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                    aria-expanded="true" aria-controls="collapseOne">SELECT PROJECT</button>
+                                            </h2>
+                                            <div id="collapseOne" class="accordion-collapse collapse show"
+                                                data-bs-parent="#accordionExample">
+                                                <div class="list-group list-group-flush">
+                                                    {% for project in projects %}
+                                                    <input type="submit" class="btn-check" name="projectName"
+                                                        id="{{'list-item-' + project['shortname']}}" autocomplete="off"
+                                                        value="{{project['id']}}" />
+                                                    <label
+                                                        class="list-group-item list-group-item-action fs-7 {{'bg-light text-dark active' if filter_project==project['id'] else 'bg-transparent text-white'}}"
+                                                        for="{{'list-item-' + project['shortname']}}"
+                                                        aria-current="true">{{project['shortname']
+                                                        }}</label>                                        
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                      </div>
+                                  </div>
+                                  
+                                  
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </nav>
+  
+  <!-- <div class="vertical-dot-nav content-white">
+      <div class="box box4">
+          <div id="simple-list-example" class="d-flex flex-column gap-2">
+              <a class="p-1 rounded dot active" href="#section_1"></a>
+              <a class="p-1 rounded dot" href="#section_2"></a>
+              <a class="p-1 rounded dot" href="#section_3"></a>
+              <a class="p-1 rounded dot" href="#section_4"></a>
+              <a class="p-1 rounded dot" href="#section_5"></a>
+          </div>
+      </div>
+  </div> -->
+<br>
+  <section id="section-1" class="mt-3">
+      <div class="container-fluid text-white box box1 mt-5">
+        <div class="pt-md-5 h-50 w-100 text-center box box1">
+          <div class="display-5 mt-4">All NRM & Agroecology Projects</div>
+          <div class="h4 opacity-50">AV: Rajeev Ahal</div>
+          <!-- <h6 class="mt-3 font-monospace opacity-75">
+                  Financial Year: <span class="fw-bolder">{{ filter_year }}</span>
+              </h6> -->
+        </div>
+      
+          
+          <div class="card mb-3 bg-transparent text-white mt-5" >
+                  
+                  <div class="card-body text-center">
+                    <h3 class="card-text font-monospace">Total Volume</h3>
+                    <h4><p class="card-text text-center">{{'%0.2f'|format(total_commission)}}</p></h4>
+                  </div>
+              </div>
+              <div class="card mb-3 bg-transparent text-white mt-3" >
+                  
+                  <div class="card-body text-center">
+                    <h3 class="card-text font-monospace">Total Bilateral</h3>
+                    <h4><p class="card-text text-center">{{'%0.2f'|format(total_bilateral)}}
+                    </p></h4>
+                    
+                  </div>
+              </div>
+              <div class="card mb-3 bg-transparent text-white mt-3" >
+                  
+                  <div class="card-body text-center">
+                    <h3 class="card-text font-monospace">Total SEWOH</h3>
+                    <h4><p class="card-text text-center">{{'%0.2f'|format(total_sewoh)}}</p></h4>
+                  </div>
+              </div>
+            
+              
+          </div>
+      </div>
+    
+    <div class="container-fluid text-white">
+      
+      <!-- <div id="carouselExampleIndicators" class="carousel slide pt-5" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          {% for project in projects %}
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{loop.index-1}}"
+            class="{% if loop.index0 == 0 %} active {% endif %}" aria-current="true" aria-label="Slide 1"></button>
+          {% endfor %}
+        </div>
+        <div class="carousel-inner">
+          {% for project in projects %}
+          <div class="carousel-item {%if loop.index0 == 0%} active {% endif %} bg-transparent">
+            <div class="card mb-5 col-md-2 col-sm-8 mx-auto">
+              <div class="card-header bg-purple"></div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <div class="fs-6 text-secondary">
+                    {% if project['fullname']|length > 25 %}
+                    {{ project['fullname'][:25] + "..." }}
+                    {% else %}
+                    {{ project['fullname']}}
+                    {% endif %}
+                  </div>
+                  <div class="fs-7 text-body-secondary">
+                    {% if project['project_number']%}
+                    {{ project['project_number'] }}
+                    {% else %}
+                    <span>&nbsp;</span>
+                    {% endif %}
+                  </div>
+                  <div class="fs-8 fs-bolder text-secondary">
+                    &#8364; {{'%0.2f'|format(project['comm_value']) }}
+                  </div>
+                </div>
+                <div class="row my-5 mx-3">
+                  <button class="btn btn-outline-secondary fs-6 p-1 mx-auto text-nowrap text-dark" disabled>
+                    {{ project['shortname'] }}
+                  </button>
+                </div>
+                <div class="fw-semibold fs-6 text-body-secondary">
+                  {{ project['from_date'] }} to {{ project['to_date']}}
+                </div>
+                <div class="fs-8 text-body-secondary">
+                  Implementing Partner: {{project['implementing_partner']}}
+                </div>
+                <div class="fs-8 text-body-secondary">
+                  {% if project['fullname']|length > 30 %}
+                  {{ project['implementing_states'][:30] + "..." }}
+                  {% else %}
+                  {{ project['fullname']}}
+                  {% endif %}
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="lead fs-7">
+                  <span class="fw-bold text-dark">AV/DV:
+                    {% if project['dv']| length > 0 %}
+                    {{ project['dv'] }}
+                    {% else %}
+                    {{ project['av'] }}
+                    {% endif %}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div> -->
+      <div class="position-absolute bottom-0 pb-1 w-100 box box2">
+        <div class="d-none d-md-block">
+          <div class="text-center">
+            <h6>Commission Value <span class="fw-lighter">(in Million Euros)</span></h6>
+          </div>
+          <div class="row border-top mb-3 text-center">
+
+            
+    </div>
+  </section>
+  <section id="section-2">
+    <div  id='content' class="container-fluid">
+      
+    
+          <!-- {% for project in projects%}
+          <button type="button"
+            class="btn btn-light btn-sm my-1 text-nowrap w-25 mx-1">{{project['shortname']}}</button>
+          {% endfor %} -->
+         
+        <!-- <div class="col" > -->
+          <div class="card m-5 col-md-5 col-sm-3 mx-auto">
+            <div class="card-header bg-purple">
+              <div class="text-center">
+                <h4 class="text-white">
+                  {{ project_desc['shortname'] | upper()}}
+                </h4>
+              </div>
+            </div>
+            <div class="card-body">
+                <div class="mb-2">
+                  <div class="fw-bolder fs-8">Project Name</div>
+                  <div class="fs-7 text-secondary">
+                    {{project_desc['fullname']}}
+                  </div>
+                </div>
+                <div class="mb-2">
+                  <div class="fw-bolder fs-8">Project Number</div>
+                  <div class="fs-7 text-body-secondary">
+                    {{ project_desc['project_number'] }}
+                  </div>
+                </div>
+                <div class="mb-2">
+                  <div class="fw-bolder fs-8">Commission Value</div>
+                  <div class="fs-7 text-body-secondary">
+                    &#8364; {{'%0.2f'|format(project_desc['comm_value']) }}
+                  </div>
+                </div>
+                <div class="mb-2">
+                  <div class="fw-bolder fs-8">Project Objective</div>
+                  <div class="fs-7 fst-italic text-body-secondary">
+                    {{project_desc['project_objective']}}
+                  </div>
+                </div>
+                <div class="mb-2">
+                  <div class="fw-bolder fs-8">Project Duration</div>
+                  <div class="fs-7 text-body-secondary">
+                    {{ project_desc['from_date'] | upper()}} to {{ project_desc['to_date'] | upper()}}
+                  </div>
+                </div>
+                <div class="mb-2">
+                  <div class="fw-bolder fs-8">Implementing Partner</div>
+                  <div class="fs-7 text-body-secondary">
+                    {{project_desc['implementing_partner']}}
+                  </div>
+                </div>
+                <div class="mb-2">
+                  <div class="fw-bolder fs-8">Implementing States</div>
+                  <div class="fs-7 text-body-secondary">
+                    {{project_desc['implementing_states']}}
+                  </div>
+                </div>
+            </div>
+            <div class="card-footer">
+              <div class="d-flex justify-content-between">
+              <div class="lead fs-7">
+                <span class="fw-bold">AV/DV:
+                  {% if project_desc['dv']| length > 0 %}
+                  {{ project_desc['dv'] }}
+                  {% else %}
+                  {{ project_desc['av'] }}
+                  {% endif %}
+                </span>
+              </div>
+              <div class="lead fs-7">
+                <span class="fw-bold">FM:
+                  {{project_desc['fm']}}
+                </span>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="section-3" class="d-flex justify-content-center align-items-center">
+    <div class="container">
+      <div class="display-6 text-center mb-md-5 text-dark">NRM PROJECTS DISTRIBUTION</div>
+      <div class="fs-8 text-center text-white d-sm-none opacity-75">(for better experience use LANDSCAPE view)
+      </div>
+      <div class="row">
+        <div class="col my-auto">
+          <div class="p-5">
+            <canvas id="myDoughnut" class="m-5">
+            </canvas>
+          </div>
+        </div>
+        <div class="col my-auto">
+          <div class="d-flex align-items center">
+            <canvas id="myBar">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>  <section id="section-4">
+    <div class="container-fluid">
+      <div class="row p-4">
+        {% for project in projects %}
+        <div class="col-md-2">
+          <div class="card m-2">
+            <div class="card-header bg-purple"></div>
+            <div class="card-body">
+              <div class="mb-3">
+                <div class="fs-5 fs-bolder text-secondary">{{ project['shortname'] }}</div>
+                <div class="fs-7 text-body-secondary">
+                  {% if project['project_number']%}
+                  {{ project['project_number'] }}
+                  {% else %}
+                  <span>&nbsp;</span>
+                  {% endif %}
+                </div>
+                <div class="fs-7 text-body-secondary">
+                  {% if project['fullname']|length > 20 %}
+                  {{ project['fullname'][:20] + "..." }}
+                  {% else %}
+                  {{ project['fullname'] }}
+                  {% endif %}
+                </div>
+              </div>
+              <div class="row mb-3 mx-3">
+                <div class="btn btn-outline-secondary fs-6 p-1 mx-auto text-nowrap text-dark">
+                  &#8364; {{'%0.2f'|format(project['comm_value']) }}
+                </div>
+              </div>
+              <div class="fw-semibold fs-6 text-body-secondary">{{ project['from_date'] }} to {{ project['to_date']
+                }}</div>
+              <div class="fs-8 text-body-secondary">
+                Andhra Pradesh, Telangana...
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="lead fs-7">
+                <span class="fw-bold">AV/DV:
+                  {% if project['dv']| length > 0 %}
+                  {{ project['dv'] }}
+                  {% else %}
+                  {{ project['av'] }}
+                  {% endif %}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  <section id="section-5" class="bg-secondary">
+    <div class="container mb-5">
+      <div class="align-items-center justify-content-center">
+        <div id="carouselExampleIndicators" class="carousel slide pt-5">
+          <div class="carousel-indicators">
+            {% for project in projects %}
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{loop.index-1}}"
+              class="{% if loop.index0 == 0 %} active {% endif %}" aria-current="true" aria-label="Slide 1"></button>
+            {% endfor %}
+            <!-- <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button> -->
+          </div>
+          <div class="carousel-inner">
+            {% for project in projects %}
+            <div class="carousel-item {%if loop.index0 == 0%} active {% endif %} bg-secondary">
+              <div class="card m-5 col-md-3 col-sm-3 mx-auto">
+                <div class="card-header bg-purple"></div>
+                <div class="card-body">
+                  <div class="mb-3">
+                    <div class="fs-6 text-secondary">
+                      {% if project['fullname']|length > 30 %}
+                      {{ project['fullname'][:30] + "..." }}
+                      {% else %}
+                      {{ project['fullname']}}
+                      {% endif %}
+                    </div>
+                    <div class="fs-7 text-body-secondary">
+                      {% if project['project_number']%}
+                      {{ project['project_number'] }}
+                      {% else %}
+                      <span>&nbsp;</span>
+                      {% endif %}
+                    </div>
+                    <div class="fs-8 fs-bolder text-secondary">
+                      &#8364; {{'%0.2f'|format(project['comm_value']) }}
+                    </div>
+                  </div>
+                  <div class="row my-5 mx-3">
+                    <button class="btn btn-outline-secondary fs-6 p-1 mx-auto text-nowrap text-dark" disabled>
+                      {{ project['shortname'] }}
+                    </button>
+                  </div>
+                  <h6>Project Objective</h6>
+                  <div class="fs-7 mb-3">{{project['project_objective']}}</div>
+                  <div class="fw-semibold fs-6 text-body-secondary">
+                    {{ project['from_date'] }} to {{ project['to_date']}}
+                  </div>
+                  <div class="fs-7 text-body-secondary">
+                    Implementing Partner: {{project['implementing_partner']}}
+                  </div>
+                  <div class="fs-8 text-body-secondary">
+                    {{project['implementing_states']}}
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <div class="lead fs-7">
+                    <span class="fw-bold">AV/DV:
+                      {% if project['dv']| length > 0 %}
+                      {{ project['dv'] }}
+                      {% else %}
+                      {{ project['av'] }}
+                      {% endif %}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+            {% endfor %}
+            <!-- <div class="carousel-item">
+            <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: First slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#555" dy=".3em">Second slide</text></svg>
+          </div>
+          <div class="carousel-item">
+            <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: First slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#555" dy=".3em">Third slide</text></svg>
+          </div> -->
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@2.3.0/dist/chartjs-chart-treemap.min.js"></script>
+  <script>
+    // const myCarouselElement = document.querySelector('#carouselExampleIndicators')
+
+    // const carousel = new bootstrap.Carousel(myCarouselElement, {
+    //   interval: 2000,
+    //   touch: false
+    // });
+
+    const dataDoughnut = {
+      labels: {{ chartdata['types']| safe}},
+    datasets: [{
+      label: 'Volume',
+      data: {{ chartdata['comm_values']| safe }},
+      backgroundColor: ['#355070', '#6d597a', '#b56576', '#e56b6f', '#eaac8b'],
+      borderColor: ['#355070', '#6d597a', '#b56576', '#e56b6f', '#eaac8b'],
+      hoverOffset: 4
+      }]
+    };
+    const configDoughnut = {
+      type: 'doughnut',
+      data: dataDoughnut,
+    };
+
+    const doughnutChart = new Chart(
+      document.getElementById('myDoughnut'),
+      configDoughnut
+    );
+    const dataBarchart = {
+      labels: {{ chartdata['types']| safe}},
+    datasets: [{
+      label: 'PROJECT TYPE DISTRIBUTION',
+      data: {{ chartdata['project_numbers']| safe }},
+      backgroundColor: ['#355070', '#6d597a', '#b56576', '#e56b6f', '#eaac8b'],
+      borderColor: ['#355070', '#6d597a', '#b56576', '#e56b6f', '#eaac8b'],
+      hoverOffset: 4
+      }]
+    };
+    const configBar = {
+      type: 'bar',
+      data: dataBarchart,
+    };
+    const barChart = new Chart(
+      document.getElementById('myBar'),
+      configBar
+    );
+  </script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    :root {
+  --borderWidth: 7px;
+  --height: 24px;
+  --width: 12px;
+  --borderColor: #78b13f;
+}
+    .green_tick {
+        display: inline-block;
+        transform: rotate(45deg);
+        height: var(--height);
+        width: var(--width);
+        border-bottom: var(--borderWidth) solid var(--borderColor);
+        border-right: var(--borderWidth) solid var(--borderColor);
+      }
+</style>
+<div class="container-fluid ">
+    <div class="row mt-5 pt-5">
+        <div class="col-3 border-right bg-light" style="height: 100vh;">
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-action bg-transparent disabled border border-0" aria-disabled="true">A disabled item</li>
+                <li class="list-group-item list-group-item-action bg-transparent border border-0 d-flex justify-content-between">A second item <span class="green_tick"></span> </li>
+                <li class="list-group-item list-group-item-action border border-0 active">A third item</li>
+                <li class="list-group-item list-group-item-action bg-transparent border border-0">A fourth item</li>
+                <li class="list-group-item list-group-item-action bg-transparent border border-0">And a fifth one</li>
+                <li class="list-group-item list-group-item-action bg-transparent border border-0">A fourth item</li>
+                <li class="list-group-item list-group-item-action bg-transparent border border-0">And a fifth one</li>
+                <li class="list-group-item list-group-item-action bg-transparent border border-0">A fourth item</li>
+                <li class="list-group-item list-group-item-action bg-transparent border border-0">And a fifth one</li>
+                <li class="list-group-item list-group-item-action bg-transparent border border-0">A fourth item</li>
+                <li class="list-group-item list-group-item-action bg-transparent border border-0">And a fifth one</li>
+                <li class="list-group-item list-group-item-action bg-transparent border border-0">A fourth item</li>
+                <li class="list-group-item list-group-item-action bg-transparent border border-0">And a fifth one</li>
+            </ul>
+        </div>
+        <div class="col-9">col-9</div>
+    </div>
+</div>
+{% endblock %}

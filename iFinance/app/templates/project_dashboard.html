@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Projects Dashboard</title>
+{% endblock %}
+{%block nav%}
+NRMAe Projects
+{%endblock%}
+{% block content %}
+
+<div class="container-fluid mt-3 mb-3 box box1" style="width: 100%;">
+
+
+    <!-- pie chart  -->
+    <div class="card text-center bg-transparent h-100 box box2 " style="border:none ;">
+        <div class="card-header bg-transparent p-0" style="border:none;" >
+            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+
+                <div class="nav-item" role="presentation" style="width: 100%;">
+                    <div class="row">
+                        <div class="col"><button class="nav-link active fs-7" id="pills-vol-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-vol" type="button" role="tab" aria-controls="pills-vol"
+                                aria-selected="true" style="width: 100%;">Volume Distribution</button>
+                        </div>
+
+                        <div class="col"><button class="nav-link fs-7" id="pills-type-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-type" type="button" role="tab" aria-controls="pills-type"
+                                aria-selected="false" style="width: 100%;">Type Distribution </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </ul>
+            <div class="card-body bg-transparent">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="pills-vol" role="tabpanel"
+                        aria-labelledby="pills-vol-tab">
+                        <div id="projects-container-vol" style="background-color:white;">
+                            <div class="card border-primary mb-3 justify-content-center box2" style="width: 100%;">
+                                <div class="card-header align-items-center p-0 border-bottom border-primary bg-primary text-light text-center"
+                                    style="margin: 0px;">
+                                                <div class="text-center fs-7 py-2 fw-semibold ">PROJECT VOLUMES</div>
+                                </div>
+                                <div class="card-body px-0 justify-content-center" style="width: 100%;">                                   
+                                    <div class="justify-content-center m-1">
+                                        <canvas id="myDoughnut">
+                                        </canvas>
+                                    </div>                                    
+                                </div>
+                                <div class=" container-fluid p-0 m-0 mb-3" style="width: 100%;">                                        
+                                    <a href="/ifinance/all_projects/SEWOH" class="btn btn-xs mt-2 fs-8 text-light fw-semibold" style="background-color: #355070">SEWOH</a>
+                                    <a href="/ifinance/all_projects/SFF" class="btn btn-xs mt-2 fs-8 text-light fw-semibold" style="background-color: #b56576">SFF</a>
+                                    <a href="/ifinance/all_projects/dPPP" class="btn btn-xs mt-2 fs-8 text-light fw-semibold" style="background-color: #6d597a">DPPP</a>
+                                    <a href="/ifinance/all_projects/Bilateral" class="btn btn-xs fs-8 mt-2 text-light fw-semibold" style="background-color: #e56b6f">BILATERAL</a>
+                                    <a href="/ifinance/all_projects/I4AG" class="btn btn-xs mt-2  fs-8 text-light fw-semibold" style="background-color: #eaac8b">I4AG</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-type" role="tabpanel" aria-labelledby="pills-type-tab">
+
+                        <div id="projects-container-type" style="background-color:white;">
+                            <div class="card border-primary mb-3 justify-content-center box2" style="width: 100%;">
+                                <div class="card-header align-items-center p-0 border-primary bg-primary text-light"
+                                    style="margin: 0px;">
+                                    <div class="text-center fs-6 py-2 fw-semibold ">PROJECTS COUNT</div>
+                                </div>
+
+                                <div class="card-body  px-0 justify-content-center">
+                                    <div class="container">
+                                        <canvas id="myBar">
+                                        </canvas>
+                                    </div>
+                                    
+                                    <div class=" container-fluid p-0 m-0 mb-3" style="width: 100%;">                                        
+                                        <a href="/ifinance/all_projects/SEWOH" class="btn btn-xs mt-2 fs-8 text-light fw-semibold" style="background-color: #355070">SEWOH</a>
+                                        <a href="/ifinance/all_projects/SFF" class="btn btn-xs mt-2 fs-8 text-light fw-semibold" style="background-color: #b56576">SFF</a>
+                                        <a href="/ifinance/all_projects/dPPP" class="btn btn-xs mt-2 fs-8 text-light fw-semibold" style="background-color: #6d597a">DPPP</a>
+                                        <a href="/ifinance/all_projects/Bilateral" class="btn btn-xs fs-8 mt-2 text-light fw-semibold" style="background-color: #e56b6f">BILATERAL</a>
+                                        <a href="/ifinance/all_projects/I4AG" class="btn btn-xs mt-2  fs-8 text-light fw-semibold" style="background-color: #eaac8b">I4AG</a>                                        
+                                        
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!--Project Card-->
+    <a href="/ifinance/all_projects/All" style="text-decoration: none;">
+        <div class="card border-primary mx-3 justify-content-center box box1">
+            <div class="card-header align-items-center p-0 border-bottom border-primary bg-primary text-light"
+                style="margin: 0px;">
+                <div class="row align-items-center" style="width: auto;">
+                    <div class="col fs-7 fw-semibold ms-3 text-start">
+                        All NRMAe Projects
+                    </div>
+                    <div class="col-4 fs-8 text-end me-3">(in Million Euros)</div>
+                </div>
+            </div>
+    
+            <div class="card-body justify-content-center p-1">
+                <div class="row">
+                    <div class="col-4 text-center">
+                        <div class="card-text font-monospace fs-8">Volume</div>
+                        <div>
+                            <p class="card-text text-center text fs-7"><b>{{'%0.2f'|format(total_commission)}}</b></p>
+                        </div>
+                    </div>
+                    <div class="col-4 text-center">
+                        <div class="card-text font-monospace fs-8">Bilateral</div>
+                        <div class="card-text text-center fs-7">
+                            <b>{{'%0.2f'|format(total_bilateral)}}</b>
+                        </div>
+                    </div>
+                    <div class="col-4 text-center">
+                        <div class="card-text text-center">
+                            <div class="card-text font-monospace fs-8">SEWOH</div>
+                            <div class="card-text text-center fs-7"><b>{{'%0.2f'|format(total_sewoh)}}</b></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+        </a>
+    
+</div>
+
+
+<script>
+    const myCarouselElement = document.querySelector('#carouselExampleIndicators')
+
+    // const carousel = new bootstrap.Carousel(myCarouselElement, {
+    //     interval: 2000,
+    //     touch: false
+    // });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const dataDoughnut = {
+            labels: {{ chartdata['types'] | safe
+    }},
+        datasets: [{
+            label: 'Volume',
+            data: {{ chartdata['comm_values'] | safe }},
+        backgroundColor: ['#355070', '#6d597a', '#b56576', '#e56b6f', '#eaac8b'],
+        borderColor: ['#355070', '#6d597a', '#b56576', '#e56b6f', '#eaac8b'],
+        hoverOffset: 4
+            }]
+        };
+
+        const configDoughnut = {
+        type: 'doughnut',
+        data: dataDoughnut,
+        options: {
+        plugins: {
+            legend: {
+                display: false,
+                
+        },
+    }
+}
+};
+
+    const dataBarchart = {
+        labels: {{ chartdata['types'] | safe }},
+    datasets: [{
+        label: 'PROJECT TYPE DISTRIBUTION',
+        data: {{ chartdata['project_numbers'] | safe }},
+        backgroundColor: ['#355070', '#6d597a', '#b56576', '#e56b6f', '#eaac8b'],
+        borderColor: ['#355070', '#6d597a', '#b56576', '#e56b6f', '#eaac8b'],
+        hoverOffset: 4
+            }]
+        };
+
+    const configBar = {
+        type: 'bar',
+        data: dataBarchart,
+        options: {
+            scales: {
+            x: {
+                ticks: {
+                    display: false // Hide x-axis labels
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                display: false,
+                
+        },
+    }
+}
+    };
+
+    // Initialize doughnut chart
+    const doughnutChart = new Chart(
+        document.getElementById('myDoughnut'),
+        configDoughnut
+    );
+
+    // Initialize bar chart
+    const barChart = new Chart(
+        document.getElementById('myBar'),
+        configBar
+    );
+    });
+</script>
+{% endblock %}

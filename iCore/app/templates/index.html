@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Welcome Page{% endblock%}
+{% block content %}
+
+<div class="container mt-5" style="height: 100vh; display: flex; justify-content: center; align-items: start;">
+    <div class="w-100 d-flex flex-wrap justify-content-center">
+        <div class="d-flex flex-wrap col-lg-4 col-md-6 col-sm-12">
+            {% for app in appList %}
+            <div class="text-center m-3">
+                <a class="btn btn-sm btn-outline-primary rounded align-items-center" href="{{app.route}}">
+                    <img src="{{app.image_url}}" height="40" alt="" class="p-1">
+                </a>
+                <div class="fs-7 text-center"><span class="text-danger">i</span><span
+                        class="text-secondary-emphasis fw-semibold">{{app.name}}</span></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // VARIABLES
+
+        
+        // FUNCTIONS
+        function getCookie(name) {
+            let value = `; ${document.cookie}`;
+            let parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+
+        }
+
+        // CONSTANTS
+        const token = getCookie('access_token');
+
+        if (token) {
+            localStorage.setItem('access_token', token);
+                console.log('Access Token:', token);
+                // You can now use this token in any API requests
+            } else {
+                console.log('No token found, redirecting to login...');
+                // Redirect back to login if no token is found
+                window.location.href = '/login';
+            }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %} Edit Parameters {% endblock %}
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+            <div class="card">
+                <div class="card-header">
+                    <div class="text-center">
+                        <h3>Delete Parameter</h3>
+                    </div>
+                </div>
+                <form class="card-body" method="post" action="{{url_for('.delete_parameter', input_permissible_id=input_permissible.id) }}">
+                    {% for key, value in input_parameter.items() %}
+                        {% if key != 'id' %}
+                        <fieldset class="mb-1" disabled>
+                            <label for="txt{{key}}" class="form-label fw-bold fs-7">
+                                {{key | title}}
+                            </label>
+                            <input type="text" class="form-control form-control-sm" id="txt{{key}}"
+                            name="{{key}}" value="{{value}}" required >
+                        </fieldset>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="mb-1">
+                        <label for="txt{{key}}" class="form-label fw-bold fs-7">
+                            Type 'DELETE' (in CAPITAL LETTER) to enable delete button
+                        </label>
+                        <input type="text" class="form-control form-control-sm" id="txtDelete"
+                        name="txtDelete" placeholder="DELETE" required >
+                    </div>
+                    <div class="text-center my-2">
+                        <a href="{{url_for('.parameters')}}" class="btn btn-outline-secondary btn-sm me-2">Cancel</a>
+                        <input type="submit" class="btn btn-primary btn-sm" value="Delete" id="submitButton" disabled>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const txt_delete = document.getElementById('txtDelete');
+        txt_delete.addEventListener('keyup', function(){
+            if (txt_delete.value == 'DELETE'){
+                document.getElementById('submitButton').removeAttribute('disabled');
+            }
+        })
+
+    });
+</script>
+{% endblock %}

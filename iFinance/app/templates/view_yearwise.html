@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>View Records</title>
+{% endblock %}
+{% block nav %}
+Financial Records
+{% endblock %}
+{% block content %}
+<!-- <a href="/add_yearwise" class="btn btn-primary btn-lg floating-button text-center"><i class="fa-solid fa-plus fa-lg"></i></a> -->
+
+<div class="container-fluid mt-3 mb-3 box box1" style="width: 100%;">
+    <div class="card border-primary mb-3 justify-content-center box2 mt-3" style="width: 100%;">
+        <div class="card-header align-items-center p-0 border-bottom border-primary bg-primary text-light"
+            style="margin: 0px;">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col">
+                    <b>
+                        <div class="text-center fs-6 fw-semibold ">VIEW YEARWISE RECORDS</div>
+                    </b>
+                </div>
+                <div class="col-2 pt-1 align-items-center">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body justify-content-center">
+            <form id="financeForm" method="post" action="{{url_for('dashboard.view_yearwise')}}">
+
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Select Project</label>
+                    <select class="form-select" id="project" name="project">
+                        <option value="" selected disabled>Select Project </option>
+                        {% for id,project in projects.items() %}
+                        <option value="{{id}}">{{project}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+
+
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Select Year</label>
+                    <select class="form-select" id="year" name="year">
+                        <option value="" selected disabled>Select Year</option>
+                    </select>
+                </div>
+
+                <div id="expandable-card">
+
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary mt-3">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        // Event listener for project dropdown change
+        document.getElementById('project').addEventListener('change', function () {
+            const projectId = this.value; // Get selected project ID
+            const formAction = `url_for('dashboard.update_yearwise',id=${projectId})`; // Construct form action URL
+            document.getElementById('financeForm').action = formAction; // Set form action attribute
+        });
+    });
+</script> -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Function to fetch data for year dropdown based on project selection
+        function fetchYears(projectId) {
+            
+            makeAPICall();
+            fetch(`/get_yearwise_year/${projectId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Clear existing options
+                    const yearDropdown = document.getElementById('year');
+                    yearDropdown.innerHTML = '';
+                    
+                    // Add "Select Year" option
+                    const selectYearOption = document.createElement('option');
+                    selectYearOption.value = '';
+                    selectYearOption.textContent = 'Select Year';
+                    selectYearOption.disabled = true;
+                    selectYearOption.selected = true;
+                    yearDropdown.appendChild(selectYearOption);
+
+                    // Add options for each year received from the API
+                    data.forEach(year => {
+                        const option = document.createElement('option');
+                        option.value = year;
+                        option.textContent = year;
+                        yearDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching years:', error));
+        }
+
+        // Event listener for project dropdown change
+        document.getElementById('project').addEventListener('change', function () {
+            const projectId = this.value;
+            if (projectId) {
+                // If a project is selected, fetch years for that project
+                makeAPICall();
+                fetchYears(projectId);
+            } else {
+                // If no project is selected, clear year dropdown
+                const yearDropdown = document.getElementById('year');
+                yearDropdown.innerHTML = '';
+            }
+        });
+    });
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Function to fetch data based on selected project and year
+        function fetchData(projectId, year) {
+            makeAPICall();
+            fetch(`/get_yearwise/${projectId}/${year}`)
+                .then(response => response.json())
+                .then(data => {
+                    const expandableCard = document.getElementById('expandable-card');
+                    
+                    console.log(data)
+                    // Create and append fields for budget, actual, and planned
+                    const budgetField = createField('Budgeted', data.budget);
+                    const actualField = createField('Allocated', data.allocated);
+                    const plannedField = createField('Planned', data.planned);
+
+                    expandableCard.innerHTML = ''; // Clear previous content
+                    expandableCard.innerHTML += budgetField;
+                    expandableCard.innerHTML += actualField;
+                    expandableCard.innerHTML += plannedField;
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+            // Function to create a field element
+            function createField(label, value) {
+            const fieldHTML = `
+            <div class="form-group">
+                <label for="${label.toLowerCase()}" class="form-label mt-2">${label}</label>
+                <input type="text" class="form-control" id="${label.toLowerCase()}" name="${label.toLowerCase()}" placeholder="Enter ${label}" value="${value}">
+            </div>`;
+
+            return fieldHTML;
+}
+
+
+        // Event listener for form submission
+        document.getElementById('year').addEventListener('change', function () {
+            event.preventDefault(); // Prevent form submission
+
+            // Get selected project and year
+            const projectId = document.getElementById('project').value;
+            const year = document.getElementById('year').value;
+
+            // Fetch data based on selected project and year
+            console.log('fetching data')
+            makeAPICall();
+            fetchData(projectId, year);
+        });
+    });
+</script>
+
+{% endblock %}

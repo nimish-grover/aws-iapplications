@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iApps - {% block title %}{% endblock %} </title>
+  <!-- As a link -->
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}" />
+  <link rel="shortcut icon" href="{{url_for('static', filename='assets/favicon.ico')}}" type="image/x-icon">
+  <link rel="stylesheet" href="https://bootswatch.com/5/pulse/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="shortcut icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.2.3"></script>
+  <meta name="theme-color" content="transparent" />
+</head>
+
+<body>
+
+  {% block content %}
+  <nav class="navbar navbar-light py-1">
+    <div class="container-fluid">
+      <a class="navbar-brand text-white fs-6" href="{{url_for('PWA.index')}}">
+        <img src="{{url_for('static',filename='assets/icons/android/icon-48-48.png')}}" class="bg-light bg-opacity-75"
+          alt="wb_icon" height="24" width="24">
+        <span class="text-warning">i</span>Water</a>
+      <button class="navbar-toggler py-0 px-1" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-start offcanvas-size-sm" tabindex="-1" id="offcanvasNavbar"
+        aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title font-monotype" id="offcanvasNavbarLabel">
+            <span class="text-danger">i</span>Water
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{{url_for('PWA.index')}}">Water Budget</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{{url_for('wb.dashboard')}}">Waterbody Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{{url_for('PWA.index')}}">Recharge Potential</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{{url_for('PWA.index')}}">Water Quality</a>
+            </li>
+        </div>
+      </div>
+    </div>
+  </nav>
+  {% endblock %}
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  {% block script %}{% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}{% endblock %}
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <meta name="theme-color" content="transparent" />
+    <meta name="description" content="This is esaksham application">
+    <link rel="shortcut icon" href="{{url_for('static',filename='assets/favicon.ico')}}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='assets/cropped-e-fv-192x192.png') }}" sizes="192x192">
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/base.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/style.css')}}">
+</head>
+
+<body class="vh-100 bg-white">
+    <button onclick="topFunction()" id="scrollToTopBtn" title="Go to top"
+        class="no-loader align-items-center text-align"><i class="fa-solid fa-angle-up fa-lg"
+            style="color: #ffffff;"></i></button>
+    <!-- for desktops and laptops -->
+    <div class=" d-none d-lg-block">
+        <nav class="navbar navbar-expand-lg bg-white shadow" id="navbar" style="width: 100%; display: block;">
+
+            <div class="row" style=" width:100%; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+                <div class="col-4 text-center">
+                    <img src="{{ url_for('static', filename='assets/nregs_web-3.png') }}" />
+                </div>
+                <div class="col-4 text-center">
+                    <a href="/"><img src="{{ url_for('static', filename='assets/saksham_tag3-3.png') }}" /></a>
+                </div>
+                <div class="col-4 text-center">
+                    <img src="{{ url_for('static', filename='assets/giz_web.png') }}" />
+                </div>
+            </div>
+            <div class="container">
+                <ul class="navbar-nav p-3" style="font-family: Roboto; font-size: 14px;">
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/home' in request.path %}active-nav{% endif %}"
+                            href="{{url_for('learning.home')}}">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/feedback' in request.path %}active-nav{% endif %}"
+                            href="{{url_for('learning.feedback')}}">FEEDBACK</a>
+                    </li>
+                    {%if current_user.is_authenticated%}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {% if '/course' in request.path %}active-nav{% endif %} no-loader" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">COURSE</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{url_for('learning.course_2018')}}">Course-2018</a>
+                            <a class="dropdown-item" href="{{url_for('learning.course_2024')}}">Course-2024</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/faq' in request.path  %}active-nav{% endif %}"
+                            href="{{url_for('learning.faq')}}">FAQ</a>
+                    </li>
+
+                    <li class="nav-item ">
+                        <a class="nav-link {% if '/user_manual' in request.path %}active-nav{% endif %}"
+                            href="{{url_for('learning.user_manual')}}">USER
+                            MANUAL</a>
+                    </li>
+                    {%endif%}
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/contact' in request.path %}active-nav{% endif %} "
+                            href="{{url_for('learning.contact')}}">CONTACT</a>
+                    </li>
+                </ul>
+
+                {%if not current_user.is_authenticated %}
+                <div class="link-login">
+                    <i class="fa-solid fa-user text-secondary"></i>&nbsp;
+                    <a class=" register  {% if request.path == '/register' %}active-nav{%else%} text-secondary{% endif %}"
+                        href="{{url_for('admin.register')}}" style="text-decoration: none;">Register</a>
+                    <span class="slash text-secondary">/</span>
+                    <a href="{{url_for('admin.login')}}"
+                        class="login {% if request.path == '/login' %}active-nav {%else%} text-secondary{% endif %}"
+                        style="text-decoration: none;">Login</a>&nbsp;&nbsp;
+                </div>
+                {%else%}
+                <div class="link-login">
+
+                    <strong class="fw-semibold">Hello, {{name}}</strong>&nbsp;&nbsp;
+
+                    <span class="dropdown">
+                        <button class="btn btn-light no-loader dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user" style="color: #000000;"></i> <!-- Font Awesome icon -->
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="right: 0; left: auto;">
+                            <a class="dropdown-item"
+                                href="{{url_for('admin.change_password',id=current_user.id)}}">Change Password</a>
+                            <a class="dropdown-item" href="{{url_for('admin.logout')}}">Logout</a>
+                        </div>
+                    </span>
+                    {%endif%}
+
+                </div>
+
+
+        </nav>
+    </div>
+    <!-- for mobiles -->
+    <div class="d-lg-none">
+        <nav class="navbar shadow" id="navbar" style="width: 100%; display: block;">
+
+            <div class="row" style=" width:100%; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+                <div class="col p-0 text-center">
+                    <img src="{{ url_for('static', filename='assets/nregs_web-3.png') }}" width="70px" />
+                </div>
+                <div class="col p-0 text-center" style="margin-left: -15px;">
+                    <a href="/"><img src="{{ url_for('static', filename='assets/saksham_tag3-3.png') }}"
+                            width="150px" /></a>
+                </div>
+                <div class="col p-0 text-center">
+                    <img src="{{ url_for('static', filename='assets/giz_web.png') }}" width="120px" />
+                </div>
+            </div>
+            <div class="container p-2 pb-0">
+                <button class="navbar-toggler no-loader" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                {%if not current_user.is_authenticated %}
+                <div class="link-login ps-2">
+                    <i class="fa-solid fa-user text-secondary"></i>&nbsp;
+                    <a class=" register  {% if request.path == '/register' %}active-nav{%else%} text-secondary{% endif %}"
+                        href="{{url_for('admin.register')}}" style="text-decoration: none;">Register</a>
+                    <span class="slash text-secondary">/</span>
+                    <a href="{{url_for('admin.login')}}"
+                        class="login {% if request.path == '/login' %}active-nav {%else%} text-secondary{% endif %}"
+                        style="text-decoration: none;">Login</a>&nbsp;&nbsp;
+                </div>
+                {%else%}
+                <div class="link-login">
+
+                    <strong class="fw-semibold">Hello, {{name}}</strong>&nbsp;&nbsp;
+
+                    <span class="dropdown">
+                        <button class="btn btn-light no-loader dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user" style="color: #000000;"></i> <!-- Font Awesome icon -->
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="right: 0; left: auto;">
+                            <a class="dropdown-item"
+                                href="{{url_for('admin.change_password',id=current_user.id)}}">Change Password</a>
+                            <a class="dropdown-item" href="{{url_for('admin.logout')}}">Logout</a>
+                        </div>
+                    </span>
+                {%endif%}
+                
+
+                </div>
+            </div>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" style="width: 70%;">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">E-Saksham</h5>
+                    <button type="button" class="btn-close no-loader" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" style="font-family: Roboto; font-size: 14px;">
+                        <li class="nav-item">
+                            <a class="nav-link {% if '/home' in request.path %}active-nav{% endif %}"
+                                href="{{url_for('learning.home')}}">HOME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if '/feedback' in request.path %}active-nav{% endif %}"
+                                href="{{url_for('learning.feedback')}}">FEEDBACK</a>
+                        </li>
+                        {%if current_user.is_authenticated%}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {% if '/course' in request.path %}active-nav{% endif %} no-loader" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">COURSE</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{url_for('learning.course_2018')}}">Course-2018</a>
+                                <a class="dropdown-item" href="{{url_for('learning.course_2024')}}">Course-2024</a>
+                            </div>
+                        </li>
+    
+                        <li class="nav-item">
+                            <a class="nav-link {% if '/faq' in request.path  %}active-nav{% endif %}"
+                                href="{{url_for('learning.faq')}}">FAQ</a>
+                        </li>
+    
+                        <li class="nav-item ">
+                            <a class="nav-link {% if '/user_manual' in request.path %}active-nav{% endif %}"
+                                href="{{url_for('learning.user_manual')}}">USER
+                                MANUAL</a>
+                        </li>
+                        {%endif%}
+                        <li class="nav-item">
+                            <a class="nav-link {% if '/contact' in request.path %}active-nav{% endif %} "
+                                href="{{url_for('learning.contact')}}">CONTACT</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    {%if current_user.is_authenticated%}
+    <!-- Splash Screen code starts here -->
+    <div class="splash" style="z-index: 9999;">
+        <div class="splash-header justify-content-center">
+            <div class="container align-items-center" id="splash-container">
+
+                <h4 class="text-dark mt-4 fw-semibold style=" color: #000000;"> Welcome, {{current_user.name | title()
+                    }}</h4>
+            </div>
+        </div>
+    </div> 
+    <!-- Splash Screen code ends here  -->
+    {%endif%}
+    <div class="page-content">
+        {% block content %}
+
+        {% endblock %}
+        <div class="loader">
+            <div class="row" style="margin-bottom: 6rem;">
+                <div class="loading-icon">
+                    <div class="sk-cube-grid">
+                        <div class="sk-cube sk-cube1"></div>
+                        <div class="sk-cube sk-cube2"></div>
+                        <div class="sk-cube sk-cube3"></div>
+                        <div class="sk-cube sk-cube4"></div>
+                        <div class="sk-cube sk-cube5"></div>
+                        <div class="sk-cube sk-cube6"></div>
+                        <div class="sk-cube sk-cube7"></div>
+                        <div class="sk-cube sk-cube8"></div>
+                        <div class="sk-cube sk-cube9"></div>
+                    </div>
+                </div>
+                <p id="textAfter30Secs" style="display: none; margin-top: -90px;" class="text-center fw-semibold">It's
+                    taking longer than usual. Please Wait !!</p>
+                <p id="textAfter1Minute" class="text-center fw-semibold" style="display: none; margin-top: -90px;">We're
+                    working on it. Please stay with us !!</p>
+            </div>
+
+        </div>
+    </div>
+    <!-- for dekstops and laptops -->
+    <div class="d-none d-lg-block">
+        <div id="footer" style="width: 100%;">
+            <div class="container mt-3 text-secondary">
+                <div class="row" style="border-bottom: 1px solid #646565; padding-bottom: 10px;">
+                    <a class="col-3 text-secondary" href="{{url_for('learning.important_links')}}"
+                        style="text-decoration: none;">Important
+                        Links</a>
+                    <a class="col-3 text-secondary" href="{{url_for('learning.credits')}}"
+                        style="text-decoration: none;">Credits</a>
+                    <a class="col-3 text-secondary no-loader" href="#" style="text-decoration: none;">Forums</a>
+                    <div class="col-3">
+
+                        <div class="container"
+                            style="background:#ffffff; padding: 0.4rem; width: fit-content; border-radius: 8px;">
+                            {%for number in visit_count%}
+                            <span class="roboto"
+                                style="border: 1px solid #ffffff;color:#FFFFFF;background:#000000; padding: 0.3rem; border-radius: 5px">{{number}}</span>
+                            {%endfor%}
+                            <span class="text roboto"
+                                style="border: 1px solid #ffffff;color:#FFFFFF;background:#000000; padding: 0.2rem; border-radius: 5px">Visits</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row mt-2 ps-1">
+                    <div class="col-9">Supported By : GIZ (Deutsche Gesellschaft für Internationale Zusammenarbeit)
+                    </div>
+                    <div class="col-3 text-center">Average Rating: {{average_rating | round(2)}}</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- for mobiles -->
+    <div class=" d-lg-none ">
+        <div id="footer-mobile" style="width: 100%;">
+            <div class="container mt-3 text-secondary">
+                <div class="separation" style="border-bottom: 1px solid #646565; padding-bottom: 10px;">
+                    <div class="row" >
+                        <a class="col-4 text-secondary fs-7" href="{{url_for('learning.important_links')}}"
+                            style="text-decoration: none;">Important
+                            Links</a>
+                        <a class="col-2 text-secondary fs-7" href="{{url_for('learning.credits')}}"
+                            style="text-decoration: none;">Credits</a>
+                        <a class="col-2 text-secondary no-loader fs-7" href="#" style="text-decoration: none;">Forums</a>
+                        <div class="col-4 text-center fs-7">Avg Rating: {{average_rating | round(2)}}</div>
+                    </div>
+                    <div class="row mt-2 align-items-center justify-content-center">
+                        
+                        
+    
+                            <div class="container m-0"
+                                style="background:#ffffff; padding: 0.4rem; width: fit-content; border-radius: 8px;">
+                                {%for number in visit_count%}
+                                <span class="roboto fs-7"
+                                    style="border: 1px solid #ffffff;color:#FFFFFF;background:#000000; padding: 0.3rem; border-radius: 5px">{{number}}</span>
+                                {%endfor%}
+                                <span class="text roboto"
+                                    style="border: 1px solid #ffffff;color:#FFFFFF;background:#000000; padding: 0.2rem; border-radius: 5px">Visits</span>
+                            </div>
+                            
+                        
+                    </div>
+                        
+                    </div>
+                    <div class="row mt-2 ps-1">
+                        <div class="col fs-7">Supported By : GIZ (Deutsche Gesellschaft für Internationale Zusammenarbeit)
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="https://kit.fontawesome.com/b8fa5f2ca2.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js"
+        integrity="sha512-R/QOHLpV1Ggq22vfDAWYOaMd5RopHrJNMxi8/lJu8Oihwi4Ho4BRFeiMiCefn9rasajKjnx9/fTQ/xkWnkDACg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"
+        integrity="sha512-Z8CqofpIcnJN80feS2uccz+pXWgZzeKxDsDNMD/dJ6997/LSRY+W4NmEt9acwR+Gt9OHN0kkI1CTianCwoqcjQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="{{url_for('static',filename = 'js/base.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js"></script>
+
+    {% block script %}
+
+    {%endblock%}
+
+
+</body>
+
+</html>

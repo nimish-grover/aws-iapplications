@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block page_title %}View Participants{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  {% for participant in participants%}
+  <div class="card m-2 shadow-sm bg-light text-dark rounded-1">
+    <div class="card-body p-2">
+      <div class="d-flex container">
+        <div class="col-2 align-self-center">
+          <div class="badge bg-primary rounded-circle p-2">
+            <span>{{participant.full_name[0] | title }}</span>           
+          </div>
+        </div>
+        <div class="col-10 border-1 border-start ps-1">
+          <div class="fs-7">{{ "Mr." if participant.gender=='M' else 'Ms.'}} {{participant.full_name }}</div>
+          <div class="fw-lighter fs-8 mt-n2">{{ 'Official' if participant.desig_id=="" else participant.desig_id }}
+            {{'MGNREGA' if participant.dept_or_org=='nan' else participant.dept_or_org }}</div>
+          <div class="card-text fst-italic">{{ participant.title }}</div>
+          <div class="d-flex justify-content-between mt-1">
+            <div class="fs-8">{{ participant.email_address | lower}}</div>
+            <div class="fs-8 me-2">
+              <span class="me-2"><i class="fa-solid fa-pencil"></i></span>
+              <span><i class="fa-solid fa-trash-can"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <!-- <table class="table table-condensed table-bordered table-active">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Event Title</th>
+        <th>Date of Event</th>
+        <th>Time</th>
+        <th>Venue</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for participant in events%}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ participant.title }}</td>
+        <td>{{ participant.schedule | date('%d %b %Y') }}</td>
+        <td>{{ participant.schedule | date('%I:%M %p') }}</td>
+        <td>{{ participant.district_code }}</td>
+        <td class="text-center">
+          <button class="btn btn-sm btn-dark"><i class="fa-solid fa-trash-can"></i></button>
+          <button class="btn btn-sm btn-dark"><i class="far fa-edit"></i></button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="text-center">
+    <ul class="pagination pagination-sm">
+      <li class="page-item disabled">
+        <a class="page-link" href="#">&laquo;</a>
+      </li>
+      <li class="page-item active">
+        <a class="page-link" href="#">1</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#">2</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#">3</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#">4</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#">5</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#">&raquo;</a>
+      </li>
+    </ul>
+  </div> -->
+</div>
+
+{% endblock %}

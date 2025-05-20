@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block title %} Canal {% endblock %}
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+            <nav class="ms-2 fs-8" style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+                <ol class="breadcrumb fs-8">
+                    {% for breadcrumb in breadcrumbs %}
+                    <li class="breadcrumb-item {% if loop.index == breadcrumbs|length %}text-primary{% endif %}">{{
+                        breadcrumb['name'] }}</li>
+                    {% endfor %}
+                </ol>
+            </nav>
+            <div class="container mb-2 d-flex justify-content-center align-items-center">
+                <div class="progresses">
+                    <div class="steps completed">
+                        <span><i class="fa fa-check"></i></span>
+                    </div>
+                    <span class="line completed"></span>
+                    <div class="steps completed">
+                        <span><i class="fa fa-check"></i></span>
+                    </div>
+                    <span class="line completed"></span>
+                    <div class="steps completed">
+                        <span class="font-weight-bold">3</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="text-center">
+                        <h3 class="m-0">Canal Parameters</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="mb-1">
+                        <label for="txtWorkCode" class="form-label fs-7 mb-0">Work Code</label>
+                        <label type="text" class="form-control form-control-sm fs-7 text-wrap" id="txtWorkCode"
+                            name="txtWorkCode" disabled style="background:#e9ecef">
+                            work code</label>
+                    </div>
+                    <div class="mb-1">
+                        <label for="txtWorkName" class="form-label fs-7 mb-0">Work Name</label>
+                        <label type="text" class="form-control form-control-sm fs-7 text-wrap" id="txtWorkName"
+                            name="txtWorkName" disabled style="background:#e9ecef">
+                            work name</label>
+                    </div>
+                    <div class="mb-1">
+                        <label for="txtPermissibleWork" class="form-label fs-7 mb-0">Permissible Work</label>
+                        <label type="text" class="form-control form-control-sm fs-7 text-wrap" id="txtPermissibleWork"
+                            name="txtPermissibleWork" disabled style="background:#e9ecef">
+                            permissible work</label>
+                    </div>
+                    <div class="mb-1">
+                        <div>
+                            <label for="additionalIrrigation" class="form-label fs-7 mb-0 me-5">Additional area brought under irrigation?</label>
+                        </div>
+                        <input type="radio" class="btn-check" name="additionalIrrigation" id="yesIrrigation" autocomplete="off"
+                            checked>
+                        <label class="btn btn-outline-success btn-sm me-2 fs-7 p-0 px-1" for="yesIrrigation">
+                            <i class="fa-regular fa-circle-check"></i>
+                            Yes</label>
+
+                        <input type="radio" class="btn-check" name="additionalIrrigation" id="noIrrigation" autocomplete="off">
+                        <label class="btn btn-outline-danger btn-sm fs-7 p-0 px-1" for="noIrrigation">
+                            <i class="fa-regular fa-circle-xmark"></i>
+                            No</label>
+                    </div>
+                    <div class="mb-1" id="divAddtionalArea">
+                        <label for="txtAdditionalArea" class="form-label fs-7">
+                            Additional Irrigation potential created
+                            <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip"
+                                data-bs-placement="right" data-bs-html="true"
+                                data-bs-title="Area covered by the plantation activity"></i>
+                        </label>
+                        <input type="number" class="form-control form-control-sm" id="txtAdditionalArea" name="txtAdditionalArea"
+                            placeholder="Additional Irrigation Area in Square meters" required>
+                    </div>
+                    <div class="mb-1">
+                        <label for="txtCanalLength" class="form-label fs-7">
+                            Length (in meters)
+                            <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip"
+                                data-bs-placement="right" data-bs-html="true"
+                                data-bs-title="Area covered by the plantation activity"></i>
+                        </label>
+                        <input type="number" class="form-control form-control-sm" id="txtCanalLength" name="txtCanalLength"
+                            placeholder="Length in meters" required>
+                    </div>
+                    <div class="mb-1">
+                        <label for="txtCanalWidth" class="form-label fs-7">
+                            Width (in meters)
+                            <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip"
+                                data-bs-placement="right" data-bs-html="true"
+                                data-bs-title="Area covered by the plantation activity"></i>
+                        </label>
+                        <input type="number" class="form-control form-control-sm" id="txtCanalWidth" name="txtCanalWidth"
+                            placeholder="Width in meters" required>
+                    </div>
+                    <div class="mb-1">
+                        <label for="txtCanalDepth" class="form-label fs-7">
+                            Depth (in meters)
+                            <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip"
+                                data-bs-placement="right" data-bs-html="true"
+                                data-bs-title="Area covered by the plantation activity"></i>
+                        </label>
+                        <input type="number" class="form-control form-control-sm" id="txtCanalDepth" name="txtCanalDepth"
+                            placeholder="Depth in meters" required>
+                    </div>
+                    <div class="text-center my-2">
+                        <input type="submit" class="btn btn-primary btn-sm" value="Submit" id="submitButton" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const radio_irrigation = document.querySelectorAll('input[name="additionalIrrigation"]');
+        const div_additional_area = document.getElementById('divAddtionalArea')
+        radio_irrigation.forEach(rd_irrigation => {
+            rd_irrigation.addEventListener('change', function(){
+                if (div_additional_area.classList.contains('visually-hidden')) {
+                    div_additional_area.classList.remove('visually-hidden');
+                } else {
+                    div_additional_area.classList.add('visually-hidden');
+                }
+            });
+        });
+    });
+
+</script>
+{% endblock %}

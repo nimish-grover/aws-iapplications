@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Update Project</title>
+{% endblock %}
+{%block nav%}
+Projects
+{%endblock%}
+{% block content %}
+<div class="container-fluid mt-3 mb-3 box box1" style="width: 100%;">
+    <div class="card border-primary mb-3 justify-content-center box2 mt-3" style="width: 100%;">
+        <div class="card-header align-items-center p-0 border-bottom border-primary bg-primary text-light"
+            style="margin: 0px;">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col">
+                    <b>
+                        <div class="text-center fs-6 fw-semibold ">UPDATE PROJECT</div>
+                    </b>
+                </div>
+                <div class="col-2 pt-1 align-items-center">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body justify-content-center">
+            
+            {%for item in project%}
+            <form method="post" action="{{ url_for('dashboard.update_project',id=item.id) }}">
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Short Name</label>
+                    <input type="text" class="form-control" id="short_name" name="short_name"
+                        placeholder="Enter Short Name" value="{{item.shortname}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Full Name</label>
+                    <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Enter Full Name" value="{{item.fullname}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Project Number</label>
+                    <input type="text" class="form-control" id="number" name="number" placeholder="Enter Project Number" value="{{item.project_number}}">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Project Start Date</label>
+                    <input type="date" class="form-control" id="start_date" name="start_date" value="{{item.from_date}}">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Project End Date</label>
+                    <input type="date" class="form-control" id="end_date" name="end_date" value="{{item.to_date}}">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Commision Value</label>
+                    <input type="text" class="form-control" id="comm_val" name="comm_val" value="{{item.comm_value}}"
+                        placeholder="Enter Commision Value">
+                </div>
+                <div class="form-group">
+                    <label for="exampleSelect1" class="form-label mt-2">Project Type</label>
+                    <select class="form-select" id="type" name="type">
+                        <option value="" selected disabled>Select Project Type</option>
+                        {% for type in project_type%}
+                        <option value="{{type}}" {% if type == item.project_type %} selected {%endif%} >{{type}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Project Objective</label>
+                    <textarea class="form-control" id="objective" name="objective" rows="3"
+                        placeholder="Enter Project Objective" >{{item.project_objective}}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Implementing States</label>
+                    <textarea type="text" class="form-control" id="states" name="states" rows="2"
+                        placeholder="Enter Implementing States">{{item.implementing_states}}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInput" class="form-label mt-2">Implementing Partner</label>
+                    <input type="text" class="form-control" id="partner" name="partner"
+                        placeholder="Enter Implementing Partner" value="{{item.implementing_partner}}" >
+                </div>
+                <div class="text-center"><button type="submit" class="btn btn-primary mt-3">Submit</button></div>
+            </form>
+            {%endfor%}
+            
+        </div>
+
+    </div>
+</div>
+
+
+{%endblock%}

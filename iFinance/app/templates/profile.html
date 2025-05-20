@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Profile</title>
+<style>
+    .profile-image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        /* Make it a circle */
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 80px;
+        /* Adjust font size as needed */
+        font-weight: bold;
+
+    }
+</style>
+{% endblock %}
+{%block nav%}
+Profile
+{%endblock%}
+{% block content %}
+<!-- <a href="/register" class="btn btn-primary btn-lg floating-button text-center"><i class="fa-solid fa-plus fa-lg"></i></a> -->
+
+<div class="container-fluid d-flex box box1 justify-content-center text-center" style="width: 100%; height: 80vh;">
+    <div class="row" style="height: fit-content;">
+        <div class="col-12">
+            <div class="container justify-content-center mt-5" style="width: fit-content;">
+                <div class="profile-image bg-primary text-light">{{current_user.name[0]| upper()}}</div><br>
+                <h4 class="text-primary fw-semibold">{{current_user.name}}</h4>
+                <p class="text-primary">{{current_user.username}}</p>
+            </div>
+        </div>
+        <div class="col-12 mt-5">
+            <div class="d-grid gap-2">
+                <!-- <a class="btn btn-lg btn-primary" role="button" type="button" href="/update_user/{{current_user.id}}">Edit Profile</a> -->
+                <!-- <a class="btn btn-lg btn-primary" role="button" type="button" href="/view_users">View all Users</a> -->
+                <!-- <a class="btn btn-lg btn-primary" role="button" type="button" href="/change_password/{{current_user.id}}">Change Password</a> -->
+                <a class="btn btn-lg btn-primary fs-6 btn-fluid" id ="logout" role="button" href="{{url_for('admin.logout')}}" type="button">LogOut</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{%endblock%}

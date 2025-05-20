@@ -1,0 +1,412 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+  <div class="col-2 border-end border-dark">
+    <div class="container mt-5 pt-5">
+      <div class="card-title fs-4">Filter <span class="fw-lighter text-muted">| Waterbodies</span></div>
+      <hr>
+      <div class="ps-2">
+        <select class="form-select form-select-sm mb-2 " aria-label="state">
+          <option selected>Select State</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+      </div>
+      <div class="ps-2">
+        <select class="form-select form-select-sm mb-2" aria-label="district">
+          <option selected>Select District</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+      </div>
+      <div class="ps-2">
+        <select class="form-select form-select-sm mb-2" aria-label="block">
+          <option selected>Select Block</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+      </div>
+      <div class="ps-2">
+        <select class="form-select form-select-sm mb-2" aria-label="village">
+          <option selected>Select Village</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="col-10">
+    <div class="container mt-5 pt-5">
+      <div class="row gx-5">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div class="card-title fs-4">Count <span class="fw-lighter text-muted">| in Thousands</span></div>
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false"><i
+                      class="fa-solid fa-ellipsis"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <div
+                  class="rounded-circle d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success fs-2"
+                  style="height:64px; width:64px;">
+                  <i class="fa-solid fa-water"></i>
+                </div>
+                <div class="ps-3">
+                  <div class="display-6">145</div>
+                  <small class="text-success fw-bold">12%</small> <small class="text-muted ps-1">increase</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div class="card-title fs-4">Storage <span class="fw-lighter text-muted">| in Hectare Mtrs</span></div>
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false"><i
+                      class="fa-solid fa-ellipsis"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <div
+                  class="rounded-circle d-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary fs-2"
+                  style="height:64px; width:64px;">
+                  <i class="fa-solid fa-hand-holding-droplet"></i>
+                </div>
+                <div class="ps-3">
+                  <div class="display-6">145</div>
+                  <small class="text-success fw-bold">12%</small> <small class="text-muted ps-1">increase</small>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div class="card-title fs-4">Area <span class="fw-lighter text-muted">| in Hectares</span></div>
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false"><i
+                      class="fa-solid fa-ellipsis"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-center">
+                <div
+                  class="rounded-circle d-flex align-items-center justify-content-center bg-dark bg-opacity-10 text-dark fs-2"
+                  style="height:64px; width:64px;">
+                  <i class="fa-regular fa-map"></i>
+                </div>
+                <div class="ps-3">
+                  <div class="display-6">145</div>
+                  <small class="text-success fw-bold">12%</small> <small class="text-muted ps-1">increase</small>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Max Depth <span class="fw-lighter text-muted">| in Meters</span></h5>
+            <div class="d-flex align-items-center">
+              <div class="rounded-circle d-flex align-items-center justify-content-center bg-danger bg-opacity-10 text-danger fs-2" style="height:64px; width:64px;">
+                <i class="fa-solid fa-arrow-up-from-ground-water"></i>
+              </div>
+              <div class="ps-3">
+                <div class="display-6">145</div>
+                <small class="text-success fw-bold">12%</small> <small class="text-muted ps-1">increase</small>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div> -->
+      </div>
+      <div class="row gx-5 mt-3">
+        <div class="col-7">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div class="card-title fs-4">Top 5 States <span class="fw-lighter text-muted">| Storage</span></div>
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false"><i
+                      class="fa-solid fa-ellipsis"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div id="barhChart" style="width: 100%;height:400px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div class="card-title fs-4">Waterbody Types <span class="fw-lighter text-muted">| Distribution</span>
+                </div>
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false"><i
+                      class="fa-solid fa-ellipsis"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div id="donutChart" style="width: 100%;min-height:400px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mt-3">
+        <!--
+            SELECT states.name state_name,
+            districts.name district_name, count(water_bodies.id) as wb_count, 
+            to_char(SUM(water_bodies.storage_capacity), 'FM999999999.00') AS storage_capacity, 
+            to_char(SUM(water_bodies.water_spread_area), 'FM999999999.00') AS spread_area, 
+            MAX(water_bodies. max_depth) AS max_depth
+            FROM "public"."water_bodies" 
+            INNER JOIN villages_mp on villages_mp.id= water_bodies.village_code
+            INNER JOIN districts on villages_mp.district_id = districts.code
+            INNER JOIN states on states.id = districts.state_id
+            GROUP BY districts.id, states.name
+            ORDER BY wb_count desc
+            LIMIT 5
+          -->
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div class="card-title fs-4">Top 5 Districts <span class="fw-lighter text-muted">| Waterbody Count</span>
+              </div>
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false"><i
+                    class="fa-solid fa-ellipsis"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                  </li>
+
+                  <li><a class="dropdown-item" href="#">Today</a></li>
+                  <li><a class="dropdown-item" href="#">This Month</a></li>
+                  <li><a class="dropdown-item" href="#">This Year</a></li>
+                </ul>
+              </div>
+            </div>
+            <table class="table table-hover">
+              <thead class="table-primary">
+                <tr>
+                  <th scope="col">State</th>
+                  <th scope="col">District</th>
+                  <th scope="col">Count</th>
+                  <th scope="col">Area</th>
+                  <th scope="col">Storage</th>
+                  <th scope="col">Depth</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Madhya Pradesh</td>
+                  <td>Chhindwara</td>
+                  <td>4665</td>
+                  <td>524.80</td>
+                  <td>8621.97</td>
+                  <td>60</td>
+                </tr>
+                <tr>
+                  <td>Madhya Pradesh</td>
+                  <td>Satna</td>
+                  <td>3859</td>
+                  <td>7809.68</td>
+                  <td>20153.57</td>
+                  <td>100</td>
+                </tr>
+                <tr>
+                  <td>Madhya Pradesh</td>
+                  <td>Vidisha</td>
+                  <td>3407</td>
+                  <td>2728.76</td>
+                  <td>7786.41</td>
+                  <td>80</td>
+                </tr>
+                <tr>
+                  <td>Madhya Pradesh</td>
+                  <td>Sagar</td>
+                  <td>3170</td>
+                  <td>614.56</td>
+                  <td>5056.11</td>
+                  <td>52</td>
+                </tr>
+                <tr>
+                  <td>Madhya Pradesh</td>
+                  <td>Dindori</td>
+                  <td>3162</td>
+                  <td>886.93</td>
+                  <td>4706.72</td>
+                  <td>35</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<script>
+  var barhChartDom = document.getElementById('barhChart');
+  var barhChart = echarts.init(barhChartDom);
+  window.addEventListener('resize', function () {
+    barhChart.resize();
+  });
+  var option_barh;
+
+  option_barh = {
+    title: {
+      text: 'World Population'
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      }
+    },
+    legend: {},
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: {
+      type: 'value',
+      boundaryGap: [0, 0.01]
+    },
+    yAxis: {
+      type: 'category',
+      data: ['Uttar Pradesh', 'Madhya Pradesh', 'Andhra Pradesh', 'Kerala', 'Karnataka', 'Jharkhand']
+    },
+    series: [
+      {
+        name: '2011',
+        type: 'bar',
+        data: [18203, 23489, 29034, 104970, 131744, 630230]
+      },
+      // {
+      //   name: '2012',
+      //   type: 'bar',
+      //   data: [19325, 23438, 31000, 121594, 134141, 681807]
+      // }
+    ]
+  };
+
+  option_barh && barhChart.setOption(option_barh);
+
+  var donutChartDom = document.getElementById('donutChart');
+  var donutChart = echarts.init(donutChartDom);
+  window.addEventListener('resize', function () {
+    donutChart.resize();
+  });
+  var option_donut;
+
+  option_donut = {
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      top: 'center',
+      orient: 'vertical',
+      left: 'right'
+    },
+    series: [
+      {
+        name: 'Access From',
+        type: 'pie',
+        radius: ['40%', '70%'],
+        avoidLabelOverlap: false,
+        label: {
+          show: false,
+          position: 'center'
+        },
+        emphasis: {
+          label: {
+            show: true,
+            fontSize: 40,
+            fontWeight: 'bold'
+          }
+        },
+        labelLine: {
+          show: false
+        },
+        data: [
+          { value: 1048, name: 'Ponds' },
+          { value: 735, name: 'Tanks' },
+          { value: 580, name: 'Lakes' },
+          { value: 484, name: 'Reservoirs' },
+          { value: 300, name: 'WCS' },
+          { value: 50, name: 'Others' }
+        ]
+      }
+    ]
+  };
+
+  option_donut && donutChart.setOption(option_donut);
+</script>
+
+{% endblock %}
+<!--Reference: https://bootstrapmade.com/demo/NiceAdmin/-->

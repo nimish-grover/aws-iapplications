@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talent School - {% block title %}{% endblock %}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">    
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white shadow-lg z-50">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-bold text-blue-900">
+                    Talent Oriented 
+                    <div class="text-sm font-normal text-gray-600 -mt-1">
+                        Public Senior Secondary School
+                    </div>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="menuBtn" class="md:hidden text-blue-900 focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-blue-900 hover:text-orange-500 px-3 py-2 rounded-md transition-all duration-300">Home</a>
+                    <a href="#about" class="text-blue-900 hover:text-orange-500 px-3 py-2 rounded-md transition-all duration-300">About</a>
+                    <a href="#facilities" class="text-blue-900 hover:text-orange-500 px-3 py-2 rounded-md transition-all duration-300">Facilities</a>
+                    <a href="#testimonials" class="text-blue-900 hover:text-orange-500 px-3 py-2 rounded-md transition-all duration-300">Testimonials</a>
+                    <a href="#contact" class="text-blue-900 hover:text-orange-500 px-3 py-2 rounded-md transition-all duration-300">Contact</a>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden mt-4">
+                <div class="flex flex-col space-y-4">
+                    <a href="#home" class="text-blue-900 hover:text-orange-500 px-3 py-2 rounded-md transition-all duration-300">Home</a>
+                    <a href="#about" class="text-blue-900 hover:text-orange-500 px-3 py-2 rounded-md transition-all duration-300">About</a>
+                    <a href="#facilities" class="text-blue-900 hover:text-orange-500 px-3 py-2 rounded-md transition-all duration-300">Facilities</a>
+                    <a href="#testimonials" class="text-blue-900 hover:text-orange-500 px-3 py-2 rounded-md transition-all duration-300">Testimonials</a>
+                    <a href="#contact" class="text-blue-900 hover:text-orange-500 px-3 py-2 rounded-md transition-all duration-300">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% block content %}
+    {% endblock %}
+    <script src="{{ url_for('static', filename='js/main.js')}}"></script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{% block title %} Basic Details {% endblock %}
+{% block content %}
+<div class="container mt-2">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <nav class="ms-2 mt-3 fs-8" style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item text-primary" aria-current="page">Profile</li>
+                </ol>
+            </nav>
+            <div class="container mb-2 d-flex justify-content-center align-items-center">
+                <div class="progresses">
+                    <div class="steps completed">
+                        <span class="font-weight-bold">1</span>
+                    </div>                
+                    <span class="line pending"></span>                
+                    <div class="steps pending">
+                        <span class="font-weight-bold">2</span>
+                    </div>
+                    <span class="line pending"></span>
+                    <div class="steps pending">
+                        <span class="font-weight-bold">3</span>
+                    </div>    
+                </div>  
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="text-center">
+                        <h3>Select Panchayat</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form action="{{url_for('.profile')}}" method="post">
+                        <div class="mb-3">
+                            <label for="selectState" class="form-label">State</label>
+                            <select class="form-select" id="selectState" name="selectState" aria-label="Select State" required disabled>
+                                <option value="" disabled {{ 'selected' if selected_state is none }}>--Select State--</option>
+                                {% for state_name in states %}
+                                <option value="{{ state_name['id'] }}" {% if state_name['id'] == selected_state %}selected{% endif %}>
+                                    {{ state_name['name'] | title }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="selectDistrict" class="form-label">District</label>
+                            <select class="form-select" id="selectDistrict" name="selectDistrict" aria-label="Select District" required>
+                                <option selected>--Select District--</option>
+                                {% for district in state_districts %}
+                                <option value="{{district['id']}}">{{district['name'] | title}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="selectBlock" class="form-label">Block</label>
+                            <select class="form-select" id="selectBlock" name="selectBlock" aria-label="Select Block" disabled required>
+                                <option selected>--Select Block--</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="selectPanchayat" class="form-label">Panchayat</label>
+                            <select class="form-select" id="selectPanchayat" name="selectPanchayat" aria-label="Select Panchayat" disabled required>
+                                <option selected>--Select Panchayat--</option>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <input type="submit" class="btn btn-primary disabled" value="Submit" id="submitButton" >
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // --VARIABLES--
+        var dd_states = document.getElementById("selectState");
+        var dd_districts = document.getElementById("selectDistrict");
+        var dd_blocks = document.getElementById("selectBlock");
+        var dd_panchayats = document.getElementById("selectPanchayat");
+        var submit_button = document.getElementById("submitButton");
+        // --EVENTS--
+        dd_states.addEventListener('change', function(){
+            dd_districts.setAttribute('disabled', 'disabled');
+            dd_blocks.setAttribute('disabled', 'disabled');
+            dd_panchayats.setAttribute('disabled', 'disabled')
+            submit_button.classList.add('disabled');
+            var payload = { "select_id": this.value }
+            get_dd_data("districts", payload);
+        });
+
+        dd_districts.addEventListener('change', function(){
+            dd_blocks.setAttribute('disabled', 'disabled');
+            dd_panchayats.setAttribute('disabled', 'disabled');
+            var payload = { "select_id": this.value }
+            get_dd_data("blocks", payload);
+        });
+
+        dd_blocks.addEventListener('change', function(){
+            dd_panchayats.setAttribute('disabled', 'disabled');
+            var payload = { "select_id": this.value }
+            get_dd_data("panchayats", payload);
+        });
+
+        dd_panchayats.addEventListener('change', function () {
+            submit_button.classList.remove('disabled');
+        });
+
+        submit_button.addEventListener('click',()=> toggleSpinner());
+
+        window.addEventListener("beforeunload", () => toggleSpinner());
+
+        
+        // --FUNCTIONS--
+        function createOption(option_value, option_text) {
+            option = document.createElement('option')
+            option.value = option_value;
+            option.text = toTitleCase(option_text);
+            // if (option.text.includes('Select')){
+            //     option.setAttribute('disabled', 'disabled');
+            // }
+            return option;
+            }
+        
+        function toTitleCase(str) {
+            return str
+                .toLowerCase() // Convert the entire string to lowercase
+                .split(' ') // Split the string into an array of words
+                .map(word => {
+                    // Capitalize the first letter and concatenate with the rest of the word
+                    return word.charAt(0).toUpperCase() + word.slice(1);
+                })
+                .join(' '); // Join the array back into a string
+        }
+        
+        function fill_dropdown(data, dd_type) {
+            var dropdown_element = "";
+            var select_option = "";
+            switch (dd_type) {
+                case "districts":
+                dd_districts.innerHTML = "";
+                dd_blocks.innerHTML = "";
+                dd_blocks.append(createOption("-1", "Select Block"))
+                dd_panchayats.innerHTML = "";
+                dd_panchayats.append(createOption("-1", "Select Panchayat"))
+                dropdown_element = dd_districts;
+                select_option = "Select District";
+                // dropdown_element.disabled = false;
+                break;
+                case "blocks":
+                dd_blocks.innerHTML = "";
+                dd_panchayats.innerHTML = "";
+                dd_panchayats.append(createOption("-1", "Select Panchayat"));
+                dropdown_element = dd_blocks;
+                select_option = "Select Block";
+                dropdown_element.disabled = false;
+                break;
+                case "panchayats":
+                dd_panchayats.innerHTML = "";
+                dropdown_element = dd_panchayats;
+                select_option = "Select Panchayat";
+                dropdown_element.disabled = false;
+                break;
+                case "form_data":
+                break;
+                case "submit":
+                dd_type = "";
+                default:
+                break;
+            }
+            dropdown_element.append(createOption("-1", select_option))
+            for (let ndx = 0; ndx < data.length; ndx++) {
+                var item = data[ndx];
+                // var html = '<option value="' + item['id'] + '">' + item['name'] + '</option>';
+                dropdown_element.append(createOption(item['id'], item['name']));
+            }
+            dropdown_element.removeAttribute('disabled');
+            }
+
+        // --FETCH API CALLS--
+        function get_dd_data(dd_type, payload) {
+            toggleSpinner();
+            api_url = "/iwork/"
+            fetchOptions = {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json;charset=UTF-8"
+                },
+                body: JSON.stringify(payload)
+            }
+            fetch(api_url + dd_type, fetchOptions)
+                .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                    toggleSpinner();                    
+                }
+                return response.json();
+                }
+                ).then(data => {
+                fill_dropdown(data, dd_type);
+                toggleSpinner();
+                }
+            ).catch(error => {
+                console.error("Error fetching data:", error);
+                toggleSpinner();
+                });
+            }
+    });
+</script>
+{% endblock %}

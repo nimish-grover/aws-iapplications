@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %} Feedback {% endblock %}
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+            <div class="card">
+                <div class="card-header">
+                    <div class="text-center">
+                        <h3>Give Feedback</h3>
+                    </div>
+                </div>
+                <form class="card-body" method="post" action="{{url_for('.feedback') }}">
+                    <div class="mb-1">
+                        <label for="txtTopic" class="form-label fw-bold fs-7">
+                            Topic<i class="fa-solid fa-circle-info text-primary ms-2" data-bs-toggle="tooltip" 
+                            data-bs-placement="right" data-bs-html="true" 
+                            data-bs-title="What is the feedback about - 'Parameters', 'User Interface', 'Data Related' etc. "></i>
+                        </label>
+                        <input class="form-control form-control-sm" list="datalistOptions" id="txtTopic" name="topic" placeholder="Type a topic...">
+                            <datalist id="datalistOptions">
+                            <option value="Input Parameters">
+                            <option value="User Interface">
+                            <option value="Data Related">
+                            <option value="Login Issue">
+                            <option value="Registration Problem">
+                            </datalist>
+
+                    </div>
+                    <div class="mb-1">
+                        <div class="d-flex justify-content-between">
+                            <label for="txtFeedback" class="form-label fw-bold fs-7">
+                                Feedback
+                            </label>
+                            <div class="text-danger fs-7">(<span id="char_count">500</span>)</div>
+                        </div>
+                        
+                        <textarea type="text" class="form-control form-control-sm" id="txtFeedback"
+                        name="feedback" placeholder="write your feedback here..." rows="10" required ></textarea>
+                    </div>
+                    <div class="text-center my-2">
+                        <a href="{{url_for('routes.profile')}}" class="btn btn-outline-secondary btn-sm me-2">Cancel</a>
+                        <input type="submit" class="btn btn-primary btn-sm" value="Submit" id="submitButton" disabled>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        const txt_feedback = document.getElementById('txtFeedback')
+        const txt_topic =   document.getElementById('txtTopic')
+        const submit_button = document.getElementById('submitButton');
+        const charCountSpan = document.getElementById('char_count');
+
+        const maxChars = 500;
+
+        txt_feedback.addEventListener('input', function(){
+            character_count();
+            validate_inputs();
+        });
+
+        txt_topic.addEventListener('input', ()=> validate_inputs());
+
+        function validate_inputs(){
+            if (txt_feedback.value != '' &&txt_feedback.value.length <=500 && txt_topic.value != ''){
+                submit_button.removeAttribute('disabled');
+            }
+            else{
+                submit_button.setAttribute('disabled', 'disabled');
+            }   
+        }
+
+        function character_count(){
+            const remainingChars = maxChars - txt_feedback.value.length;
+            charCountSpan.textContent = remainingChars;
+        }
+    })
+</script>
+{% endblock %}

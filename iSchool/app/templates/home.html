@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+{% block content %}
+<!-- Hero Section -->
+<section id="home" class="relative h-screen w-full overflow-hidden">
+    <!-- Video Background -->
+    <video 
+        class="video-background"
+        autoplay 
+        loop 
+        muted 
+        playsinline
+    >
+    <source src="https://videos.pexels.com/video-files/16868495/16868495-uhd_2560_1440_25fps.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Dark Overlay -->
+    <div class="video-overlay"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 container mx-auto px-6 h-full flex items-center justify-center text-center">
+        <div class="text-white max-w-3xl">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 animate-fade-in">
+                Talent Oriented Public Senior Secondary School
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 animate-fade-in" style="animation-delay: 0.2s;">
+                Guiding Young Minds to Success, One Navodaya Dream at a Time
+            </p>
+            <button class="bg-orange-500 text-white px-8 py-3 rounded-lg text-lg hover:bg-orange-600 animate-fade-in" style="animation-delay: 0.4s;">
+                Apply Now
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="flex flex-wrap items-center">
+            <div class="w-full md:w-1/2 mb-12 md:mb-0">
+                <img src="https://images.unsplash.com/photo-1522661067900-ab829854a57f?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="About Us" class="rounded-lg shadow-xl">
+            </div>
+            <div class="w-full md:w-1/2 md:pl-12">
+                <h2 class="text-4xl font-bold text-blue-900 mb-6">About Us</h2>
+                <p class="text-gray-600 mb-6">Talent Oriented Public School, Sursura, 
+                    was established in 2009 with a mission to provide quality education 
+                    in a nurturing and inclusive environment. Located in the rural 
+                    heartland of Kishangarh block, Ajmer district, Rajasthan, our 
+                    school serves students from Grade 1 to 8, with an attached 
+                    pre-primary section.</p>
+                    <p class="text-gray-600 mb-6">
+                    As a co-educational institution, we are dedicated to fostering 
+                    academic excellence and holistic development. With Hindi as our 
+                    primary medium of instruction, we ensure that students receive 
+                    education that is accessible, engaging, and rooted in strong 
+                    values. Our approach goes beyond textbooks—we emphasize critical 
+                    thinking, creativity, and practical learning, helping students 
+                    prepare for a future full of opportunities.
+                    </p>
+                    <p class="text-gray-600 mb-6">
+                    At Talent Oriented Public School, we believe that every child 
+                    deserves the best start in life. Through dedicated faculty, 
+                    structured learning, and a focus on individual growth, we 
+                    continue to inspire young minds to achieve their full potential.</p>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="text-center p-4 bg-blue-50 rounded-lg">
+                        <div id="studentsCounter" class="text-3xl font-bold text-orange-500 counter">0</div>
+                        <div class="text-blue-900">Students</div>
+                    </div>
+                    <div class="text-center p-4 bg-blue-50 rounded-lg">
+                        <div id="teachersCounter" class="text-3xl font-bold text-orange-500 counter">0</div>
+                        <div class="text-blue-900">Teachers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- News & Events -->
+<section id="facilities" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <h2 class="text-4xl font-bold text-blue-900 text-center mb-12">Facilities</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1524069290683-0457abfe42c3?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="News 1" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Learning Ecosystem</h3>
+                    <p class="text-gray-600">We are committed to creating a dynamic and interactive learning environment where students feel encouraged to explore and grow. Our classrooms are designed to be student-friendly, ensuring that each child receives personalized attention. The school promotes a blend of academic rigor and experiential learning, allowing students to develop not just knowledge, but also essential life skills. Join a community of determined, resilient, and goal-driven young achievers.</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="News 2" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">School Infrastructure</h3>
+                    <p class="text-gray-600">The finest school in town, offering exceptional faculty and best-in-class facilities. Our school campus is equipped with essential facilities that support both academic and extracurricular development. The private school building houses 10 spacious classrooms, all in excellent condition. Additional rooms are allocated for non-teaching activities, ensuring a well-rounded learning experience.</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <img src="https://plus.unsplash.com/premium_photo-1682089892133-556bde898f2c?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="News 3" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Navodaya Selection</h3>
+                    <p class="text-gray-600">At Talent Oriented Public School, we take pride in preparing students for the prestigious Navodaya Vidyalaya entrance exam. Our structured training modules and special coaching sessions ensure that students are well-equipped with the knowledge and confidence required to excel in this competitive examination. The school has consistently nurtured and produced Navodaya scholars.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section id="testimonials" class="py-20 bg-blue-900">
+    <div class="container mx-auto px-6">
+        <h2 class="text-4xl font-bold text-white text-center mb-12">What Parents Say</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-8 rounded-lg">
+                <div class="text-orange-500 text-4xl mb-4">"</div>
+                <p class="text-gray-600 mb-4">"My child has grown tremendously since joining Talent Oriented Public School. The teachers are dedicated and ensure that every student gets the attention they need. I have seen a significant improvement in my child's confidence and academics. I am truly grateful for the nurturing environment this school provides."</p>
+                <div class="font-bold text-blue-900">— Pooja Sharma, Parent</div>
+            </div>
+            <div class="bg-white p-8 rounded-lg">
+                <div class="text-orange-500 text-4xl mb-4">"</div>
+                <p class="text-gray-600 mb-4">"I love my school because it makes learning so interesting. My teachers explain everything in a way that is easy to understand, and I enjoy participating in different activities. The playground is my favorite place, and I always look forward to coming to school every day!"</p>
+                <div class="font-bold text-blue-900">— Rahul Verma, Grade 8</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Registration/Enquiry -->
+<section id="registration" class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="max-w-2xl mx-auto">
+            <h2 class="text-4xl font-bold text-blue-900 text-center mb-12">Register Your Interest</h2>
+            <form class="space-y-6">
+                <div>
+                    <input type="text" placeholder="Full Name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500">
+                </div>
+                <div>
+                    <input type="email" placeholder="Email Address" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500">
+                </div>
+                <div>
+                    <input type="tel" placeholder="Phone Number" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500">
+                </div>
+                <div>
+                    <textarea placeholder="Your Message" rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"></textarea>
+                </div>
+                <button class="w-full bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600">Submit Enquiry</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <h2 class="text-4xl font-bold text-blue-900 text-center mb-12">Contact Us</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div>
+                <img src="https://images.unsplash.com/photo-1629872928185-171e13c8e58b?q=80&w=1774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="School Building" class="w-full h-64 object-cover rounded-lg shadow-lg mb-6">
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <i class="fas fa-map-marker-alt text-orange-500 w-6"></i>
+                        <span class="text-gray-600">PVMC+2X8, PO: Sursura, Kishangarh,<br> Ajmer, Rajasthan 305801</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-phone text-orange-500 w-6"></i>
+                        <span class="text-gray-600">(91) 96360 18471</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-envelope text-orange-500 w-6"></i>
+                        <span class="text-gray-600">info@talentschool.edu</span>
+                    </div>
+                </div>
+            </div>
+            <div class="h-64 bg-gray-300 rounded-lg">
+                <!-- Placeholder for Google Map -->
+                <div class="w-full h-full flex items-center justify-center text-gray-500">
+                    Google Map would be embedded here
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-black text-white py-12">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div>
+                <h3 class="text-xl font-bold mb-4">Talent School</h3>
+                <p class="text-gray-400">Nurturing minds, shaping futures since 2009.</p>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Admissions</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Academics</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Campus Life</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4">Resources</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white">Parent Portal</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Student Portal</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Calendar</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Newsletter</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4">Connect</h3>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2025 Talent School. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+{% endblock %}

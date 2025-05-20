@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="5;url=/iwater/wb/dashboard" />
+    <link rel="stylesheet" href="https://bootswatch.com/5/pulse/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">  
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+    <title>Splash Screen</title>
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+/*
+docker build -t apps-container .
+aws lightsail push-container-image --service-name cdms-application --label apps-container --image apps-container
+aws lightsail create-container-service-deployment --service-name cdms-application --containers file://containers.json --public-endpoint file://public-endpoint.json
+*/
+        /* h1.title,
+        .footer-copyright a {
+            font-family: 'Architects Daughter', cursive;
+            text-transform: uppercase;
+            font-weight: 900;
+        } */
+
+        /* start welcome animation */
+
+        body.welcome {
+            background: #512da8;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .welcome .splash {
+            height: 0px;
+            padding: 0px;
+            border: 130em solid #039be5;
+            position: fixed;
+            left: 50%;
+            top: 100%;
+            display: block;
+            box-sizing: initial;
+            overflow: hidden;
+
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: puff 0.5s 1.8s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards, borderRadius 0.2s 2.3s linear forwards;
+        }
+
+        .welcome #welcome {
+            background: #311b92;
+            width: 56px;
+            height: 56px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            overflow: hidden;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            animation: init 0.5s 0.2s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards, moveDown 1s 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards, moveUp 1s 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, materia 0.5s 2.7s cubic-bezier(0.86, 0, 0.07, 1) forwards, hide 2s 2.9s ease forwards;
+        }
+
+        /* moveIn */
+        .welcome header,
+        .welcome a.btn {
+            opacity: 0;
+            animation: moveIn 2s 3.1s ease forwards;
+        }
+
+        @keyframes init {
+            0% {
+                width: 0px;
+                height: 0px;
+            }
+
+            100% {
+                width: 56px;
+                height: 56px;
+                margin-top: 0px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes puff {
+            0% {
+                top: 100%;
+                height: 0px;
+                padding: 0px;
+            }
+
+            100% {
+                top: 50%;
+                height: 100%;
+                padding: 0px 100%;
+            }
+        }
+
+        @keyframes borderRadius {
+            0% {
+                border-radius: 50%;
+            }
+
+            100% {
+                border-radius: 0px;
+            }
+        }
+
+        @keyframes moveDown {
+            0% {
+                top: 50%;
+            }
+
+            50% {
+                top: 40%;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
+
+        @keyframes moveUp {
+            0% {
+                background: #311b92;
+                top: 100%;
+            }
+
+            50% {
+                top: 40%;
+            }
+
+            100% {
+                top: 50%;
+                background: #039be5;
+            }
+        }
+
+        @keyframes materia {
+            0% {
+                background: #039be5;
+            }
+
+            50% {
+                background: #039be5;
+                top: 26px;
+            }
+
+            100% {
+                background: #311b92;
+                width: 100%;
+                height: 64px;
+                border-radius: 0px;
+                top: 26px;
+            }
+        }
+
+        @keyframes moveIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes hide {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .fs-8 {
+            font-size: x-small;
+        }
+    </style>
+</head>
+
+<body class="welcome">
+    <span id="splash-overlay" class="splash"></span>
+    <span id="welcome" class="z-depth-4"></span>
+    <div class="mt-5 text-center">
+        <div class="container mt-5 pt-5"></div>
+        <p class="fw-lighter text-white">Please wait. Redirecting to...</p>
+        <span class="text-danger fs-3 display-4">i</span><span class="fw-lighter text-white display-4">Water</span>
+    </div>
+    <div class="container mt-3 text-center">
+        <img src="{{url_for('static', filename='assets/wb.png')}}" alt="Water_Budget" height="100px"
+            class="p-3 bg-light bg-opacity-75">
+    </div>
+</body>
+
+</html>

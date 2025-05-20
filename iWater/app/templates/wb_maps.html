@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block title %} Waterbodies Map {% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-6 border-end">
+        <div id="map"></div>
+    </div>
+    <div class="col-6"></div>
+</div>
+
+
+<script>
+    var filePath = '{{url_for('static', filename='assets/maps/india.json')}}'
+    var countryLayer;
+    // L.geoJson(geoJsonData).addTo(map);
+    async function fetchJsonData(filePath) {
+        try {
+            // Fetch the JSON file
+            const response = await fetch(filePath);
+            // Check if the response is ok (status code in the range 200-299)
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            // Parse the JSON from the response
+            const data = await response.json();
+            countryLayer = L.geoJson(data, {style: polystyle}).addTo(map);
+            map.fitBounds(countryLayer.getBounds());
+            // Log and return the JSON data
+            // console.log(data);
+            return data;
+        } catch (error) {
+            // Handle errors that occurred during the fetch
+            console.error('There was a problem with the fetch operation:', error);
+        }
+    }
+    // var map = L.map('map').fitWorld();
+    
+    var zoom = 5
+    // var baseMaps = {
+    //     "OpenStreetMap": osm,
+    //     "OpenStreetMap.HOT": osmHOT
+    // };
+
+    // var overlayMaps = {
+    //     "Cities": cities
+    // };
+    var map = L.map('map').setView([{{ avg_lat }}, {{ avg_long }}], zoom);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    // var layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);
+    {% for marker in markers %}
+    var circle = L.marker([{{ marker['lat'] }}, {{ marker['lon'] }}], {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: calculateRadius(zoom)
+    }).addTo(map)
+    .bindPopup({{ marker['popup'] }})
+    .openPopup();
+    {% endfor %}
+    if (countryLayer!==undefined){
+        map.fitBounds(countryLayer.getBounds());
+    }
+    function polystyle(feature) {
+        return {
+            fillColor: 'blue',
+            weight: 1,
+            opacity: 1,
+            color: 'blue',  //Outline color
+            fillOpacity: 0.1
+        };
+    }
+    // Function to calculate circle radius based on zoom level
+    function calculateRadius(zoom) {
+        // Define a base radius and adjust it based on the zoom level
+        var baseRadius = 50;
+        return baseRadius * Math.pow(2, zoom - 4); // Adjust the exponent as needed
+    }
+
+    // Event listener for changes in map zoom level
+    map.on('zoomend', function () {
+        // Get the current zoom level
+        var currentZoom = map.getZoom();
+
+        // Calculate the new radius based on the current zoom level
+        var newRadius = calculateRadius(currentZoom);
+
+        // Set the new radius for the circle
+        circle.setRadius(newRadius);
+    });
+    var loadMap = fetchJsonData(filePath);
+</script>
+{% endblock %}

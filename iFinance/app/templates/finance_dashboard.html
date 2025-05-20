@@ -1,0 +1,302 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Finance Dashboard</title>
+<style>
+.splash {
+    cursor: pointer;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: 88%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff; /* Adjust opacity as needed */
+    transition: all ease-in-out 600ms;
+    z-index: 9999; /* Ensure the splash screen appears on top of other elements */
+}
+.splash.hidden {
+  display: none;
+}
+.hidden {
+    transition: 0.5s;
+    display: none;
+}
+
+.splash-header {
+    height: 90%;
+    color: white;
+    font-family: consolas;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#splash-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center; /* Align text center */
+}
+.profile-image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        /* Make it a circle */
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 80px;
+        /* Adjust font size as needed */
+        font-weight: bold;
+
+    }
+
+</style>
+{% endblock %}
+{%block nav%}
+Finance Dashboard
+{%endblock%}
+{% block content %}
+<!-- Splash Screen code starts here  -->
+<div class="splash" style="z-index: 9999;">
+    <div class="splash-header justify-content-center">
+        <div class="container align-items-center" id="splash-container">
+            <!-- <div class="profile-image bg-primary text-light">{{current_user.name[0]| upper()}}</div> -->
+            <h4 class="text-primary fw-semibold mt-4"> Welcome, {{current_user.name | title() }}</h4>
+        </div>
+    </div>
+</div>
+<!-- Splash Screen code ends here  -->
+<div class="container-fluid mt-3 mb-3 box box1" style="width: 100%;">
+    <!-- <h1 class="mt-3 mb-3 text-center text-primary">Projects Dashboard</h1> -->
+    <div class="card text-center bg-transparent h-100 box box2" style="border:none ;">
+        <div class="card-header bg-transparent border-bottom p-0" style="border-width: 20px; border-color: black;">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="overflow-auto" style="white-space: nowrap;">
+                            <ul class="nav nav-pills flex-nowrap" id="pills-tab" role="tablist">
+                                
+                                {% for year in years %}
+                                <div class="col">
+                                <li class="nav-item" role="presentation">
+                                    {% if year == current_year %}
+                                    <button class="nav-link active fs-7" id="pills-{{year}}-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-{{year}}" type="button" role="tab"
+                                        aria-controls="pills-{{year}}" aria-selected="true" style="width: 100%;">{{ year
+                                        }}</button>
+                                    {% else %}
+                                    <button class="nav-link fs-7" id="pills-{{year}}-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-{{year}}" type="button" role="tab"
+                                        aria-controls="pills-{{year}}" aria-selected="false" style="width: 100%;">{{
+                                        year }}</button>
+                                    {% endif %}
+                                </li>
+                                </div>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body bg-transparent">
+            <div class="tab-content">
+                {% for year in years %}
+                <div class="tab-pane fade {% if current_year==year %}show active{% endif %}" id="pills-{{year}}" role="tabpanel"
+                    aria-labelledby="pills-{{year}}-tab">
+
+                    <div id="projects-container-{{ year }}" style="background-color:white;"></div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <script>
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('Script loaded successfully.');
+
+    var splashScreen = document.querySelector('.splash');
+
+    // Function to hide the splash screen
+    function hideSplashScreen() {
+        console.log('Hiding splash screen.');
+        splashScreen.style.opacity = 0;
+        setTimeout(function () {
+            console.log('Splash screen hidden.');
+            splashScreen.classList.add('hidden');
+        }, 610);
+    }
+
+    // Hide splash screen after 5 seconds
+    console.log('Setting timeout to hide splash screen after 5 seconds.');
+    setTimeout(hideSplashScreen, 5000);
+
+    // Event listener to hide splash screen on click
+    splashScreen.addEventListener('click', hideSplashScreen);
+});
+
+
+
+</script> -->
+
+
+
+{% endblock %}
+
+{%block script%}
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+    
+      var splashScreen = document.querySelector('.splash');
+    
+      function hideSplashScreen() {
+        
+        // Simplify hide logic
+        splashScreen.classList.add('hidden');  
+    
+        // Set session storage flag
+        sessionStorage.setItem('hasSeenSplash', true);
+    
+      }
+    
+      function shouldDisplaySplashScreen() {
+    
+        return !sessionStorage.getItem('hasSeenSplash');
+      
+      }
+    
+      if(shouldDisplaySplashScreen()) {
+    
+        // Extend timeout for testing
+        setTimeout(hideSplashScreen, 5000); 
+    
+      } else {
+        
+        hideSplashScreen();
+      
+      }
+    
+      // Bind directly to click
+      splashScreen.onclick = hideSplashScreen;
+    
+    });
+    
+    </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var tabs = document.querySelectorAll('.nav-link');
+    
+        tabs.forEach(function (tab) {
+            tab.addEventListener('click', function () {
+                tabs.forEach(function (t) {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-selected', 'false');
+                });
+                tab.classList.add('active');
+                tab.setAttribute('aria-selected', 'true');
+    
+                // Fetch data from the API when a tab is clicked
+                var year = tab.innerText.trim();
+                fetchProjects(year);
+                
+                // Scroll the selected tab to the center
+                tab.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+            });
+        });
+    
+        // Fetch projects for the initially active tab when the page loads
+        var initiallyActiveTab = document.querySelector('.nav-link.active');
+        if (initiallyActiveTab) {
+            var initialYear = initiallyActiveTab.innerText.trim();
+            fetchProjects(initialYear, initiallyActiveTab);
+        }
+    
+        // Function to fetch projects for a specific year
+        function fetchProjects(year, tab) {
+            makeAPICall();
+            fetch('/ifinance/projects/' + year)
+                .then(response => response.json())
+                .then(data => {
+                    // Update the content of the corresponding tab with the fetched data
+                    var projectsContainer = document.getElementById('projects-container-' + year);
+                    var projectCards = generateProjectCards(data);
+                    
+                    projectsContainer.innerHTML = projectCards;
+    
+                    // Scroll to the selected tab
+                    if (tab) {
+                        tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching projects:', error);
+                });
+        }
+    
+        // Function to generate project cards HTML
+        function generateProjectCards(data) {
+            var html = '';
+            Object.values(data).forEach(project => {
+                html += generateProjectCard(project);
+            });
+            return html;
+        }
+    
+        // Function to generate a single project card HTML
+        function generateProjectCard(project) {
+            // Check if total_planned, total_actuals, and total_gap are all zero
+            if (project.total_planned === '0' && project.total_actuals === '0' && project.total_gap === '0') {
+                // If all values are zero, return an empty string (don't generate the card)
+                return '';
+            } else {
+                // If any of the values are non-zero, generate the card HTML
+                return `
+                    <a href="/ifinance/project/${project.name}/${project.year}" style="text-decoration: none; color: inherit;">
+                        <div class="card border-primary mb-3 justify-content-center box2" style="width: 100%;">
+                            <div class="card-header align-items-center p-0 border-bottom border-primary bg-primary text-light" style="margin: 0px;">
+                                <div class="row justify-content-around" style="width: auto;">
+                                    <div class="col fs-7 fw-semibold ms-3 text-start">
+                                        ${project.name}
+                                    </div>
+                                    <div class="col fs-7 text-end me-3">Funds Utilised: ${project.percentage}%</div>
+                                </div>
+                            </div>
+                            <div class="card-body justify-content-center p-1">
+                                <div class="row">
+                                    <div class="col-4 text-center">
+                                        <div class="card-text font-monospace fs-8">Planned</div>
+                                        <h5>
+                                            <p class="card-text text-center text fs-7"><b>${project.total_planned}</b></p>
+                                        </h5>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <div class="card-text font-monospace fs-8">Actual</div>
+                                        <h5 class="card-text fs-7 text-center ${project.spent_percent === 'Overspent' ? 'text-success' : 'text-danger'}">
+                                            <b>${project.total_actuals}</b>
+                                        </h5>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <div class="card-text text-center">
+                                            <div class="card-text font-monospace fs-8">${project.spent_percent}</div>
+                                            <h5 class="card-text text-center fs-7"><b>${project.total_gap}</b></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>`;
+            }
+        }
+    });
+    
+    </script>
+{%endblock%}

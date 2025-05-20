@@ -1,0 +1,226 @@
+{%extends 'base.html'%}
+{% block title %}
+<title>Course - E-Saksham</title>
+
+{%endblock%}
+{%block content%}
+<!-- for desktops and laptops -->
+<div class="d-none d-md-block">
+<div class="container-fluid m-0 p-0" style="background-color: #A3A2A2; width: 100%;">
+    <div class="row roboto pt-4 justify-content-center text-center">
+        <div class="fs-1 fw-semibold text-white pt-3">Course 2024</div>
+        <div class="container mt-3" id="overlay" style="width: fit-content; z-index: 2;">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb p-3 m-0">
+                    <li class="breadcrumb-item"><a href="{{url_for('learning.home')}}" class="text-secondary"
+                            style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="{{url_for('learning.course_2024')}}"
+                            style="text-decoration: none;">Course-2024</a></li>
+                </ol>
+            </nav>
+        </div>
+
+    </div>
+    <div class="row" style="margin-top: -30px; z-index: 1;">
+        <div class="container" id="overlay" style="width: 45%; height: 100px;"></div>
+    </div>
+    <div class="row p-0" style="height: 50px; min-width: 100%; margin-top:-70px; background-color: white;"></div>
+</div>
+<div class="container-fluid m-0 p-0 bg-white justify-content-center" style="width: 100%; display: flex;">
+    <div class="row py-5 mb-5" style="width: 90%;">
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button no-loader collapsed fw-semibold" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false"
+                        aria-controls="collapseOne">
+                        Module 1 - MGNREGA
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body text-center p-5 fw-semibold fs-5">
+                        Course content for Module 1 will be added soon.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button no-loader collapsed fw-semibold" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
+                        aria-controls="collapseTwo">
+                        Module 2 - GIS Based Planning
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+
+                    {%if current_user.is_authenticated %}
+                    <div class="accordion-body">
+                        <div class="row justify-content-end py-2">
+                            <div class="col-auto ml-auto">
+                            <button onclick="openSourceInNewTab()"
+                                    class="btn btn-primary no-loader" data-bs-target=""><i
+                                        class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></button>
+                                        <button onclick="toggleFullScreen()"
+                                        class="btn btn-primary no-loader "><i class="fa-solid fa-expand"></i></button></div>
+                        </div>
+                        <div class="contianer-fluid ratio ratio-16x9">
+                            <iframe id="embeddedFrame" class="ratio ratio-16x9" src="/esaksham/"
+                                frameborder="0"></iframe>
+                        </div>
+                    </div>
+                    {%else%}
+                    <div class="accordion-body">
+
+                        <div class="container-fluid">
+                            <iframe id="embeddedFrame" class="ratio ratio-16x9" src="{{url_for('admin.no_login')}}"
+                                frameborder="0"></iframe>
+                        </div>
+                    </div>
+                    {%endif%}
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button no-loader collapsed fw-semibold" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
+                        aria-controls="collapseThree">
+                        Module 3 - Implementation
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body text-center p-5 fw-semibold fs-5">
+                        Course content for Module 3 will be added soon.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- for mobiles -->
+<div class=" d-sm-block d-md-none">
+    <div class="container-fluid m-0 p-0" style="background-color: #A3A2A2; width: 100%;">
+        <div class="row roboto pt-4 justify-content-center text-center">
+            <div class="fs-2 fw-semibold text-white pt-3">Course 2024</div>
+            <div class="container mt-3" id="overlay" style="width: fit-content; z-index: 2;">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb p-3 m-0">
+                        <li class="breadcrumb-item"><a href="{{url_for('learning.home')}}" class="text-secondary"
+                                style="text-decoration: none;">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><a href="{{url_for('learning.course_2024')}}"
+                                style="text-decoration: none;">Course-2024</a></li>
+                    </ol>
+                </nav>
+            </div>
+    
+        </div>
+        <div class="row" style="margin-top: -30px; z-index: 1;">
+            <div class="container" id="overlay" style="width: 65%; height: 100px;"></div>
+        </div>
+        <div class="row p-0" style="height: 50px; min-width: 100%; margin-top:-70px; background-color: white;"></div>
+    </div>
+    <div class="container-fluid m-0 p-0 bg-white justify-content-center" style="width: 100%; display: flex;">
+        <div class="row py-5 mb-5" style="width: 90%;">
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button no-loader collapsed fw-semibold" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false"
+                            aria-controls="collapseOne">
+                            Module 1 - MGNREGA
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div class="accordion-body text-center p-5 fw-semibold fs-5">
+                            Course content for Module 1 will be added soon.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button no-loader collapsed fw-semibold" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
+                            aria-controls="collapseTwo">
+                            Module 2 - GIS Based Planning
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+    
+                        {%if current_user.is_authenticated %}
+                        <div class="accordion-body">
+                            <div class="row justify-content-end py-2">
+                                <div class="col-auto ml-auto">
+                                <button onclick="openSourceInNewTab()"
+                                        class="btn btn-primary no-loader" data-bs-target=""><i
+                                            class="fa-solid fa-arrow-up-right-from-square fa-sm"></i></button>
+                                            <button onclick="toggleFullScreenMobile()"
+                                            class="btn btn-primary no-loader "><i class="fa-solid fa-expand"></i></button></div>
+                            </div>
+                            <div class="contianer-fluid ratio ratio-16x9">
+                                <iframe id="embeddedFrameMobile" class="ratio ratio-16x9" src="/esaksham/"
+                                    frameborder="0"></iframe>
+                            </div>
+                        </div>
+                        {%else%}
+                        <div class="accordion-body">
+    
+                            <div class="container-fluid">
+                                <iframe id="embeddedFrameMobile" class="ratio ratio-16x9" src="{{url_for('admin.no_login')}}"
+                                    frameborder="0"></iframe>
+                            </div>
+                        </div>
+                        {%endif%}
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button no-loader collapsed fw-semibold" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
+                            aria-controls="collapseThree">
+                            Module 3 - Implementation
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div class="accordion-body text-center p-5 fw-semibold fs-5">
+                            Course content for Module 3 will be added soon.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
+{%block script%}
+<script>
+    function openSourceInNewTab() {
+        // URL of the button source
+        var buttonSourceUrl = "/esaksham/";
+
+        // Open a new tab with the specified URL
+        window.open(buttonSourceUrl, '_blank');
+    }
+    function toggleFullScreen() {
+        var iframe = document.getElementById('embeddedFrame');
+        if (!document.fullscreenElement) {
+            iframe.requestFullscreen();
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+    }
+    function toggleFullScreenMobile() {
+    var iframe = document.getElementById('embeddedFrameMobile');
+    if (!iframe.fullscreenElement) {
+        iframe.requestFullscreen();
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    }
+}
+</script>
+
+{%endblock%}

@@ -1,0 +1,164 @@
+{% extends 'login_base.html' %}
+{% block title %} Register {% endblock %}
+{% block content %}
+
+<div class="container mt-2">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <nav  class="ms-2 fs-7" style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/login">Home</a></li>
+                  <li class="breadcrumb-item active text-primary" aria-current="page">Register</li>
+                </ol>
+              </nav>
+            <div class="card">
+                <div class="card-header">
+                    <div class="text-center">
+                        <h3>Register</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form action="{{url_for('.register')}}" method="post">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" data-error="Full name must contain only english alphabets"
+                            pattern="^[a-zA-Z]+ [a-zA-Z]+(?: [a-zA-Z]+)*$" placeholder="Enter your name" required>
+                            <div class="fs-7"><!--error message--></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="selectState" class="form-label">State</label>
+                            <select class="form-select" id="selectState" name="selectState" aria-label="Select State" required>
+                                <option selected disabled>--Select State--</option>
+                                {% for state_name in states %}
+                                <option value="{{state_name['id']}}">{{state_name['name']}}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="fs-7"><!--error message--></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username (email)</label>
+                            <input type="email" class="form-control" id="username" name="username" data-error="Username must be an email ID"
+                            pattern="^[a-zA-Z0-9\+_.-]+@[a-zA-Z0-9.-]+$" placeholder="your@email.com" required>
+                            <div class="fs-7"><!--error message--></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" data-error="Password must be minimum 8 characters, must have atleast one captial character and one special character"
+                            pattern="^(?=.*[A-Z])(?=.*[!@#$%^&*()_+=-{};:'<>,./?])[a-zA-Z0-9!@#$%^&*()_+=-{};:'<>,./?]{8,}$" placeholder="password" required>
+                            <div class="fs-7"><!--error message--></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" data-error="Password must match"
+                             name="confirmPassword" placeholder="confirm password">
+                            <div class="fs-7"><!--error message--></div>
+                        </div>
+                        <div class="text-center">
+                            <input type="submit" class="btn btn-primary" id="btnSubmit" name="btnSubmit" value="Register" disabled>
+                        </div>
+                        <div class="text-center">
+                            <a href="{{url_for('.login')}}" class="text-primary fs-8 fw-light">Click here to Login</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded',  function() {
+        const form = document.getElementsByTagName('form')[0];
+        const requiredFields = form.querySelectorAll("input[required]");
+        const selectState = document.getElementById('selectState');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const password = document.getElementById('password');
+        const btnSubmit = document.getElementById('btnSubmit');
+
+        requiredFields.forEach(function(input) {
+            input.addEventListener('input',() => {
+                const pattern = input.getAttribute('pattern');
+                const value = input.value;
+                const error = input.getAttribute('data-error');
+
+                if (pattern && !new RegExp(pattern).test(value)){
+                    input.nextElementSibling.textContent = error;
+                    error_message(input);
+                } else {
+                    // Clear error message
+                    success_message(input);
+                }
+            });            
+        });
+
+        selectState.addEventListener('change', function() {
+            if(selectState.selectedIndex==0){
+                error_message(selectState);
+                toggleButton(false);
+            } else {
+                success_message(selectState);
+                toggleButton(tru)
+            }
+        });
+
+        confirmPassword.addEventListener('input', function(){
+            if(password.value != confirmPassword.value){
+                error_message(confirmPassword);
+                confirmPassword.nextElementSibling.textContent = 'Passwords must match';
+                toggleButton(false);
+            } else {
+                success_message(confirmPassword);
+                toggleButton(true);
+            }
+        });
+
+        function toggleButton(enable){
+            if (enable){
+                // enable btnSubmit
+                if (btnSubmit.disabled) {
+                    btnSubmit.removeAttribute('disabled');
+                } 
+            } else {
+                // disable btnSubmit
+                if (btnSubmit.disabled) {
+                    btnSubmit.removeAttribute('disabled');
+                }
+                btnSubmit.setAttribute('disabled', 'disabled')
+            }
+             
+        }
+
+        function error_message(input) {
+            if (input.nextElementSibling.classList.contains('valid-feedback')) {
+                input.nextElementSibling.classList.remove('valid-feedback');
+            }
+            if (input.classList.contains('is-valid')) {
+                input.classList.add('is-valid');
+            }
+            if (!input.nextElementSibling.classList.contains('invalid-feedback')) {
+                input.nextElementSibling.classList.add('invalid-feedback');
+            }
+            if (!input.classList.contains('is-invalid')) {
+                input.classList.add('is-invalid');
+            }
+        }
+
+        function success_message(input) {
+            if (input.nextElementSibling.classList.contains('invalid-feedback')) {
+                input.nextElementSibling.classList.remove('invalid-feedback');
+            }
+            if (input.classList.contains('is-invalid')) {
+                input.classList.remove('is-invalid');
+            }
+            if (!input.nextElementSibling.classList.contains('valid-feedback')) {
+                input.nextElementSibling.classList.add('valid-feedback');
+            }
+            if (!input.classList.contains('is-valid')) {
+                input.classList.add('is-valid');
+            }
+            input.nextElementSibling.textContent = 'Looks fine!';
+        }
+    });
+</script>
+{% endblock %}

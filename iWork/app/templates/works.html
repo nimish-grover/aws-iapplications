@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %} Indicators {% endblock %}
+{% block content %}
+<nav  class="ms-2 mt-3 fs-7"  style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Data</li>
+    </ol>
+  </nav>
+<div class="container mt-2">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="text-center">
+                        <h3>Enter Indicators</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="mb-1">
+                        <label for="selectAsset" class="form-label">Select Asset ID</label>
+                        <select class="form-select" id="selectAsset" aria-label="Select Asset ID">
+                            <option selected>--Select Asset ID--</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                          </select>
+                    </div>
+                    <div class="mb-1">
+                        <label for="txtWorkType" class="form-label fs-7 mb-0">Work Code</label>
+                        <input type="text" class="form-control form-control-sm fs-7" id="txtWorkType" placeholder="Select Asset ID to view work code" disabled>
+                    </div>
+                    <div class="mb-1">
+                        <label for="txtWorkCategory" class="form-label fs-7 mb-0">Work Category</label>
+                        <input type="text" class="form-control form-control-sm fs-7" id="txtWorkCategory" placeholder="Select Asset ID to view category" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtWorkType" class="form-label fs-7 mb-0">Work Type</label>
+                        <input type="text" class="form-control form-control-sm fs-7" id="txtWorkType" placeholder="Select Asset ID to view work type" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtIndicator1" class="form-label">Indicator 1</label>
+                        <input type="text" class="form-control" id="txtIndicator1" placeholder="Indicator 1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtIndicator2" class="form-label">Indicator 2</label>
+                        <input type="text" class="form-control" id="txtIndicator2" placeholder="Indicator 2">
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtIndicator3" class="form-label">Indicator 3</label>
+                        <input type="text" class="form-control" id="txtIndicator3" placeholder="Indicator 3">
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-primary" value="Submit">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

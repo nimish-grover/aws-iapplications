@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}View Asset{% endblock %}
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <nav class="ms-2 fs-8" style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    {% for breadcrumb in breadcrumbs %}
+                    <li class="breadcrumb-item {% if loop.index == breadcrumbs|length %}text-primary{% endif %}">
+                        {{ breadcrumb['name'] }}
+                    </li>
+                    {% endfor %}
+                </ol>
+            </nav>
+            <div class="container mb-2 d-flex justify-content-center align-items-center">
+                <div class="progresses">
+                    <div class="steps completed">
+                        <span class="font-weight-bold">
+                            <i class="fa fa-check"></i>
+                        </span>
+                    </div>                
+                    <span class="line completed"></span>                
+                    <div class="steps completed">
+                        <span class="font-weight-bold">
+                            <i class="fa fa-check"></i>
+                        </span>
+                    </div>
+                    <span class="line completed"></span>
+                    <div class="steps completed">
+                        <span class="font-weight-bold">3</span>
+                    </div>    
+                </div>  
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="text-center">
+                        <h3 class="m-0">View Completed Workcodes</h3>
+                    </div>
+                </div>
+                <div class="card-body px-2">
+                            {% for row in field_data%}
+                            <div class="fw-lighter">{{row['code']}}</div>
+                            <div class="fs-7">({{row['permissible_work']}})</div>
+                            <table class="table table-sm table-bordered m-1">
+                                <thead class="text-center">
+                                    <th>Parameter</th>
+                                    <th>Value</th>
+                                </thead>
+                                <tbody>
+                                    {% for row in row['field_data'] %}
+                                    <tr>
+                                        <td><span class="fs-7">{{row['parameter']}}</span></td>
+                                        <td><span class="fs-7">{{row['input_value']}}</span></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

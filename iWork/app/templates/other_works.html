@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% block title %} Enter Data {% endblock %}
+{% block content %}
+
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+            <nav class="ms-2 fs-8" style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb"></nav>
+            <ol class="breadcrumb fs-8">
+                {% for breadcrumb in breadcrumbs %}
+                <li class="breadcrumb-item {% if loop.index == breadcrumbs|length %}text-primary{% endif %}">{{
+                    breadcrumb['name'] }}</li>
+                {% endfor %}
+            </ol>
+            </nav>
+            <div class="container mb-2 d-flex justify-content-center align-items-center">
+                <div class="progresses">
+                    <div class="steps completed">
+                        <span><i class="fa fa-check"></i></span>
+                    </div>
+                    <span class="line completed"></span>
+                    <div class="steps completed">
+                        <span><i class="fa fa-check"></i></span>
+                    </div>
+                    <span class="line completed"></span>
+                    <div class="steps completed">
+                        <span class="font-weight-bold">3</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="text-center">
+                        <h3 class="m-0">Enter Parameters</h3>
+                    </div>
+                </div>
+                <form class="card-body" method="post" action="{{url_for('.other_works')}}">
+                    <div class="alert alert-light" style="background:#e9ecef">
+                        <input type="hidden" name="completed_work_id" value="{{completed_work.id}}">
+                        <input type="hidden" name="permissible_work_id"
+                            value="{{input_parameters[0].permissible_work_id}}">
+                        <div>
+                            <label for="txtWorkCode" class="fw-bold fs-7">Work Code</label>
+                            <label type="text" class="fs-7 text-wrap" id="txtWorkCode" name="txtWorkCode" disabled>
+                                {{ completed_work.code }}</label>
+                        </div>
+                        <div>
+                            <label for="txtWorkName" class="fw-bold fs-7 mb-0">Work Name</label>
+                            <label type="text" class="fs-7 text-wrap" id="txtWorkName" name="txtWorkName" disabled
+                                style="background:#e9ecef">
+                                {{ completed_work.name }}</label>
+                        </div>
+                        <div>
+                            <label for="txtPermissibleWork" class="fw-bold fs-7 mb-0">Permissible Work</label>
+                            <label type="text" class="fs-7 text-wrap" id="txtPermissibleWork" name="txtPermissibleWork"
+                                disabled style="background:#e9ecef">
+                                {{ input_parameters[0].permissible_work }}</label>
+                        </div>
+                    </div>
+                    {% for parameter in input_parameters %}
+                    <div class="mb-1">
+                        <label for="txtInput${parameter.id}" class="form-label fs-7">
+                            {{parameter.label | title }}(in {{parameter.unit}})
+                            <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip"
+                                data-bs-placement="right" data-bs-html="true"
+                                data-bs-title="{{parameter.description}}"></i>
+                        </label>
+                        {% if parameter.element_type.lower() == 'number' %}
+                        <input type="number" class="form-control form-control-sm" id="txtInput{{ parameter.id }}"
+                            name="input{{ parameter.id }}" placeholder="{{ parameter.name }}" pattern="^[0-9]+$"
+                            data-error="The input must be a whole number" required>
+                        <div><!--error message--></div>
+                        {% elif parameter.element_type.lower() == 'float' %}
+                        <input type="number" class="form-control form-control-sm" id="txtInput{{ parameter.id }}"
+                            name="input{{ parameter.id }}" placeholder="{{ parameter.name }}"
+                            pattern="^\d+(\.\d{1,2})?$" step="0.01"
+                            data-error="The input must be a number or decimal upto two digits" required>
+                        <div><!--error message--></div>
+                        {% else %}
+                        <input type="text" class="form-control form-control-sm" id="txtInput{{ parameter.id }}"
+                            name="input{{ parameter.id }}" placeholder="{{ parameter.name }}" pattern="[a-zA-Z0-9]+"
+                            data-error="The input must be text value" required>
+                        <div><!--error message--></div>
+                        {% endif %}
+
+                    </div>
+                    {% endfor %}
+                    <div class="text-center my-2">
+                        <a href="{{url_for('.data')}}" class="btn btn-outline-secondary btn-sm me-2">Cancel</a>
+                        <input type="submit" class="btn btn-primary btn-sm" value="Submit" id="submitButton" disabled>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const submit_button = document.getElementById('submitButton');
+        const form = document.getElementsByTagName('form')[0];
+
+        function checkFormCompletion() {
+            const formFields = form.querySelectorAll("input[required]");
+            let allFilled = true;
+
+            formFields.forEach(function (input) {
+                if (!input.value.trim()) {
+                    allFilled = false;
+                }
+            });
+
+            // Enable or disable the submit button based on form completion
+            submit_button.disabled = !allFilled;
+        }
+
+        submit_button.addEventListener('click', () => toggleSpinner());
+
+        // Attach event listeners to input fields
+        const requiredFields = form.querySelectorAll("input[required]");
+        requiredFields.forEach(function (input) {
+            input.addEventListener("input", checkFormCompletion);
+        });
+    });
+
+    const inputFields = document.querySelectorAll('.form-control');
+    // Add event listener to input fields
+    inputFields.forEach((input) => {
+        input.addEventListener('input', () => {
+            const pattern = input.getAttribute('pattern');
+            const value = input.value;
+            const error = input.getAttribute('data-error');
+
+            // Check if input value matches pattern
+            if (pattern && !new RegExp(pattern).test(value)) {
+                // Display error message
+                input.nextElementSibling.textContent = error;
+                if (input.nextElementSibling.classList.contains('valid-feedback')) {
+                    input.nextElementSibling.classList.remove('valid-feedback')
+                }
+                if (input.classList.contains('is-valid')) {
+                    input.classList.add('is-valid')
+                }
+                if (!input.nextElementSibling.classList.contains('invalid-feedback')) {
+                    input.nextElementSibling.classList.add('invalid-feedback')
+                }
+                if (!input.classList.contains('is-invalid')) {
+                    input.classList.add('is-invalid')
+                }
+
+            } else {
+                // Clear error message
+                if (input.nextElementSibling.classList.contains('invalid-feedback')) {
+                    input.nextElementSibling.classList.remove('invalid-feedback');
+                }
+                if (input.classList.contains('is-invalid')) {
+                    input.classList.remove('is-invalid');
+                }
+                if (!input.nextElementSibling.classList.contains('valid-feedback')) {
+                    input.nextElementSibling.classList.add('valid-feedback');
+                }
+                if (!input.classList.contains('is-valid')) {
+                    input.classList.add('is-valid');
+                }
+                input.nextElementSibling.textContent = 'Looks fine!';
+            }
+        });
+    });
+</script>
+{% endblock %}

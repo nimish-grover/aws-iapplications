@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Carbon{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-primary">
+        <img src="{{url_for('static', filename='assets/carbon.png')}}" class="mx-auto d-block"  height="200" alt="Tree">
+    </div>
+    <div class="card-body">
+        <div class="card-title text-center fw-semibold text-primary-emphasis text-uppercase">
+            Calculate Carbon Sequestration
+        </div>
+        <hr>
+        <form action="{{url_for('carbon.carbon')}}" method="post" class="{{ 'visually-hidden' if not show_calc}}">
+            <div>
+                <label class="col-form-label col-form-label-sm mt-1 text-primary-emphasis" for="inputSmall">Diameter of the Tree</label>
+                <input class="form-control form-control-sm" type="text" name="diameter_of_tree" placeholder="Enter diameter in feet e.g. 2" id="inputSmall" required>
+              </div>
+              <div>
+                <label class="col-form-label col-form-label-sm mt-2 text-primary-emphasis" for="inputSmall">Height of the Tree</label>
+                <input class="form-control form-control-sm" type="text" name="height_of_tree" placeholder="Enter height in feet e.g. 5" id="inputSmall" required>
+              </div>
+              <div>
+                <label class="col-form-label col-form-label-sm mt-2 text-primary-emphasis" for="inputSmall">Age of the Tree</label>
+                <input class="form-control form-control-sm" type="text" name="age_of_tree" placeholder="Age in years e.g. 12" id="inputSmall" required>
+              </div>
+              <div>
+                <label class="col-form-label col-form-label-sm mt-2 text-primary-emphasis" for="inputSmall">Number of Trees</label>
+                <input class="form-control form-control-sm" type="text" name="number_of_trees" placeholder="Number of Trees e.g. 220" id="inputSmall" required>
+              </div>
+              <div class="d-grid mt-2">
+                <input type="submit" class="btn btn-sm btn-primary fw-semibold fs-6" value="Submit">
+                <div class="text-end"><a class="btn btn-link btn-sm" href="https://www.ecomatcher.com/how-to-calculate-co2-sequestration/">Link to Formula</a></div>
+              </div>
+        </form>
+        <div class="{{ 'container visually-hidden' if show_calc else 'container'}}">
+            <div class="card mt-2 text-center">
+                <div class="display-1 fw-semibold text-dark">{{carbon_sequestered}}</div>
+                <div class="fs-6 text-primary-emphasis">Lifetime of Carbon Sequestration</div>
+            </div>
+            <div class="card mt-5 text-center">
+                <div class="display-1 fw-semibold text-dark">{{annual_cs}}/year</div>
+                <div class="fs-6 text-primary-emphasis">Annual Carbon Sequestration</div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock %}

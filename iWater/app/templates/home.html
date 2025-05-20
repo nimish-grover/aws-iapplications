@@ -1,0 +1,324 @@
+{% extends 'base.html' %}
+{% block title %} Water Budget{% endblock %}
+{% block content %}
+{{super()}}
+<div style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
+    aria-label="breadcrumb">
+    {% if breadcrumbs %}
+    <ol class="breadcrumb fs-8 my-1">
+        {% for breadcrumb in breadcrumbs %}
+        <li class="{{'breadcrumb-item active' if loop.index == breadcrumbs|length else 'breadcrumb-item text-primary'}}">
+            {{breadcrumb}}
+        </li>
+        {% endfor %}
+    </ol>
+    {% endif %}
+</div>
+<ul class="nav nav-tabs nav-pills nav-fill fs-7" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active p-1" id="demand-tab" data-bs-toggle="tab" data-bs-target="#demand" type="button"
+            role="tab" aria-controls="demand" aria-selected="true">Demand</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link p-1" id="supply-tab" data-bs-toggle="tab" data-bs-target="#supply" type="button"
+            role="tab" aria-controls="supply" aria-selected="false">Supply</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link p-1" id="budget-tab" data-bs-toggle="tab" data-bs-target="#budget" type="button"
+            role="tab" aria-controls="budget" aria-selected="false">Budget</button>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="demand" role="tabpanel" aria-labelledby="demand-tab" tabindex="0">
+        <div class="card my-2 mx-3 shadow-sm">
+            <div class="card-header text-center fw-bold py-1">
+                <div class="fs-6 fw-bold mb-0">Water Demand</div>
+                <div class="fs-7 fw-normal text-center text-secondary mt-n4">Consumptions in Hectare Metres</div>
+            </div>
+            <div class="card-body d-flex justify-content-center">
+                <canvas id="demandChart" width="400" height="80" aria-label="water demand chart" role="img"></canvas>
+            </div>
+            <div class="card-footer py-1">
+                <div class="text-end"><a class="btn btn-secondary btn-sm" href="{{url_for('PWA.demand')}}">Demand
+                        Details...</a></div>
+            </div>
+        </div>
+        <div class="row my-1 mx-3">
+            {% for i in range(3) %}
+            <div class="card shadow-sm m-1">
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card-text fs-7 my-2">{{water_demand_labels[i]|title}}</div>
+                        </div>
+                        <div class="col">
+                            <div class="text-center fs-6 fw-semibold my-1">{{water_demand[i]}}</div>
+                        </div>
+                        <div class="col">
+                            {% set demand_percent = (water_demand[i]/water_budget_data[0])*100 %}
+                            <div class="text-end fs-6 my-1 me-2 text-secondary">{{'%0.1f' % demand_percent|float}}%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="tab-pane" id="supply" role="tabpanel" aria-labelledby="supply-tab" tabindex="0">
+        <div class="card my-2 mx-3 shadow-sm">
+            <div class="card-header text-center fw-bold">
+                <div class="fs-6 fw-bold mb-0">Water Supply</div>
+                <div class="fs-7 fw-normal text-center text-secondary mt-n4">Runoff in Hectare Metres</div>
+            </div>
+            <div class="card-body d-flex justify-content-center">
+                <canvas id="supplyChart" width="400" height="100" aria-label="water supply chart" role="img"></canvas>
+            </div>
+            <div class="card-footer py-1">
+                <div class="text-end"><a class="btn btn-secondary btn-sm" href="{{url_for('PWA.supply')}}">Supply
+                        Details...</a></div>
+            </div>
+        </div>
+        <div class="row my-1 mx-3">
+            {% for i in range(2) %}
+            <!-- <div class="col"> -->
+            <div class="card shadow-sm m-1">
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card-text fs-7 my-2">{{water_supply_labels[i]|title}}</div>
+                        </div>
+                        <div class="col">
+                            <div class="text-center fs-6 fw-semibold my-1">{{water_supply[i]}}</div>
+                        </div>
+                        <div class="col">
+                            {% set supply_percent = (water_supply[i]/(water_budget_data[1]))*100 %}
+                            <div class="text-end fs-6 my-1 me-2 text-secondary">{{'%0.1f' % supply_percent|float}}%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- </div> -->
+            {% endfor %}
+        </div>
+    </div>
+    <div class="tab-pane" id="budget" role="tabpanel" aria-labelledby="budget-tab" tabindex="0">
+        <div class="card my-2 mx-3 shadow-sm">
+            <div class="card-header text-center">
+                <div class="fs-6 fw-bold mb-0">Water Budget</div>
+                <div class="fs-7 fw-normal text-center text-secondary mt-n4">Demand/Supply in Hectare Metres</div>
+            </div>
+            <div class="card-body d-flex justify-content-center">
+                <canvas id="budgetChart" width="400" height="100" aria-label="water budget chart" role="img"></canvas>
+            </div>
+            <div class="card-footer py-1">
+                <div class="text-end"><a class="btn btn-secondary btn-sm" href="{{url_for('PWA.budget')}}">View
+                        Budget...</a></div>
+            </div>
+        </div>
+        <div class="row my-1 mx-3">
+            {% for i in range(2) %}
+            <!-- <div class="col"> -->
+            <div class="card shadow-sm m-1">
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card-text fs-7 my-2">{{water_budget_labels[i]|title}}</div>
+                        </div>
+                        <div class="col">
+                            <div class="text-center fs-6 fw-semibold my-1">{{water_budget_data[i]}}</div>
+                        </div>
+                        <div class="col">
+                            {% set budget_percent = (water_budget_data[i]/(water_budget_data[0] +
+                            water_budget_data[1]))*100 %}
+                            <div class="text-end fs-6 my-1 me-2 text-secondary">{{'%0.1f' % budget_percent|float}}%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- </div> -->
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="container pink lighten-4" id="demand-swipe">
+    <!-- <div class="card-panel grey darken-4 text-center">
+        <span style="font-size: 1.6rem;" class="white-text">WATER DEMAND</span>
+        <div style="font-size:0.8rem;" class="white-text">(Consumption in Hectare Meters)</div>
+    </div>-->
+    <div class="row">
+        <!-- {% for i in range(3) %} -->
+        <!-- <div class="col s4">
+                <div class="card blue-grey lighten-5">
+                    <div class="card-content black-text text-center">
+                        <span style="font-size: 1.2rem;">{{water_demand[i]}}</span>
+                        <p style="font-size: 0.6rem;">{{water_demand_labels[i]}}</p>
+                    </div>
+                </div>
+            </div> -->
+        <!-- {% endfor %} -->
+    </div>
+    <!-- <div class="card m-1">
+        <div class="card-body">
+            <canvas id="demandChart" width="400" height="100" aria-label="Hello ARIA World" role="img"></canvas>
+        </div>
+    </div> -->
+</div>
+<div class="container teal lighten-4" id="supply-swipe">
+    <!-- <div class="card-panel grey darken-4 text-center">
+        <span style="font-size: 1.6rem;" class="white-text">WATER SUPPLY</span>
+        <div style="font-size:0.8rem;" class="white-text">(Runoff in Hectare Meters)</div>
+    </div>        -->
+    <div class="row">
+        <!-- {% for i in range(2) %} -->
+        <!-- <div class="col s4">
+                <div class="card blue-grey lighten-5">
+                    <div class="card-content black-text text-center">
+                        <span style="font-size: 2rem;">{{water_supply[i]}}</span>
+                        <p style="font-size: 0.6rem;">{{water_supply_labels[i]}}</p>
+                    </div>
+                </div>
+            </div> -->
+        <!-- {% endfor %} -->
+    </div>
+    <!-- <div class="card m-1">
+        <div class="card-body">
+            <canvas id="supplyChart" width="400" height="100" aria-label="Hello ARIA World" role="img"></canvas>
+        </div>
+    </div> -->
+</div>
+<div class="container amber lighten-4" id="budget-swipe">
+    <!-- <div class="card-panel grey darken-4 text-center">
+        <span style="font-size: 1.6rem;" class="white-text">WATER BUDGET</span>
+        <div style="font-size:0.8rem;" class="white-text">(Supply or Deficit)</div>
+    </div>        -->
+    <div class="row">
+        <!-- {% for i in range(2) %} -->
+        <!-- <div class="col s4">
+                <div class="card blue-grey lighten-5">
+                    <div class="card-content black-text text-center">
+                        <span style="font-size: 2rem;">{{water_budget_data[i]}}</span>
+                        <p style="font-size: 0.6rem;">{{water_budget_labels[i]}}</p>
+                    </div>
+                </div>
+            </div> -->
+        <!-- {% endfor %} -->
+    </div>
+    <!-- <div class="card m-1">
+        <div class="card-body">
+            <canvas id="budgetChart" width="400" height="100" aria-label="Hello ARIA World" role="img"></canvas>
+        </div>
+    </div> -->
+</div>
+<input type="hidden" name="DemandLabels" id="DemandLabels" data-labels="{{water_demand_labels | safe}}">
+<input type="hidden" name="DemandDataset" id="DemandDataset" value="{{water_demand}}">
+<input type="hidden" name="SupplyLabels" id="SupplyLabels" data-labels="{{water_supply_labels | safe}}">
+<input type="hidden" name="SupplyDataset" id="SupplyDataset" value="{{water_supply}}">
+<input type="hidden" name="BudgetLabels" id="BudgetLabels" data-labels="{{water_budget_labels | safe}}">
+<input type="hidden" name="BudgetDataset" id="BudgetDataset" value="{{water_budget_data}}">
+{% endblock %}
+{% block script %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        demand_labels = document.getElementById('DemandLabels').dataset.labels;
+        demand_dataset = document.getElementById('DemandDataset')
+        supply_labels = document.getElementById('SupplyLabels').dataset.labels;
+        supply_dataset = document.getElementById('SupplyDataset')
+        budget_labels = document.getElementById('BudgetLabels').dataset.labels;
+        budget_dataset = document.getElementById('BudgetDataset')
+        demand_labels = JSON.parse(demand_labels.replace(/'/g, "\""));
+        supply_labels = JSON.parse(supply_labels.replace(/'/g, "\""));
+        budget_labels = JSON.parse(budget_labels.replace(/'/g, "\""));
+        chartOptions = {
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    enabled: false
+                }
+            }
+
+        }
+        // Demand Doughnut
+        const ctx = document.getElementById('demandChart');
+        // setup
+        const data = {
+            labels: demand_labels,
+            datasets: [{
+                label: 'Water Demand',
+                data: JSON.parse(demand_dataset.value),
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                ],
+                hoverOffset: 4
+            }]
+        };
+        // config
+        const config = {
+            type: 'doughnut',
+            data: data,
+            options: chartOptions
+        };
+
+        new Chart(ctx, config);
+
+        // Budget Pie
+        const ctxBudget = document.getElementById('budgetChart');
+        // setup
+        const budgetData = {
+            labels: budget_labels,
+            datasets: [{
+                label: 'Water Budget',
+                data: JSON.parse(budget_dataset.value),
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)'
+                ],
+                hoverOffset: 4
+            }]
+        };
+        // config
+        const budgetConfig = {
+            type: 'pie',
+            data: budgetData,
+            options: chartOptions
+        };
+
+        new Chart(ctxBudget, budgetConfig);
+
+
+        // Supply Pie
+        const ctxPie = document.getElementById('supplyChart');
+        // setup
+        const pieData = {
+            labels: supply_labels,
+            datasets: [{
+                label: 'Water Supply',
+                data: JSON.parse(supply_dataset.value),
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)'
+                ],
+                hoverOffset: 4
+            }]
+        };
+        // config
+        const pieConfig = {
+            type: 'pie',
+            data: pieData,
+            options: chartOptions
+        };
+
+        new Chart(ctxPie, pieConfig);
+
+
+    });
+</script>
+{% endblock %}

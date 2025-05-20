@@ -1,0 +1,386 @@
+{% extends 'login_base.html' %}
+{% block title %} Success {% endblock %}
+{% block content %}
+<style>
+  body {
+    font-family: 'Roboto';
+    margin: 0;
+    padding: 0;
+  }
+
+  @keyframes confetti-slow {
+    0% {
+      transform: translate3d(0, 0, 0) rotateX(0) rotateY(0);
+    }
+
+    100% {
+      transform: translate3d(50px, 105vh, 0) rotateX(360deg) rotateY(180deg);
+    }
+  }
+
+  @keyframes confetti-medium {
+    0% {
+      transform: translate3d(0, 0, 0) rotateX(0) rotateY(0);
+    }
+
+    100% {
+      transform: translate3d(100px, 105vh, 0) rotateX(100deg) rotateY(360deg);
+    }
+  }
+
+  @keyframes confetti-fast {
+    0% {
+      transform: translate3d(0, 0, 0) rotateX(0) rotateY(0);
+    }
+
+    100% {
+      transform: translate3d(-50px, 105vh, 0) rotateX(10deg) rotateY(250deg);
+    }
+  }
+
+  .container {
+    width: 100vw;
+    height: 100vh;
+    background: #ffffff;
+    border: 1px solid white;
+    position: fixed;
+    top: 0px;
+  }
+
+  .confetti-container {
+    perspective: 700px;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .confetti {
+    position: absolute;
+    z-index: 1;
+    top: -10px;
+    border-radius: 0%;
+  }
+
+  .confetti--animation-slow {
+    animation: confetti-slow 2.25s linear 1 forwards;
+  }
+
+  .confetti--animation-medium {
+    animation: confetti-medium 1.75s linear 1 forwards;
+  }
+
+  .confetti--animation-fast {
+    animation: confetti-fast 1.25s linear 1 forwards;
+  }
+
+  .checkmark-circle {
+    width: 150px;
+    height: 150px;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .checkmark-circle .background {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: #00C09D;
+    position: absolute;
+  }
+
+  .checkmark-circle .checkmark {
+    border-radius: 5px;
+  }
+
+  .checkmark-circle .checkmark.draw:after {
+    -webkit-animation-delay: 100ms;
+    -moz-animation-delay: 100ms;
+    animation-delay: 100ms;
+    -webkit-animation-duration: 3s;
+    -moz-animation-duration: 3s;
+    animation-duration: 3s;
+    -webkit-animation-timing-function: ease;
+    -moz-animation-timing-function: ease;
+    animation-timing-function: ease;
+    -webkit-animation-name: checkmark;
+    -moz-animation-name: checkmark;
+    animation-name: checkmark;
+    -webkit-transform: scaleX(-1) rotate(135deg);
+    -moz-transform: scaleX(-1) rotate(135deg);
+    -ms-transform: scaleX(-1) rotate(135deg);
+    -o-transform: scaleX(-1) rotate(135deg);
+    transform: scaleX(-1) rotate(135deg);
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+  }
+
+  .checkmark-circle .checkmark:after {
+    opacity: 1;
+    height: 100px;
+    width: 37.5px;
+    -webkit-transform-origin: left top;
+    -moz-transform-origin: left top;
+    -ms-transform-origin: left top;
+    -o-transform-origin: left top;
+    transform-origin: left top;
+    border-right: 15px solid white;
+    border-top: 15px solid white;
+    border-radius: 2.5px !important;
+    content: '';
+    left: 25px;
+    top: 75px;
+    position: absolute;
+  }
+
+  @-webkit-keyframes checkmark {
+    0% {
+      height: 0;
+      width: 0;
+      opacity: 1;
+    }
+
+    20% {
+      height: 0;
+      width: 37.5px;
+      opacity: 1;
+    }
+
+    40% {
+      height: 75px;
+      width: 37.5px;
+      opacity: 1;
+    }
+
+    100% {
+      height: 75px;
+      width: 75px;
+      opacity: 1;
+    }
+  }
+
+  @-moz-keyframes checkmark {
+    0% {
+      height: 0;
+      width: 0;
+      opacity: 1;
+    }
+
+    20% {
+      height: 0;
+      width: 37.5px;
+      opacity: 1;
+    }
+
+    40% {
+      height: 75px;
+      width: 37.5px;
+      opacity: 1;
+    }
+
+    100% {
+      height: 75px;
+      width: 37.5px;
+      opacity: 1;
+    }
+  }
+
+  @keyframes checkmark {
+    0% {
+      height: 0;
+      width: 0;
+      opacity: 1;
+    }
+
+    20% {
+      height: 0;
+      width: 37.5px;
+      opacity: 1;
+    }
+
+    40% {
+      height: 75px;
+      width: 37.5px;
+      opacity: 1;
+    }
+
+    100% {
+      height: 75px;
+      width: 37.5px;
+      opacity: 1;
+    }
+  }
+
+  .submit-btn {
+    height: 45px;
+    width: 200px;
+    font-size: 15px;
+    background-color: #00c09d;
+    border: 1px solid #00ab8c;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px 0 rgba(87, 71, 81, .2);
+    cursor: pointer;
+    transition: all 2s ease-out;
+    transition: all .2s ease-out;
+    padding: 5px;
+    z-index: 9999;
+  }
+
+  .submit-btn:hover {
+    background-color: #2ca893;
+    transition: all .2s ease-out;
+  }
+
+  .countdown-timer {
+    position: relative;
+    /* float: left; */
+  }
+
+  .countdown-timer h2 {
+    text-align: center;
+    position: absolute;
+    line-height: 150px;
+    color: var(--bs-gray-700);
+    width: 100%;
+  }
+
+  svg {
+    transform: rotate(-90deg);
+  }
+
+  .circle_animation {
+    stroke-dasharray: 440;
+    /* this value is the pixel circumference of the circle */
+    stroke-dashoffset: 440;
+    transition: all 1s linear;
+  }
+</style>
+<div class="js-container container" style="top:0px !important;">
+  <div class="text-center mt-5 ms-5">
+    <div class="progresses">
+      <div class="steps completed">
+        <span><i class="fa fa-check"></i></span>
+      </div>
+      <span class="line completed"></span>
+      <div class="steps completed">
+        <span><i class="fa fa-check"></i></span>
+      </div>
+      <span class="line completed"></span>
+      <div class="steps completed">
+        <span><i class="fa fa-check"></i></span>
+      </div>
+    </div>
+  </div>
+  <div class="text-center mt-5 text-black">
+    <div class="fs-4">Congratulations!!</div>
+    <div class="fs-6 fw-lighter mb-5">You have successfully completed all the work codes of this panchayat!!</div>
+    <div class="countdown-timer">
+      <h2>0</h2>
+      <svg width="160" height="160" xmlns="http://www.w3.org/2000/svg">
+        <circle id="circle" class="circle_animation" r="69.85699" cy="81" cx="81" stroke-width="8" stroke="#c21d03"
+          fill="none" />
+      </svg>
+    </div>
+    <div class="mt-5">Redirecting to home page!!</div>
+
+  </div>
+  <!-- <div class="d-flex justify-content-center align-items-center bg-success bg-opacity-10 vh-100">
+    <div class="card bg-transparent border border-secondary text-center">
+        <div class="alert" role="alert">
+            <h4 class="alert-heading text-success">Success!</h4>
+            <p>All panchayat assets are completed</p>
+        </div>
+        <div class="d-flex justify-content-center my-5">
+            <div class="d-flex border border-3 border-success rounded-circle align-items-center justify-content-center text-success box100by100 display-1">
+                <i class="fa-solid fa-check"></i></div>
+        </div>
+        <a href="#" class="btn btn-success m-5">Continue</a>
+    </div>
+</div> -->
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  const Confettiful = function (el) {
+    this.el = el;
+    this.containerEl = null;
+
+    this.confettiFrequency = 10;
+    this.confettiColors = ['#EF2964', '#00C09D', '#2D87B0', '#48485E', '#EFFF1D'];
+    this.confettiAnimations = ['slow', 'medium', 'fast'];
+
+    this._setupElements();
+    this._renderConfetti();
+  };
+
+  Confettiful.prototype._setupElements = function () {
+    const containerEl = document.createElement('div');
+    const elPosition = this.el.style.position;
+
+    if (elPosition !== 'relative' || elPosition !== 'absolute') {
+      this.el.style.position = 'relative';
+    }
+
+    containerEl.classList.add('confetti-container');
+
+    this.el.appendChild(containerEl);
+
+    this.containerEl = containerEl;
+  };
+
+  Confettiful.prototype._renderConfetti = function () {
+    this.confettiInterval = setInterval(() => {
+      const confettiEl = document.createElement('div');
+      const confettiSize = (Math.floor(Math.random() * 3) + 7) + 'px';
+      const confettiBackground = this.confettiColors[Math.floor(Math.random() * this.confettiColors.length)];
+      const confettiLeft = (Math.floor(Math.random() * this.el.offsetWidth)) + 'px';
+      const confettiAnimation = this.confettiAnimations[Math.floor(Math.random() * this.confettiAnimations.length)];
+
+      confettiEl.classList.add('confetti', 'confetti--animation-' + confettiAnimation);
+      confettiEl.style.left = confettiLeft;
+      confettiEl.style.width = confettiSize;
+      confettiEl.style.height = confettiSize;
+      confettiEl.style.backgroundColor = confettiBackground;
+
+      confettiEl.removeTimeout = setTimeout(function () {
+        confettiEl.parentNode.removeChild(confettiEl);
+      }, 3000);
+
+      this.containerEl.appendChild(confettiEl);
+    }, 25);
+  };
+
+  window.confettiful = new Confettiful(document.querySelector('.js-container'));
+
+  // Redirect to '/iwork/home' after 5 seconds
+  setTimeout(function() {
+    window.location.href = '/iwork/profile';
+  }, 4000);
+
+  var time = 5;
+  var initialOffset = '440';
+  var i = 1
+
+  /* Need initial run as interval hasn't yet occured... */
+  document.querySelector('.circle_animation').style.strokeDashoffset = initialOffset - (1 * (initialOffset / time));
+
+
+  var interval = setInterval(function () {
+    document.querySelector('h2').textContent = i;
+    if (i == time) {
+      clearInterval(interval);
+      return;
+    }
+    document.querySelector('.circle_animation').style.strokeDashoffset = initialOffset - ((i + 1) * (initialOffset / time));
+    i++;
+  }, 1000);
+
+</script>
+{% endblock %}

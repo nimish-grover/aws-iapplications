@@ -1,0 +1,54 @@
+.roboto {
+    font-family: 'Roboto';
+
+}
+
+
+
+.vertical {
+    background-color: #ccc;
+    width: 0.5px ;
+    height: 220px;
+    position: absolute;
+}
+.vertical-mobile {
+    background-color: #ccc;
+    width: 0.5px ;
+    height: 100px;
+    position: absolute;
+}
+
+.vertical-small{
+    background-color: #ccc;
+    width: 0.5px ;
+    height: 50px;
+    position: absolute;
+}
+
+.dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    /* Make it a circle */
+
+    display: flex;
+    
+    background-color: #ccc;
+
+}
+
+
+
+.animation {
+    position: absolute;
+    animation: moveUpDown 2s infinite alternate; /* Apply the animation */
+}
+
+@keyframes moveUpDown {
+    0% {
+      transform: translateY(0); /* Start position */
+    }
+    100% {
+      transform: translateY(10px); /* End position */
+    }
+}

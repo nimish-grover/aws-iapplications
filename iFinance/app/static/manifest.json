@@ -1,0 +1,31 @@
+{
+    "name": "Financial App",
+    "short_name": "FinApp",
+    "start_url": "/ifinance/",
+    "display": "standalone",
+    "background_color" : "transparent",
+    "theme_color": "#FFE1C4",
+    "orientation": "portrait-primary",
+    "icons": [
+      {
+        "src": "/ifinance/static/icons/icon-64x64.png",
+        "type": "image/png",
+        "sizes": "64x64"
+      },
+      {
+        "src": "/ifinance/static/icons/icon-128x128.png",
+        "type": "image/png",
+        "sizes": "128x128"
+      },
+      {
+        "src": "/ifinance/static/icons/icon-256x256.png",
+        "type": "image/png",
+        "sizes": "256x256"
+      },
+      {
+        "src": "/ifinance/static/icons/icon-512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ]
+  }

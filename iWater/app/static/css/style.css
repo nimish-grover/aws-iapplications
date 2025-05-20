@@ -1,0 +1,235 @@
+body {
+    -moz-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* background: #CDB1EF; 
+    background: linear-gradient(180deg, #CDB1EF, #E2BAF4);*/
+}
+
+th {
+    text-align: match-parent;
+    text-align: -webkit-match-parent;
+}
+
+.material-icons {
+    font-feature-settings: 'liga';
+}
+
+.nav-link {
+    color: var(--bs-purple);
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    --bs-nav-pills-border-radius: 0;
+    color: #fff;
+    background-color: var(--bs-purple);
+}
+
+/* Navbar Background Color*/
+
+.navbar {
+    background-color: var(--bs-purple);
+}
+
+/* OFFCANVAS WIDTH */
+.offcanvas-size-xl {
+    --bs-offcanvas-width: min(95vw, 600px) !important;
+}
+
+.offcanvas-size-xxl {
+    --bs-offcanvas-width: min(95vw, 90vw) !important;
+}
+
+.offcanvas-size-md {
+    /* add Responsivenes to default offcanvas */
+    --bs-offcanvas-width: min(95vw, 400px) !important;
+}
+
+.offcanvas-size-sm {
+    --bs-offcanvas-width: min(95vw, 250px) !important;
+}
+
+/* SMALL FONT */
+
+.fs-7 {
+    font-size: 0.8rem;
+}
+
+.fs-8 {
+    font-size: 0.7rem;
+}
+
+/* HAMBURGER ICON NAVBAR TOGGLER */
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.navbar-toggler {
+    border-color: rgb(255, 255, 255);
+    border-radius: 5px;
+}
+
+.navbar-toggler:focus {
+    text-decoration: none;
+    outline: 0;
+    box-shadow: none;
+}
+
+.card:hover{
+    border-color: orangered;
+}
+
+.mt-n1{
+    margin-top: -0.1rem;
+}
+.mt-n2{
+    margin-top: -0.2rem;
+}
+.mt-n3{
+    margin-top: -0.3rem;
+}
+.mt-n4{
+    margin-top: -0.4rem;
+}
+.mt-n5{
+    margin-top: -0.5rem;
+}
+/* NAV-TABS BAKCGROUND COLOR */
+
+/* .nav-tabs .nav-item .nav-link {
+    background-color: #0080FF;
+    color: #FFF;
+  }
+  
+  .nav-tabs .nav-item .nav-link.active {
+    color: #0080FF;
+  }
+  
+  .tab-content {
+    border: 1px solid #dee2e6;
+    border-top: transparent;
+    padding: 15px;
+  }
+  
+  .tab-content .tab-pane {
+    background-color: #FFF;
+    color: #0080FF;
+    min-height: 200px;
+    height: auto;
+  } */
+  #map { height: 1000px; }
+
+  /* BACKDROP/OVERLAY SPINNERS */
+#loading-spinner {
+    display: none;
+  }
+  
+  .overlay {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+  }
+  
+  #loading-wrapper {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+  
+  #loading-text {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: #999;
+    width: 100px;
+    height: 30px;
+    margin: -7px 0 0 -45px;
+    text-align: center;
+    font-family: "PT Sans Narrow", sans-serif;
+    font-size: 20px;
+  }
+  
+  #loading-content {
+    display: block;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    width: 170px;
+    height: 170px;
+    margin: -85px 0 0 -85px;
+    border: 3px solid transparent;
+    border-top-color: #4D658D;
+    border-bottom-color: #4D658D;
+    border-radius: 50%;
+    animation: loader 2s linear infinite;
+  }
+  #loading-content::before, #loading-content::after {
+    content: "";
+    position: absolute;
+    border: 3px solid transparent;
+    border-radius: 50%;
+  }
+  #loading-content::before {
+    border-top-color: #D4CC6A;
+    border-bottom-color: #D4CC6A;
+    left: 5px;
+    right: 5px;
+    top: 5px;
+    bottom: 5px;
+    animation: loader 3s linear infinite;
+  }
+  #loading-content::after {
+    border-top-color: #84417C;
+    border-bottom-color: #84417C;
+    left: 15px;
+    right: 15px;
+    top: 15px;
+    bottom: 15px;
+    animation: loader 1.5s linear infinite;
+  }
+  
+  @keyframes loader {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  #content-wrapper {
+    color: #FFF;
+    position: fixed;
+    left: 0;
+    top: 20px;
+    width: 100%;
+    height: 100%;
+  }
+  
+  #header {
+    width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    height: 100px;
+    background-color: #666;
+  }
+  
+  #content {
+    width: 800px;
+    height: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #888;
+  }
+  
+  /* END OVERLAY */

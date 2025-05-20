@@ -1,0 +1,159 @@
+{%extends 'base.html'%}
+{% block title %}
+<title>Verify OTP</title>
+{%endblock%}
+{%block content%}
+<!-- for desktops and laptops -->
+<div class="d-none d-md-block">
+<div class="container-fluid m-0 p-0" style="background-color: #A3A2A2; width: 100%;">
+    <div class="row roboto pt-4 justify-content-center text-center">
+        <div class="fs-1 fw-semibold text-white">Account</div>
+        <div class="text-light">Register or login to start learning</div>
+        <div class="container mt-3" id="overlay" style="width: fit-content; z-index: 2;">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb p-3 m-0">
+                    <li class="breadcrumb-item"><a href="{{url_for('learning.home')}}" class="text-secondary" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="{{url_for('admin.verify_email')}}" style="text-decoration: none;">Verify Email</a></li>
+                </ol>
+            </nav>
+        </div>
+        
+    </div>
+    <div class="row" style="margin-top: -30px; z-index: 1;">
+        <div class="container" id="overlay" style="width: 45%; height: 100px;"></div>
+    </div>
+    <div class="row p-0" style="height: 50px; min-width: 100%; margin-top:-70px; background-color: white;"></div>
+</div>
+<div class="container-fluid m-0 p-0 bg-white justify-content-center" style="width: 100%; display: flex;">
+    <div class="row py-5 mb-5" style="width: 50%;">
+        <div class="card py-5 px-3" style="border-width: 5px;">
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="fs-1 fw-semibold">Verify OTP</div>
+                </div>
+                <div class="row mt-2">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="alert alert-{% if 'cannot' in messages[0] %}danger{%else%}success{%endif%} text-center" role="alert">
+                    {{ messages[0] }}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                    <form action="{{url_for('admin.verify_email')}}" method="post">
+                        <div class="mt-4" >
+                            <input type="text" class="form-control form-size" aria-describedby="emailHelp" name="otp" placeholder="Enter OTP *">
+                        </div>
+                        <div class="row">
+                            <div class="btn-toolbar justify-content-center" role="toolbar" aria-label="Toolbar with button groups">
+                                <div class="btn-group me-2" role="group" aria-label="First group">
+                                    <a id="resendLink" class="no-loader"><button type="button" id="resendButton" class="btn btn-secondary mt-4 form-size" disabled>Resend OTP</button></a>
+                                </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <div class="btn-group me-2" role="group" aria-label="First group">
+                                    <button type="submit" class="btn btn-primary mt-4 form-size">Verify OTP</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </form>
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- for mobiles -->
+<div class=" d-sm-block d-md-none">
+    <div class="container-fluid m-0 p-0" style="background-color: #A3A2A2; width: 100%;">
+        <div class="row roboto pt-4 justify-content-center text-center">
+            <div class="fs-1 fw-semibold text-white">Account</div>
+            <div class="text-light">Register or login to start learning</div>
+            <div class="container mt-3" id="overlay" style="width: fit-content; z-index: 2;">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb p-3 m-0">
+                        <li class="breadcrumb-item"><a href="{{url_for('learning.home')}}" class="text-secondary" style="text-decoration: none;">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><a href="{{url_for('admin.verify_email')}}" style="text-decoration: none;">Verify Email</a></li>
+                    </ol>
+                </nav>
+            </div>
+            
+        </div>
+        <div class="row" style="margin-top: -30px; z-index: 1;">
+            <div class="container" id="overlay" style="width: 80%; height: 100px;"></div>
+        </div>
+        <div class="row p-0" style="height: 50px; min-width: 100%; margin-top:-70px; background-color: white;"></div>
+    </div>
+    <div class="container-fluid m-0 p-0 bg-white justify-content-center" style="width: 100%; display: flex;">
+        <div class="row py-3 mb-3" style="width: 80%;">
+            <div class="card py-3 px-3" style="border-width: 5px;">
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="fs-4 fw-semibold">Verify OTP</div>
+                    </div>
+                    <div class="row mt-2">
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        <div class="alert alert-{% if 'cannot' in messages[0] %}danger{%else%}success{%endif%} text-center" role="alert">
+                        {{ messages[0] }}
+                        </div>
+                        {% endif %}
+                        {% endwith %}
+                        <form action="{{url_for('admin.verify_email')}}" method="post">
+                            <div class="mt-4" >
+                                <input type="text" class="form-control form-size" aria-describedby="emailHelp" name="otp" placeholder="Enter OTP *">
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="btn-toolbar justify-content-center" role="toolbar" aria-label="Toolbar with button groups">
+                                    <div class="btn-group" role="group" aria-label="First group">
+                                        <a id="resendLinkMobile" class="no-loader"><button type="button" id="resendButtonMobile" class="btn btn-secondary mt-4 form-size" disabled>Resend OTP</button></a>
+                                    </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div class="btn-group" role="group" aria-label="First group">
+                                        <button type="submit" class="btn btn-primary mt-4 form-size">Verify OTP</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </form>
+    
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}
+{% block script %}
+<script>
+    // Function to start the countdown timer
+    function startTimer(duration, button, anchor) {
+        var timer = duration;
+        button.setAttribute("disabled", "true"); // Disable the button initially
+        var interval = setInterval(function () {
+            button.textContent = "Resend OTP in " + timer + " seconds";
+            if (--timer < 0) {
+                clearInterval(interval);
+                button.removeAttribute("disabled"); // Enable the button when timer ends
+                button.textContent = "Resend OTP";
+                anchor.setAttribute("href", "{{url_for('admin.resend_otp')}}"); // Add URL to anchor
+            }
+        }, 1000);
+    }
+    window.onload = function () {
+    // For desktop
+    var button = document.getElementById('resendButton');
+    var anchor = document.getElementById('resendLink');
+    var twoMinutes = 120;
+    startTimer(twoMinutes, button, anchor);
+    
+    // For mobile
+    var buttonMobile = document.getElementById('resendButtonMobile');
+    var anchorMobile = document.getElementById('resendLinkMobile');
+    startTimer(twoMinutes, buttonMobile, anchorMobile);
+};
+
+</script>
+{%endblock%}

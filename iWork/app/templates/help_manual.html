@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %} Help {% endblock %}
+{% block content %}
+<div class="container mt-5 text-center">
+    <h1>Help Manual</h1>
+    <iframe src="{{ url_for('static', filename='assets/help_manual.pdf') }}" width="100%" style="height:90vh;"></iframe>
+    <div class="mb-5"><!--Important!--></div>
+</div>
+{% endblock %}

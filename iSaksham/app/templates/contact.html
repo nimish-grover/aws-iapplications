@@ -1,0 +1,120 @@
+{%extends 'base.html'%}
+{% block title %}
+<title>Contact - E-Saksham</title>
+{%endblock%}
+{%block content%}
+<!-- for desktops and laptops -->
+<div class="d-none d-md-block">
+<div class="container-fluid m-0 p-0" style="background-color: #A3A2A2; width: 100%;">
+    <div class="row roboto px-5 justify-content-center text-center" style="width: 100%;">
+        <div class="fs-1 fw-semibold text-white pt-3">Contact</div>
+        <div class="container mt-3 bg-primary " id="overlay" style="width: fit-content; z-index: 2;">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb p-3 m-0">
+                    <li class="breadcrumb-item "><a href="{{url_for('learning.home')}}" 
+                            style="text-decoration: none; color: white;">Home</a></li>
+                    <li class="breadcrumb-item active " aria-current="page"><a href="{{url_for('learning.contact')}}"
+                            style="text-decoration: none; color: white;">Contact</a></li>
+                </ol>
+            </nav>
+        </div>
+
+    </div>
+    <div class="row" style="margin-top: -30px; z-index: 1; width: 100%;">
+        <div class="container bg-primary" id="overlay" style="width: 45%; height: 100px;"></div>
+    </div>
+    <div class="row mx-auto" style="height: 100px; width: 100%; margin-top:-70px; background-color: #0d6efd;">
+
+    </div>
+</div>
+<div class="container-fluid m-0 p-0 bg-primary justify-content-center" style="width: 100%; display: flex; height: 100%;">
+    <div class="row py-5 mb-5" style="width: 80%;">
+        <div class="col-1"></div>
+        <div class="col-5">
+            <div class="address-container justify-content-center" style="display: grid; justify-items: center;">
+                <a class="no-loader" href="https://maps.app.goo.gl/XhEsnN6DZJii2kJw9" style="text-decoration: none;" target="_blank"><div class="location-circle"><i class="fa-solid fa-location-dot" style="color: #ffffff; font-size: 70px;"></i></div>
+                </a>
+                <div class="row pt-5 text-center">
+                    <div class="fw-semibold text-white fs-5" style="width: 100%;">GIZ Office</div>
+                </div>
+                <div class="row pt-3">
+                    <div class="text-white text-center">Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) GmbH, A2/18, Block A 2, Nauroji Nagar, Safdarjung Enclave, New Delhi, Delhi 110029</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-5">
+            <div class="address-container justify-content-center" style="display: grid; justify-items: center;">
+                <a class="no-loader" href="https://maps.app.goo.gl/vghGYeh68Fyb1nCW7" style="text-decoration: none;" target="_blank"><div class="location-circle"><i class="fa-solid fa-location-dot" style="color: #ffffff; font-size: 70px;"></i></div></a>
+                <div class="row pt-5 text-center">
+                    <div class="fw-semibold text-white fs-5" style="width: 100%;">MGNREGA Office</div>
+                </div>
+                <div class="row pt-3">
+                    <div class="text-white text-center">MGNREGA (Department of Rural Development), G Wing, Krishi Bhawan New Delhi Delhi , 11000</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    
+</div>
+<div class="row mx-auto" style="height: 80px; width: 100%; background-color: #0d6efd;"></div>
+</div>
+<!-- for mobiles -->
+<div class=" d-sm-block d-md-none">
+    <div class="container-fluid m-0 p-0" style="background-color: #A3A2A2; width: 100%;">
+        <div class="row roboto px-5 justify-content-center text-center">
+            <div class="fs-1 fw-semibold text-white pt-3">Contact</div>
+            <div class="container mt-3 bg-primary " id="overlay" style="width: fit-content; z-index: 2;">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb p-3 m-0">
+                        <li class="breadcrumb-item "><a href="{{url_for('learning.home')}}" 
+                                style="text-decoration: none; color: white;">Home</a></li>
+                        <li class="breadcrumb-item active " aria-current="page"><a href="{{url_for('learning.contact')}}"
+                                style="text-decoration: none; color: white;">Contact</a></li>
+                    </ol>
+                </nav>
+            </div>
+    
+        </div>
+        <div class="row" style="margin-top: -30px; z-index: 1; ">
+            <div class="container bg-primary" id="overlay" style="width: 65%; height: 100px;"></div>
+        </div>
+        <div class="row mx-auto" style="height: 80px; width: 100%; margin-top:-70px; background-color: #0d6efd;">
+    
+        </div>
+    </div>
+    <div class="container-fluid m-0 p-0 bg-primary justify-content-center" style="width: 100%; height: 100%;">
+        <div class="container p-3 mb-3">
+            <div class="address-container justify-content-center" style="display: grid; justify-items: center;">
+                <a class="no-loader" href="https://maps.app.goo.gl/XhEsnN6DZJii2kJw9" style="text-decoration: none;" target="_blank"><div class="location-circle"><i class="fa-solid fa-location-dot" style="color: #ffffff; font-size: 70px;"></i></div>
+                </a>
+                <div class="row pt-5 text-center">
+                    <div class="fw-semibold text-white fs-5" style="width: 100%;">GIZ Office</div>
+                </div>
+                <div class="row pt-3">
+                    <div class="text-white text-center">Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) GmbH, A2/18, Block A 2, Nauroji Nagar, Safdarjung Enclave, New Delhi, Delhi 110029</div>
+                </div>
+            </div>
+        </div>
+        <div class="container p-3">
+            
+                <div class="address-container justify-content-center" style="display: grid; justify-items: center;">
+                    <a class="no-loader" href="https://maps.app.goo.gl/vghGYeh68Fyb1nCW7" style="text-decoration: none;" target="_blank"><div class="location-circle"><i class="fa-solid fa-location-dot" style="color: #ffffff; font-size: 70px;"></i></div></a>
+                    <div class="row pt-5 text-center">
+                        <div class="fw-semibold text-white fs-5" style="width: 100%;">MGNREGA Office</div>
+                    </div>
+                    <div class="row pt-3">
+                        <div class="text-white text-center">MGNREGA (Department of Rural Development),&nbsp; G Wing, Krishi Bhawan New Delhi Delhi , 11000</div>
+                    </div>
+                </div>
+            
+            
+        </div>
+        
+    </div>
+    <div class="row mx-auto" style="height: 80px; width: 100%; background-color: #0d6efd; margin-top: -2px;"></div>
+</div>
+
+
+{%endblock%}

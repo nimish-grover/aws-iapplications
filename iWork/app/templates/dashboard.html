@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}{% endblock %}
+{% block content %}
+<div class="container-fluid success-container">
+    <div class="success-content">
+      <div class="success-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.707 10.707l-3-3a1 1 0 0 1 1.414-1.414L7 8.586l3.879-3.879a1 1 0 1 1 1.414 1.414l-4.586 4.586a1 1 0 0 1-1.414 0z"/>
+        </svg>
+      </div>
+      <div class="success-text">
+        Success<br>
+        Your identity has been verified successfully
+      </div>
+      <a href="#" class="btn btn-success mt-3">Continue</a>
+    </div>
+  </div>
+{% endblock %}

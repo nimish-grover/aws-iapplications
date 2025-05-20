@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %} Update Workcode{% endblock %}
+{% block content %}
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <nav class="ms-2 fs-8" style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    {% for breadcrumb in breadcrumbs %}
+                    <li class="breadcrumb-item {% if loop.index == breadcrumbs|length %}text-primary{% endif %}">
+                        {{ breadcrumb['name'] }}
+                    </li>
+                    {% endfor %}
+                </ol>
+            </nav>
+            <div class="card">
+                <div class="card-header">
+                    <div class="text-center">
+                        <h3 class="m-0">Update Entries</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    Coming Soon!!
+                </div>
+            </div>
+
+            </div>
+            </div>
+</div>
+
+{% endblock %}

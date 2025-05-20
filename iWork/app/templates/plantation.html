@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+{% block title %} Parameters {% endblock %}
+{% block content %}
+
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+            <nav class="ms-2 fs-8" style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb"></nav>
+            <ol class="breadcrumb fs-8">
+                {% for breadcrumb in breadcrumbs %}
+                <li class="breadcrumb-item {% if loop.index == breadcrumbs|length %}text-primary{% endif %}">{{
+                    breadcrumb['name'] }}</li>
+                {% endfor %}
+            </ol>
+            </nav>
+            <div class="container mb-2 d-flex justify-content-center align-items-center">
+                <div class="progresses">
+                    <div class="steps completed">
+                        <span><i class="fa fa-check"></i></span>
+                    </div>
+                    <span class="line completed"></span>
+                    <div class="steps completed">
+                        <span><i class="fa fa-check"></i></span>
+                    </div>
+                    <span class="line completed"></span>
+                    <div class="steps completed">
+                        <span class="font-weight-bold">3</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="text-center">
+                        <h3 class="m-0">Plantation Parameters</h3>
+                    </div>
+                </div>
+                <form method="post" action="{{url_for('.plantation')}}" class="card-body">
+                    <div class="alert alert-light" style="background:#e9ecef">
+                        <input type="hidden" name="completed_work_id" value="{{completed_work.id}}">
+                        <input type="hidden" name="permissible_work_id"
+                            value="{{input_parameters[0].permissible_work_id}}">
+                        <div>
+                            <label for="txtWorkCode" class="fw-bold fs-7">Work Code</label>
+                            <label type="text" class="fs-7 text-wrap" id="txtWorkCode" name="txtWorkCode" disabled>
+                                {{ completed_work.code }}</label>
+                        </div>
+                        <div>
+                            <label for="txtWorkName" class="fw-bold fs-7 mb-0">Work Name</label><label type="text"
+                                class="fs-7 text-wrap" id="txtWorkName" name="txtWorkName" disabled
+                                style="background:#e9ecef">
+                                {{ completed_work.name }}</label>
+                        </div>
+                        <div>
+                            <label for="txtPermissibleWork" class="fw-bold fs-7 mb-0">Permissible Work</label>
+                            <label type="text" class="fs-7 text-wrap" id="txtPermissibleWork" name="txtPermissibleWork"
+                                disabled style="background:#e9ecef">
+                                {{ input_parameters[0].permissible_work }}</label>
+                        </div>
+                        <input type="hidden" id="plantsArray" name="plants_array" value="[]">
+                    </div>
+                    <div class="mb-1">
+                        <label for="txt" class="form-label fs-7">
+                            Plantation Area ( in ha)
+                            <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip"
+                                data-bs-placement="right" data-bs-html="true"
+                                data-bs-title="Area covered by the plantation activity"></i>
+                        </label>
+                        <input type="text" class="form-control form-control-sm" id="txtPlantationArea"
+                            name="plantation_area" placeholder="Area in hectares" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-7">
+                            <label for="selectPlantType" class="form-label fs-7">
+                                Select Plant Type
+                                <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip"
+                                    data-bs-placement="right" data-bs-html="true"
+                                    data-bs-title="Select the plant type from the list"></i>
+                            </label>
+                            <select class="form-select form-select-sm" id="selectPlantType" name="selectPlantType"
+                                aria-label="Select Plant Type">
+                                <option selected disabled>--Select Plant Type--</option>
+                                {% for plant_type in plant_types %}
+                                <option value="{{plant_type.name}}">{{plant_type.name | title}}</option>
+                                {% endfor  %}
+                            </select>
+                        </div>
+                        <div class="col-5">
+                            <label for="txt" class="form-label fs-7">
+                                Numbers
+                                <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip"
+                                    data-bs-placement="right" data-bs-html="true"
+                                    data-bs-title="Number of Plants in this plant type"></i>
+                            </label>
+                            <input type="text" class="form-control form-control-sm" id="txtNumberPlant"
+                                name="txtNumberPlant" placeholder="count in numbers">
+                        </div>
+                    </div>
+                    <div class="text-end my-2">
+                        <button class="btn btn-dark btn-sm" id="addButton" disabled>Add</button>
+                    </div>
+                    <div id="tableContainer">
+
+                    </div>
+                    <div class="text-center my-2">
+                        <a href="{{url_for('.data')}}" class="btn btn-outline-secondary btn-sm me-2">Cancel</a>
+                        <input type="submit" class="btn btn-primary btn-sm" value="Submit" id="submitButton" disabled>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // CONSTANTS
+        const add_button = document.getElementById('addButton');
+        const dd_plant_type = document.getElementById('selectPlantType');
+        const txt_number_plant_type = document.getElementById('txtNumberPlant');
+        const hidden_plants_array = document.getElementById('plantsArray');
+        const form = document.getElementsByTagName('form')[0];
+        const submit_button = document.getElementById('submitButton');
+        //VARIABLES
+        let table_array = []
+        // FUNCTIONS
+        function toggleAddButton(params) {
+            if (dd_plant_type.selectedIndex > 0 && txt_number_plant_type.value.trim() !== '') {
+                add_button.removeAttribute('disabled');
+            } else {
+                add_button.setAttribute('disabled', 'disabled');
+            }
+        }
+
+        dd_plant_type.addEventListener("change", () => toggleAddButton());
+
+        txt_number_plant_type.addEventListener('keyup', () => toggleAddButton());
+
+        submit_button.addEventListener('change', () => toggleSpinner());
+
+        add_button.addEventListener("click", function () {
+            table_container = document.getElementById('tableContainer');
+            plant_type = dd_plant_type.value
+            number_plant_type = txt_number_plant_type.value.trim()
+            if (table_array.length === 0) {
+                table_array.push({ 'serial': 0, 'plant_type': plant_type, 'numbers': number_plant_type })
+            }
+            else {
+                const existingPlant = table_array.find(item => item.plant_type === plant_type);
+                if (existingPlant) {
+                    existingPlant.numbers = number_plant_type;
+                } else {
+                    table_array.push({ 'serial': 0, 'plant_type': plant_type, 'numbers': number_plant_type })
+                }
+            }
+            function renderTable() {
+                table_container.innerHTML = '';
+                hidden_plants_array.value = JSON.stringify(table_array);
+                if (table_array.length > 0) {
+                    var table = document.createElement('table');
+                    table.classList.add('table', 'table-bordered', 'table-sm', 'fs-7');
+                    var head = document.createElement('thead');
+                    head.classList.add('text-center', 'table-light');
+                    var headerRow = document.createElement('tr');
+                    var headers = ['S.No', 'Type', 'Numbers'];
+                    for (var i = 0; i < headers.length; i++) {
+                        var th = document.createElement('th');
+                        th.appendChild(document.createTextNode(headers[i]));
+                        headerRow.appendChild(th);
+                    }
+                    head.appendChild(headerRow);
+                    table.appendChild(head);
+                    var body = document.createElement('tbody');
+                    let total = 0;
+                    for (var i = 0; i < table_array.length; i++) {
+
+                        var row = document.createElement('tr');
+                        table_array[i].serial = i + 1;
+
+                        var td = document.createElement('td');
+                        td.classList.add('text-center')
+                        td.appendChild(document.createTextNode(table_array[i].serial));
+                        row.appendChild(td);
+
+                        var td = document.createElement('td');
+                        td.classList.add('w-50')
+                        td.appendChild(document.createTextNode(table_array[i].plant_type));
+                        row.appendChild(td);
+
+                        var td = document.createElement('td');
+                        td.classList.add('text-center')
+                        td.appendChild(document.createTextNode(table_array[i].numbers));
+                        row.appendChild(td);
+
+                        // Add the delete column with an icon
+                        var td = document.createElement('td');
+                        td.classList.add('text-center', 'text-danger');
+                        var deleteIcon = document.createElement('i');
+                        deleteIcon.classList.add('fa-regular', 'fa-circle-xmark');
+                        deleteIcon.style.cursor = 'pointer';
+
+                        // Event listener to delete the row
+                        deleteIcon.addEventListener('click', (function (index) {
+                            return function () {
+                                // Remove the current item from the array
+                                table_array.splice(index, 1); // Removes the item at index i
+                                // if (table_array.length <= 1) table_array=[];
+                                // Re-render the table after deletion
+                                renderTable();
+                                checkFormCompletion();
+                            }
+                        })(i));
+                        td.appendChild(deleteIcon);
+                        row.appendChild(td);
+
+                        total = total + Number(table_array[i].numbers);
+                        body.appendChild(row)// Add the row to the table
+                    }
+                    table.appendChild(body);
+                    var footer = document.createElement('tfoot');
+                    footer.classList.add('fw-bold');
+                    var row = document.createElement('tr');
+                    var td = document.createElement('td');
+                    td.appendChild(document.createTextNode(''));
+                    row.appendChild(td);
+                    var td = document.createElement('td');
+                    td.appendChild(document.createTextNode('Total'));
+                    row.appendChild(td);
+                    var td = document.createElement('td');
+                    td.appendChild(document.createTextNode(total));
+                    td.classList.add('text-center');
+                    row.appendChild(td);
+                    footer.appendChild(row);
+                    table.appendChild(footer);
+                    table_container.appendChild(table);
+                }
+
+            }
+
+            renderTable();
+            checkFormCompletion();
+            dd_plant_type.selectedIndex = 0;
+            txt_number_plant_type.value = '';
+            add_button.setAttribute('disabled', 'disabled');
+        })
+
+        function checkFormCompletion() {
+            const formFields = form.querySelectorAll("input[required]");
+            let allFilled = true;
+
+            formFields.forEach(function (input) {
+                if (!input.value.trim()) {
+                    allFilled = false;
+                }
+            });
+            if (JSON.parse(hidden_plants_array.value).length > 0) { allFilled = true } else { allFilled = false };
+            // Enable or disable the submit button based on form completion
+            submit_button.disabled = !allFilled;
+        }
+
+        // Attach event listeners to input fields
+        const requiredFields = form.querySelectorAll("input[required]");
+        requiredFields.forEach(function (input) {
+            input.addEventListener("input", checkFormCompletion);
+        });
+        // VARIABLES
+
+    })
+</script>
+{% endblock %}

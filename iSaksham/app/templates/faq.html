@@ -1,0 +1,459 @@
+{%extends 'base.html'%}
+{% block title %}
+<title>FAQ - E-Saksham</title>
+{%endblock%}
+{%block content%}
+<!-- for desktops and laptops -->
+<div class="d-none d-md-block">
+<div class="container-fluid m-0 p-0" style="background-color: #A3A2A2; width: 100%;">
+    <div class="row roboto pt-4 justify-content-center text-center">
+        <div class="fs-1 fw-semibold text-white">FAQ</div>
+
+        <div class="container mt-3" id="overlay" style="width: fit-content; z-index: 2;">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb p-3 m-0">
+                    <li class="breadcrumb-item"><a href="{{url_for('learning.home')}}" class="text-secondary"
+                            style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="{{url_for('learning.faq')}}"
+                            style="text-decoration: none;">FAQ</a></li>
+                </ol>
+            </nav>
+        </div>
+
+    </div>
+    <div class="row" style="margin-top: -30px; z-index: 1;">
+        <div class="container" id="overlay" style="width: 45%; height: 100px;"></div>
+    </div>
+    <div class="row p-0" style="height: 50px; min-width: 100%; margin-top:-70px; background-color: white;"></div>
+</div>
+<div class="container bg-white justify-content-start px-0 py-5 mb-5" style="width: 100%;">
+    <div class="priority-lists pb-5">
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default px-5 py-2">
+                <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#1">
+                    <h5 class="panel-title accordion-toggle px-2">
+                        Q. What is this course?
+                    </h5>
+                </div>
+                <div id="1" class="panel-collapse collapse px-5">
+                    <div class="panel-body">
+                        <div class="row text-secondary">Ans. A GIS supported course on Integrated Natural Resource
+                            Management planning under MGNREGA.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default px-5 py-2">
+                <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#2">
+                    <h5 class="panel-title accordion-toggle px-2">
+                        Q. Do I have to be a MGNREGA official to do this online course?
+                    </h5>
+                </div>
+                <div id="2" class="panel-collapse collapse px-5">
+                    <div class="panel-body">
+                        <div class="row text-secondary">Ans: No, this course is available for all. Anyone can access
+                            this course.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default px-5 py-2">
+                <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#3">
+                    <h5 class="panel-title accordion-toggle px-2">
+                        Q. How to acess this course?
+                    </h5>
+                </div>
+                <div id="3" class="panel-collapse collapse px-5">
+                    <div class="panel-body">
+                        <div class="row text-secondary">Ans. In order to access this course, you need to Register yourself followed by login on e-saksham website.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default px-5 py-2">
+                <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#4">
+                    <h5 class="panel-title accordion-toggle px-2">
+                        Q. How to Register?
+                    </h5>
+                </div>
+                <div id="4" class="panel-collapse collapse px-5">
+                    <div class="panel-body">
+                        <div class="row text-secondary">Ans. As you open the website you will see a register tab in the top right corner of the webpage.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default px-5 py-2">
+                <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#5">
+                    <h5 class="panel-title accordion-toggle px-2">
+                        Q. I have registered. What happens next?
+                    </h5>
+                </div>
+                <div id="5" class="panel-collapse collapse px-5">
+                    <div class="panel-body">
+                        <div class="row text-secondary">Ans. Go to the course page, Click on “Join the Course” and start learning.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default px-5 py-2">
+                <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#6">
+                    <h5 class="panel-title accordion-toggle px-2">
+                        Q. What are the requirements to this course?
+                    </h5>
+                </div>
+                <div id="6" class="panel-collapse collapse px-5">
+                    <div class="panel-body">
+                        <div class="row text-secondary">Ans. Anyone with basic computer skills and familiarity internet browsing..</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default px-5 py-2">
+                <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#7">
+                    <h5 class="panel-title accordion-toggle px-2">
+                        Q. What should  I do if i have some doubt or query related to any Lecture?
+                    </h5>
+                </div>
+                <div id="7" class="panel-collapse collapse px-5">
+                    <div class="panel-body">
+                        <div class="row text-secondary">Ans. You can visit the Frequently Asked Question (FAQ) section, which is available at the end of each module. Or you can post your question in forum.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default px-5 py-2">
+                <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#8">
+                    <h5 class="panel-title accordion-toggle px-2">
+                        Q. Can I comment or provide feedback about the lecture?
+                    </h5>
+                </div>
+                <div id="8" class="panel-collapse collapse px-5">
+                    <div class="panel-body">
+                        <div class="row text-secondary">Ans. You can go to the contact section, there’s a “Leave a Message” form, where you can send your feedback, comment or inputs.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default px-5 py-2">
+                <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#9">
+                    <h5 class="panel-title accordion-toggle px-2">
+                        Q. Do I have to pay or what should i do when someone asks for payment for this course?
+                    </h5>
+                </div>
+                <div id="9" class="panel-collapse collapse px-5">
+                    <div class="panel-body">
+                        <div class="row text-secondary">Ans. No, this course is available for free. If anyone asks for payment for this course. Please report it to your block or district office.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default px-5 py-2">
+                <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#10">
+                    <h5 class="panel-title accordion-toggle px-2">
+                        Q. Is it compulsory to attempt the Quiz?
+                    </h5>
+                </div>
+                <div id="10" class="panel-collapse collapse px-5">
+                    <div class="panel-body">
+                        <div class="row text-secondary">Ans. No, you can skip the quiz if you do not wish to attempt it. In doing so, you wont be able to see your progress status of the course.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default px-5 py-2">
+                <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#11">
+                    <h5 class="panel-title accordion-toggle px-2">
+                        Q. Can I check the answer of the Quiz?
+                    </h5>
+                </div>
+                <div id="11" class="panel-collapse collapse px-5">
+                    <div class="panel-body">
+                        <div class="row text-secondary">Ans. Yes, once you complete the quiz and submit your answers, you can check the correct answers.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default px-5 py-2">
+                <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#12">
+                    <h5 class="panel-title accordion-toggle px-2">
+                        Q. Can I skip lectures or modules?
+                    </h5>
+                </div>
+                <div id="12" class="panel-collapse collapse px-5">
+                    <div class="panel-body">
+                        <div class="row text-secondary">Ans. Yes, you can visit any lectures of any module after you have registered and logged in the website. We recommend you to go in sequence for all lectures.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default px-5 py-2">
+                <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#13">
+                    <h5 class="panel-title accordion-toggle px-2">
+                        Q. How do I access any important links related to the course?
+                    </h5>
+                </div>
+                <div id="13" class="panel-collapse collapse px-5">
+                    <div class="panel-body">
+                        <div class="row text-secondary">Ans. You can visit the Important Link section on the website.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default px-5 py-2">
+                <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#14">
+                    <h5 class="panel-title accordion-toggle px-2">
+                        Q. How can I download important documents related INRM?
+                    </h5>
+                </div>
+                <div id="14" class="panel-collapse collapse px-5">
+                    <div class="panel-body">
+                        <div class="row text-secondary">You can visit the Downloads section in the website and get the list documents for downloads related to INRM Planning</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default px-5 py-2">
+                <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#15">
+                    <h5 class="panel-title accordion-toggle px-2">
+                        Q. Is there a course outline(syllabus)?
+                    </h5>
+                </div>
+                <div id="15" class="panel-collapse collapse px-5">
+                    <div class="panel-body">
+                        <div class="row text-secondary">Ans. Visit Curriculum under the course section to get the outline of the course.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default px-5 py-2">
+                <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#16">
+                    <h5 class="panel-title accordion-toggle px-2">
+                        Q. How much time will be invovlved in lectures?
+                    </h5>
+                </div>
+                <div id="16" class="panel-collapse collapse px-5">
+                    <div class="panel-body">
+                        <div class="row text-secondary">Ans. The duration, of the course, is around two and a half hours.</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- for mobiles -->
+<div class=" d-sm-block d-md-none">
+    <div class="container-fluid m-0 p-0" style="background-color: #A3A2A2; width: 100%;">
+        <div class="row roboto pt-4 justify-content-center text-center">
+            <div class="fs-1 fw-semibold text-white">FAQ</div>
+    
+            <div class="container mt-3" id="overlay" style="width: fit-content; z-index: 2;">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb p-3 m-0">
+                        <li class="breadcrumb-item"><a href="{{url_for('learning.home')}}" class="text-secondary"
+                                style="text-decoration: none;">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><a href="{{url_for('learning.faq')}}"
+                                style="text-decoration: none;">FAQ</a></li>
+                    </ol>
+                </nav>
+            </div>
+    
+        </div>
+        <div class="row" style="margin-top: -30px; z-index: 1;">
+            <div class="container" id="overlay" style="width: 65%; height: 100px;"></div>
+        </div>
+        <div class="row p-0" style="height: 50px; min-width: 100%; margin-top:-70px; background-color: white;"></div>
+    </div>
+    <div class="container bg-white justify-content-start px-0 py-3 mb-3" style="width: 100%; margin-top: -2px;">
+        <div class="priority-lists pb-3">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default px-3 py-2">
+                    <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#1-mobile">
+                        <h5 class="panel-title accordion-toggle px-2 fs-6">
+                            Q. What is this course?
+                        </h5>
+                    </div>
+                    <div id="1-mobile" class="panel-collapse collapse px-3 fs-7">
+                        <div class="panel-body-mobile">
+                            <div class="row text-secondary">Ans. A GIS supported course on Integrated Natural Resource
+                                Management planning under MGNREGA.</div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="panel panel-default px-3 py-2">
+                    <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#2-mobile">
+                        <h5 class="panel-title accordion-toggle px-2 fs-6">
+                            Q. Do I have to be a MGNREGA official to do this online course?
+                        </h5>
+                    </div>
+                    <div id="2-mobile" class="panel-collapse collapse px-3 fs-7">
+                        <div class="panel-body-mobile">
+                            <div class="row text-secondary">Ans: No, this course is available for all. Anyone can access
+                                this course.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default px-3 py-2">
+                    <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#3-mobile">
+                        <h5 class="panel-title accordion-toggle px-2 fs-6">
+                            Q. How to acess this course?
+                        </h5>
+                    </div>
+                    <div id="3-mobile" class="panel-collapse collapse px-3 fs-7">
+                        <div class="panel-body-mobile">
+                            <div class="row text-secondary">Ans. In order to access this course, you need to Register yourself followed by login on e-saksham website.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default px-3 py-2">
+                    <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#4-mobile">
+                        <h5 class="panel-title accordion-toggle px-2 fs-6">
+                            Q. How to Register?
+                        </h5>
+                    </div>
+                    <div id="4-mobile" class="panel-collapse collapse px-3 fs-7">
+                        <div class="panel-body-mobile">
+                            <div class="row text-secondary">Ans. As you open the website you will see a register tab in the top right corner of the webpage.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default px-3 py-2">
+                    <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#5-mobile">
+                        <h5 class="panel-title accordion-toggle px-2 fs-6">
+                            Q. I have registered. What happens next?
+                        </h5>
+                    </div>
+                    <div id="5-mobile" class="panel-collapse collapse px-3 fs-7">
+                        <div class="panel-body-mobile">
+                            <div class="row text-secondary">Ans. Go to the course page, Click on “Join the Course” and start learning.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default px-3 py-2">
+                    <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#6-mobile">
+                        <h5 class="panel-title accordion-toggle px-2 fs-6">
+                            Q. What are the requirements to this course?
+                        </h5>
+                    </div>
+                    <div id="6-mobile" class="panel-collapse collapse px-3 fs-7">
+                        <div class="panel-body-mobile">
+                            <div class="row text-secondary">Ans. Anyone with basic computer skills and familiarity internet browsing..</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default px-3 py-2">
+                    <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#7-mobile">
+                        <h5 class="panel-title accordion-toggle px-2 fs-6">
+                            Q. What should  I do if i have some doubt or query related to any Lecture?
+                        </h5>
+                    </div>
+                    <div id="7-mobile" class="panel-collapse collapse px-3 fs-7">
+                        <div class="panel-body-mobile">
+                            <div class="row text-secondary">Ans. You can visit the Frequently Asked Question (FAQ) section, which is available at the end of each module. Or you can post your question in forum.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default px-3 py-2">
+                    <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#8-mobile">
+                        <h5 class="panel-title accordion-toggle px-2 fs-6">
+                            Q. Can I comment or provide feedback about the lecture?
+                        </h5>
+                    </div>
+                    <div id="8-mobile" class="panel-collapse collapse px-3 fs-7">
+                        <div class="panel-body-mobile">
+                            <div class="row text-secondary">Ans. You can go to the contact section, there’s a “Leave a Message” form, where you can send your feedback, comment or inputs.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default px-3 py-2">
+                    <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#9-mobile">
+                        <h5 class="panel-title accordion-toggle px-2 fs-6">
+                            Q. Do I have to pay or what should i do when someone asks for payment for this course?
+                        </h5>
+                    </div>
+                    <div id="9-mobile" class="panel-collapse collapse px-3 fs-7">
+                        <div class="panel-body-mobile">
+                            <div class="row text-secondary">Ans. No, this course is available for free. If anyone asks for payment for this course. Please report it to your block or district office.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default px-3 py-2">
+                    <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#10-mobile">
+                        <h5 class="panel-title accordion-toggle px-2 fs-6">
+                            Q. Is it compulsory to attempt the Quiz?
+                        </h5>
+                    </div>
+                    <div id="10-mobile" class="panel-collapse collapse px-3 fs-7">
+                        <div class="panel-body-mobile">
+                            <div class="row text-secondary">Ans. No, you can skip the quiz if you do not wish to attempt it. In doing so, you wont be able to see your progress status of the course.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default px-3 py-2">
+                    <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#11-mobile">
+                        <h5 class="panel-title accordion-toggle px-2 fs-6">
+                            Q. Can I check the answer of the Quiz?
+                        </h5>
+                    </div>
+                    <div id="11-mobile" class="panel-collapse collapse px-3 fs-7">
+                        <div class="panel-body-mobile">
+                            <div class="row text-secondary">Ans. Yes, once you complete the quiz and submit your answers, you can check the correct answers.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default px-3 py-2">
+                    <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#12-mobile">
+                        <h5 class="panel-title accordion-toggle px-2 fs-6">
+                            Q. Can I skip lectures or modules?
+                        </h5>
+                    </div>
+                    <div id="12-mobile" class="panel-collapse collapse px-3 fs-7">
+                        <div class="panel-body-mobile">
+                            <div class="row text-secondary">Ans. Yes, you can visit any lectures of any module after you have registered and logged in the website. We recommend you to go in sequence for all lectures.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default px-3 py-2">
+                    <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#13-mobile">
+                        <h5 class="panel-title accordion-toggle px-2 fs-6">
+                            Q. How do I access any important links related to the course?
+                        </h5>
+                    </div>
+                    <div id="13-mobile" class="panel-collapse collapse px-3 fs-7">
+                        <div class="panel-body-mobile">
+                            <div class="row text-secondary">Ans. You can visit the Important Link section on the website.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default px-3 py-2">
+                    <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#14-mobile">
+                        <h5 class="panel-title accordion-toggle px-2 fs-6">
+                            Q. How can I download important documents related INRM?
+                        </h5>
+                    </div>
+                    <div id="14-mobile" class="panel-collapse collapse px-3 fs-7">
+                        <div class="panel-body-mobile">
+                            <div class="row text-secondary">You can visit the Downloads section in the website and get the list documents for downloads related to INRM Planning</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default px-3 py-2">
+                    <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#15-mobile">
+                        <h5 class="panel-title accordion-toggle px-2 fs-6">
+                            Q. Is there a course outline(syllabus)?
+                        </h5>
+                    </div>
+                    <div id="15-mobile" class="panel-collapse collapse px-3 fs-7">
+                        <div class="panel-body-mobile">
+                            <div class="row text-secondary">Ans. Visit Curriculum under the course section to get the outline of the course.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default px-3 py-2">
+                    <div class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#16-mobile">
+                        <h5 class="panel-title accordion-toggle px-2 fs-6">
+                            Q. How much time will be invovlved in lectures?
+                        </h5>
+                    </div>
+                    <div id="16-mobile" class="panel-collapse collapse px-3 fs-7">
+                        <div class="panel-body-mobile">
+                            <div class="row text-secondary">Ans. The duration, of the course, is around two and a half hours.</div>
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

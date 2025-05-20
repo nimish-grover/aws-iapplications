@@ -1,0 +1,1043 @@
+{% extends 'base.html' %}
+{%block title %}Waterbodies{% endblock %}
+{% block content %}
+{{super()}}
+<!--Overlay-->
+<div id="loading-spinner" class="overlay">
+  <!--Spinner-->
+  <div id="loading-wrapper">
+    <div id="loading-text">LOADING</div>
+    <div id="loading-content"></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-2 col-md-12 border-end border-dark">
+    <div class="container">
+      <div class="card shadow-sm mt-3 mb-2" id="ddForm">
+        <div class="card-header text-center fw-semibold py-1 fs-7">Select State/District/Block/Village</div>
+        <div class="card-body">
+          <div class="mt-2">
+            <!-- <label for="ddStates" class="form-label fw-lighter fs-7 mb-0">Select a State</label> -->
+            <select class="form-select form-select-sm fs-7" aria-label="select states" id="ddStates" name="ddStates">
+              <option value="-1" disabled selected>Select State</option>
+              {% for state in states %}
+              <option value="{{state['id'] | safe}}">{{ state["name"] | safe}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mt-2">
+            <!-- <label for="ddDistricts" class="form-label fw-lighter fs-7 mb-0" >Select a District</label> -->
+            <select class="form-select form-select-sm fs-7" aria-label="select states" id="ddDistricts"
+              name="ddDistricts" disabled>
+              <option value="-1" disabled selected>Select District</option>
+            </select>
+          </div>
+          <div class="mt-2">
+            <!-- <label for="ddBlocks" class="form-label fw-lighter fs-7 mb-0" >Select a Block</label> -->
+            <select class="form-select form-select-sm fs-7" aria-label="select states" id="ddBlocks" name="ddBlocks"
+              disabled>
+              <option value="-1" disabled selected>Select Block</option>
+            </select>
+          </div>
+          <div class="mt-2">
+            <!-- <label for="ddVillages" class="form-label fw-lighter fs-7 mb-0" >Select a Village</label> -->
+            <select class="form-select form-select-sm fs-7" aria-label="select states" id="ddVillages" name="ddVillages"
+              disabled>
+              <option value="-1" disabled selected>Select Village</option>
+            </select>
+          </div>
+        </div>
+        <div class="d-grid gap-2">
+          <button class="btn btn-primary m-2 disabled" id="btnSubmit" name="btnSubmit">
+            <span class="fs-7">Submit</span>
+            <div class="spinner-border text-light spinner-border-sm d-none" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+        </div>
+      </div>
+      <!-- <div class="alert alert-warning mt-3" role="alert">
+
+        <p class="fs-7"><svg xmlns="http://www.w3.org/2000/svg"
+            class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" height="16" role="img"
+            aria-label="Warning:">
+            <path
+              d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+          </svg>Please note that the <span class="fw-semibold">village level water budget</span> can be
+          consolidated at district and block level. </p>
+        <p class="fs-7"><span class="fw-semibold">To consolidate at block level</span> - leave the dropdown to
+          <em>select village.</em> Select District and Block. Click Submit to continue.
+        </p>
+        <p class="fs-7"><span class="fw-bold">To consolidate at district level</span> - leave the dropdowns to
+          <em>select village</em> and <em>select block.</em>. Select District and click Submit to continue.
+        </p>
+      </div> -->
+    </div>
+  </div>
+  <!--
+    SELECT states.name state_name, count(water_bodies.id) as wb_count, 
+            to_char(SUM(water_bodies.storage_capacity), 'FM999999999.00') AS storage_capacity, 
+            to_char(SUM(water_bodies.water_spread_area), 'FM999999999.00') AS spread_area, 
+            MAX(water_bodies. max_depth) AS max_depth
+            FROM "public"."water_bodies" 
+            INNER JOIN villages_mp on villages_mp.id= water_bodies.village_code
+            INNER JOIN districts on villages_mp.district_id = districts.code
+            INNER JOIN states on states.id = districts.state_id
+            GROUP BY states.id
+            ORDER BY wb_count desc
+            LIMIT 5
+  -->
+  <div class="col-lg-10 col-md-12">
+    <div class="container mt-3">
+      <div class="row gx-5">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <div class="card mb-2">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div class="card-title fs-4">Count <span class="fw-lighter text-muted">| <span id="spanCount">in Units</span></span></div>
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false"><i
+                      class="fa-solid fa-ellipsis"></i></a>
+                  <ul id="wbCount_dropdown" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Select Unit</h6>
+                    </li>
+                    <li><a class="dropdown-item" href="#">in Units</a></li>
+                    <li><a class="dropdown-item" href="#">in Thousands</a></li>
+                    <li><a class="dropdown-item" href="#">in Lakhs</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <div
+                  class="rounded-circle d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success fs-2"
+                  style="height:64px; width:64px;">
+                  <i class="fa-solid fa-water"></i>
+                </div>
+                <div class="ps-3">
+                  <div class="display-6" id="wbCount"></div>                  
+                  <small id="wbCountPercent"></small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <div class="card mb-2">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div class="card-title fs-4">Storage <span class="fw-lighter text-muted">| <span id="spanStorage">in Hectare Mtrs</span></span></div>
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false"><i
+                      class="fa-solid fa-ellipsis"></i></a>
+                  <ul id="wbStorage_dropdown" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Select Unit</h6>
+                    </li>
+                    <li><a class="dropdown-item" href="#">in Hectare Mtrs</a></li>
+                    <li><a class="dropdown-item" href="#">in Lakh Cu Mtrs</a></li>
+                    <!-- <li><a class="dropdown-item" href="#">This Year</a></li> -->
+                  </ul>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <div
+                  class="rounded-circle d-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary fs-2"
+                  style="height:64px; width:64px;">
+                  <i class="fa-solid fa-hand-holding-droplet"></i>
+                </div>
+                <div class="ps-3">
+                  <div class="display-6" id="wbStorage"></div>
+                  <small id="wbStoragePercent"></small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+          <div class="card mb-2">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div class="card-title fs-4">Area <span class="fw-lighter text-muted">| <span id="spanArea">in Hectares</span></span></div>
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false"><i
+                      class="fa-solid fa-ellipsis"></i></a>
+                  <ul id="wbArea_dropdown" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Select Unit</h6>
+                    </li>
+                    <li><a class="dropdown-item" href="#">in Hectares</a></li>
+                    <li><a class="dropdown-item" href="#">in Square Kms</a></li>
+                    <!-- <li><a class="dropdown-item" href="#">This Year</a></li> -->
+                  </ul>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <div
+                  class="rounded-circle d-flex align-items-center justify-content-center bg-dark bg-opacity-10 text-dark fs-2"
+                  style="height:64px; width:64px;">
+                  <i class="fa-regular fa-map"></i>
+                </div>
+                <div class="ps-3">
+                  <div class="display-6" id="wbSpreadArea"></div>
+                  <small id="wbSpreadAreaPercent"></small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row gx-5 mt-3">
+        <div class="col-lg-7 col-md-12">
+          <div class="card mb-2">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div class="card-title fs-4">Top 5 <span class="fw-lighter text-muted">| <span id="topFilter">Count</span></span></div>
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false"><i
+                      class="fa-solid fa-ellipsis"></i></a>
+                  <ul id="wbTopFilter_dropdown" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+                    <li><a class="dropdown-item" href="#">Count</a></li>
+                    <li><a class="dropdown-item" href="#">Storage</a></li>
+                    <li><a class="dropdown-item" href="#">Spread Area</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div id="barhChart" style="width: 100%;height:400px;"></div>
+            </div>
+          </div>
+        </div>
+        <!--
+          select count(water_bodies.wb_type_id) as count, wb_master.name as name from water_bodies 
+          inner join wb_master on wb_master.code = water_bodies.wb_type_id
+          group by wb_master.name, wb_master.code
+          order by wb_master.code;
+        -->
+        <div class="col-lg-5 col-md-12">
+          <div class="card mb-2">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div class="card-title fs-4">Distribution <span class="fw-lighter text-muted">| <span id="spanDistribution">Count</span> </span>
+                </div>
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false"><i
+                      class="fa-solid fa-ellipsis"></i></a>
+                  <ul id="wbDistribution_dropdown" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+                    <li><a class="dropdown-item" href="#">Count</a></li>
+                    <li><a class="dropdown-item" href="#">Storage</a></li>
+                    <li><a class="dropdown-item" href="#">Area</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div id="donutChart" style="width: 100%;min-height:400px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 mt-3">
+        <!--
+            SELECT states.name state_name,
+            districts.name district_name, count(water_bodies.id) as wb_count, 
+            to_char(SUM(water_bodies.storage_capacity), 'FM999999999.00') AS storage_capacity, 
+            to_char(SUM(water_bodies.water_spread_area), 'FM999999999.00') AS spread_area, 
+            MAX(water_bodies. max_depth) AS max_depth
+            FROM "public"."water_bodies" 
+            INNER JOIN villages_mp on villages_mp.id= water_bodies.village_code
+            INNER JOIN districts on villages_mp.district_id = districts.code
+            INNER JOIN states on states.id = districts.state_id
+            GROUP BY districts.id, states.name
+            ORDER BY wb_count desc
+            LIMIT 5
+          -->
+        <div class="card mb-2">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div class="card-title fs-4">Tabular Data  <span class="fw-lighter text-muted">| Sorted By - <span id="spanTableSorted">Count</span></span>
+              </div>
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false"><i
+                    class="fa-solid fa-ellipsis"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h6>Sort</h6>
+                  </li>
+                  <li><a class="dropdown-item" href="#">Count</a></li>
+                  <li><a class="dropdown-item" href="#">Storage</a></li>
+                  <li><a class="dropdown-item" href="#">Area</a></li>
+                </ul>
+              </div>
+            </div>
+            <div id="tableContainer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 mt-3">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="card-title fs-4">3 Dimensional <span class="fw-lighter text-muted">| Count-Area-Storage</span></div>
+            <div class="filter">
+              <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="false"><i
+                  class="fa-solid fa-ellipsis"></i></a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                  <h6>Filter</h6>
+                </li>
+                <li><a class="dropdown-item" href="#">Today</a></li>
+                <li><a class="dropdown-item" href="#">This Month</a></li>
+                <li><a class="dropdown-item" href="#">This Year</a></li>
+              </ul>
+            </div>
+          </div>
+          <div id="bubbleChart" style="width: 100%;height:400px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<input type="hidden" id="wbDistribution" name="wbDistribution" value="{{primary_data}}">
+<input type="hidden" id="primaryData" name="primaryData">
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<script>
+
+  
+  // Bar Chart
+  function load_barhchart(barhchart_x_data, barhchart_y_data) {
+    var barhChartDom = document.getElementById('barhChart');
+    var barhChart = echarts.init(barhChartDom);
+    window.addEventListener('resize', function () {
+      barhChart.resize();
+    });
+    var option_barh;
+    option_barh = {
+      // title: {
+      //   text: 'World Population'
+      // },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      legend: {
+        show: false,
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'value',
+        boundaryGap: [0, 0.01]
+      },
+      yAxis: {
+        type: 'category',
+        data: barhchart_y_data,
+        inverse: true,
+      },
+      series: [
+        {
+          name: 'Count',
+          type: 'bar',
+          data: barhchart_x_data
+        },
+        // {
+        //   name: '2012',
+        //   type: 'bar',
+        //   data: [19325, 23438, 31000, 121594, 134141, 681807]
+        // }
+      ]
+    };
+
+    option_barh && barhChart.setOption(option_barh);
+  }
+
+  // Doughnut Chart
+  function load_donutchart(donutchart_data) {
+    var donutChartDom = document.getElementById('donutChart');
+    var donutChart = echarts.init(donutChartDom);
+    window.addEventListener('resize', function () {
+      donutChart.resize();
+    });
+    var option_donut;
+
+    option_donut = {
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        top: 'center',
+        orient: 'vertical',
+        left: 'right'
+      },
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
+          label: {
+            show: false,
+            position: 'center'
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: 40,
+              fontWeight: 'bold'
+            }
+          },
+          labelLine: {
+            show: false
+          },
+          data: donutchart_data
+        }
+      ]
+    };
+    option_donut && donutChart.setOption(option_donut);
+  }
+  
+  // Bubble Chart
+  function load_bubbleChart(bubbleChart_data) {
+    var bubbleChartDom = document.getElementById('bubbleChart');
+    var bubbleChart = echarts.init(bubbleChartDom);
+    var option_bubble;
+
+    const data_bubble = [
+      bubbleChart_data
+      // [
+      //   [3136.13, 4759, 53637530, "Balaghat"],
+      //   [134.14, 3915, 76224640, "Katni"],
+      //   [1632.97, 3802, 36332980, "Shahdol"],
+      //   [4143.90, 3677, 59180150, "Betul"],
+      //   [5147.19, 3317, 71275800, "Seoni"],
+      //   [95.71, 3173, 42288290, "Vidisha"],
+      //   [2687.71, 3144, 77277450, "Dhar"],
+      //   [1074.72, 2879, 20436180, "Anuppur"],
+      //   [890.19, 2694, 38289150, "Panna"],
+      //   [1447.86, 2674, 306891690, "Mandla"],
+      //   [4127.75, 2590, 232672730, "Dewas"],
+      //   [63233.17, 2485, 48348460, "Sehore"],
+      //   [1074.26, 2282, 65245990, "Umaria"],
+      //   [5420.17, 2137, 128063220, "Chhatarpur"],
+      //   [3.41, 2130, 212997020, "Ashoknagar"],
+      //   [35833.11, 2046, 20245290, "Singrauli"],
+      //   [8100.84, 1924, 47142700, "Satna"],
+      //   [46903.33, 1777, 49259330, "Rohtas"],
+      //   [12034.71, 1649, 40606490, "Ujjain"],
+      //   [212.08, 1646, 12107210, "Bhind"]
+      // ]
+    ];
+    option_bubble = {
+  // backgroundColor: new echarts.graphic.RadialGradient(0.3, 0.3, 0.8, [
+  //   {
+  //     offset: 0,
+  //     color: '#f7f8fa'
+  //   },
+  //   {
+  //     offset: 1,
+  //     color: '#cdd0d5'
+  //   }
+  // ]),
+  title: {
+    text: 'Waterbodies Bubble Chart',
+    left: '5%',
+    top: '3%',
+    show: false
+  },
+  legend: {
+    right: '10%',
+    top: '3%'
+  },
+  // grid: {
+  //   left: '8%',
+  //   top: '10%'
+  // },
+  xAxis: {
+    splitLine: {
+      lineStyle: {
+        type: 'dashed'
+      },
+      show: false,
+    },
+    name: 'Spread Area',
+    nameLocation: 'center',
+    nameTextStyle: {
+      fontSize: 14,
+      fontWeight: 'bold',
+      lineHeight: 40,
+    },
+  },
+  yAxis: {
+    splitLine: {
+      lineStyle: {
+        type: 'dashed'
+      },
+      show: false, 
+    },
+    scale: true,
+    name: 'Count',
+    nameLocation: 'middle',
+    nameTextStyle: {
+      fontSize: 14,
+      fontWeight: 'bold',
+      lineHeight: 40,
+    },
+  },
+  series: [
+    {
+      data: data_bubble[0],
+      type: 'scatter',
+      symbolSize: function (data) {
+        return Math.sqrt(data[2]) / 5e2;
+      },
+      emphasis: {
+        focus: 'series',
+        label: {
+          show: true,
+          formatter: function (param) {
+            return param.data[3];
+          },
+          position: 'top'
+        }
+      },
+      itemStyle: {
+        shadowBlur: 10,
+        shadowColor: 'rgba(120, 36, 50, 0.5)',
+        shadowOffsetY: 5,
+        color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [
+          {
+            offset: 0,
+            color: 'rgb(251, 118, 123)'
+          },
+          {
+            offset: 1,
+            color: 'rgb(204, 46, 72)'
+          }
+        ])
+      }
+    }
+  ]
+};
+
+    option_bubble && bubbleChart.setOption(option_bubble);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    // Toggle spinner
+    function toggleSpinner() {
+        const spinner = document.getElementById('loading-spinner');
+        spinner.style.display = (spinner.style.display === 'none' || spinner.style.display === '') ? 'block' : 'none';
+        }
+
+    payload = { 'country_id': -1 };
+    post_data(payload);
+    // --DEFINE CONSTANTS--
+    // --DEFINE VARIABLES--
+    var dd_states = document.getElementById("ddStates");
+    var dd_districts = document.getElementById("ddDistricts");
+    var dd_blocks = document.getElementById("ddBlocks");
+    var dd_villages = document.getElementById("ddVillages");
+    var submit_button = document.getElementById("btnSubmit");
+
+    // --DEFINE METHODS
+    function fill_dropdown(data, dd_type) {
+      var dropdown_element = "";
+      var select_option = "";
+      switch (dd_type) {
+        case "districts":
+          dd_districts.innerHTML = "";
+          dd_blocks.innerHTML = "";
+          dd_blocks.append(createOption("-1", "Select Block"))
+          dd_villages.innerHTML = "";
+          dd_villages.append(createOption("-1", "Select Village"))
+          dropdown_element = dd_districts;
+          select_option = "Select District";
+          // dropdown_element.disabled = false;
+          break;
+        case "blocks":
+          dd_blocks.innerHTML = "";
+          dd_villages.innerHTML = "";
+          dd_villages.append(createOption("-1", "Select Village"));
+          dropdown_element = dd_blocks;
+          select_option = "Select Block";
+          dropdown_element.disabled = false;
+          break;
+        case "villages":
+          dd_villages.innerHTML = "";
+          dropdown_element = dd_villages;
+          select_option = "Select Village";
+          dropdown_element.disabled = false;
+          break;
+        case "form_data":
+          break;
+        case "submit":
+          dd_type = "";
+        default:
+          break;
+      }
+      // dropdown_element.innerHTML="";
+
+      dropdown_element.append(createOption("-1", select_option))
+      for (let ndx = 0; ndx < data.length; ndx++) {
+        var item = data[ndx];
+        // var html = '<option value="' + item['id'] + '">' + item['name'] + '</option>';
+        dropdown_element.append(createOption(item['id'], item['name']));
+      }
+      dropdown_element.removeAttribute('disabled');
+    }
+    
+    // --FUNCTION FOR APIs--
+    function createOption(option_value, option_text) {
+      option = document.createElement('option')
+      option.value = option_value;
+      option.text = option_text;
+      return option;
+    }
+    
+    // --FECTCH FUNCTION FOR API CALLS--
+    function get_dd_data(dd_type, payload) {
+      toggleSpinner();
+      api_url = "/iwater/"
+      fetchOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8"
+        },
+        body: JSON.stringify(payload)
+      }
+      fetch(api_url + dd_type, fetchOptions)
+        .then(response => {
+          if (!response.ok) {
+
+          toggleSpinner();
+            deactivateLoader();
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then(data => {
+          toggleSpinner();
+          fill_dropdown(data, dd_type);
+          deactivateLoader();
+        })
+        .catch(error => {
+          toggleSpinner();
+          console.error("Error fetching data:", error);
+          deactivateLoader();
+        });
+    }
+
+    // --DROPDOWN CHANGE FUNCTIONS--
+    dd_states.addEventListener('change', function () {
+      dd_districts.setAttribute('disabled', 'disabled');
+      dd_blocks.setAttribute('disabled', 'disabled');
+      dd_villages.setAttribute('disabled', 'disabled')
+      submit_button.classList.remove('disabled');
+      var payload = { "select_id": this.value }
+      get_dd_data("districts", payload)
+    });
+
+    dd_districts.addEventListener('change', function () {
+      dd_blocks.setAttribute('disabled', 'disabled');
+      dd_villages.setAttribute('disabled', 'disabled');
+      submit_button.classList.remove('disabled');
+      var payload = { "select_id": this.value }
+
+      get_dd_data("blocks", payload)
+    });
+
+    dd_blocks.addEventListener('change', function () {
+      dd_villages.setAttribute('disabled', 'disabled')
+      var payload = { "select_id": this.value }
+      get_dd_data("villages", payload)
+    });
+
+    // -- ON SUBMIT --
+    submit_button.addEventListener("click", function () {
+      var payload = { 'state_id': dd_states.value, 'district_id': dd_districts.value, 'block_id': dd_blocks.value, 'village_id': dd_villages.value }
+      activateLoader();
+      post_data(payload)
+    })
+
+    function activateLoader(params) {
+      button_divs = submit_button.childNodes
+      submit_button.classList.add('disabled')
+      button_divs[1].classList.add('d-none')
+      button_divs[3].classList.remove('d-none')
+    }
+
+    function deactivateLoader(params) {
+      button_divs = submit_button.childNodes
+      submit_button.classList.remove('disabled')
+      button_divs[1].classList.remove('d-none')
+      button_divs[3].classList.add('d-none')
+    }
+
+    async function post_data(payload) {
+      toggleSpinner();
+      fetchOptions = {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json' // Set content type to JSON
+        },
+        body: JSON.stringify(payload),
+      }
+      const response = await fetch('/iwater/wb/api/dash', fetchOptions)
+      const decoder = new TextDecoder();
+      const reader = response.body;
+      if (response.ok) {
+        toggleSpinner();
+        const data = await response.json(); // Parse the response as JSON
+        national_data = document.getElementById('primaryData').value
+        if (national_data==""){
+          document.getElementById('primaryData').value = JSON.stringify(data['primary_data']);
+        }
+        fill_data(data);
+        try {
+          deactivateLoader();
+        } catch (error) {
+          console.log(error);
+          deactivateLoader();
+        }
+      } else {
+        toggleSpinner();
+        console.error('Failed to fetch data:', response.statusText);
+        deactivateLoader();
+      }
+    }
+
+    function fill_data(response_data) {
+      primary_data = JSON.parse(response_data['primary_data']);
+      set_wb_count(primary_data['wb_count']);
+      set_wb_storage(primary_data['storage']);
+      set_wb_spread_area(primary_data['spread_area']);
+      // document.getElementById('wbStorage').innerHTML = primary_data['storage'];
+      // document.getElementById('wbSpreadArea').innerHTML = primary_data['spread_area'];
+      document.getElementById('wbDistribution').value = JSON.stringify(response_data['wb_type_data']);
+      donutchart_data = JSON.parse(response_data['wb_type_data']);
+      barhchart_x_data = response_data['barhchart_x_data'];
+      barhchart_y_data = response_data['barhchart_y_data'];      
+      table_data = response_data['top_five'];
+      table_container = document.getElementById('tableContainer');
+      table_container.innerHTML = '';
+      table_container.appendChild(arrayToTable(table_data));
+      // table_container = document.getElementById('tableContainer');
+      // tableToJson(table_container);
+      bubbleChart_data = tableToBubbleChartData(response_data['top_all']);
+      load_donutchart(donutchart_data);
+      load_barhchart(barhchart_x_data, barhchart_y_data);
+      load_bubbleChart(bubbleChart_data);
+    }
+
+    function set_wb_count(wb_count) {
+        primary_data_wb_count = wb_count
+        document.getElementById('wbCount').innerHTML = primary_data_wb_count;
+        national_data_wb_count = JSON.parse(JSON.parse(document.getElementById('primaryData').value));
+        percent_wb_count = (parseFloat(primary_data_wb_count) / parseFloat(national_data_wb_count['wb_count']))*100
+        document.getElementById('wbCountPercent').innerHTML = `
+        <span class="text-success fw-bold">${parseInt(percent_wb_count)}%</span> <span
+                    class="text-muted ps-1">of Country</span>
+        `
+      }
+
+    function set_wb_storage(wb_storage) {
+        primary_data_wb_storage = wb_storage;
+        document.getElementById('wbStorage').innerHTML = primary_data_wb_storage;
+        national_data = JSON.parse(JSON.parse(document.getElementById('primaryData').value));
+        percent_wb_storage = (parseFloat(primary_data_wb_storage) / parseFloat(national_data['storage']))*100
+        document.getElementById('wbStoragePercent').innerHTML = `
+        <span class="text-success fw-bold">${parseInt(percent_wb_storage)}%</span> <span
+                    class="text-muted ps-1">of Country</span>
+        `
+      }
+    
+    function set_wb_spread_area(wb_spread_area) {
+        primary_data_spread_area = wb_spread_area;
+        document.getElementById('wbSpreadArea').innerHTML = primary_data_spread_area;
+        national_data = JSON.parse(JSON.parse(document.getElementById('primaryData').value));
+        percent_spread_area = (parseFloat(primary_data_spread_area) / parseFloat(national_data['spread_area']))*100
+        document.getElementById('wbSpreadAreaPercent').innerHTML = `
+        <span class="text-success fw-bold">${parseInt(percent_spread_area)}%</span> <span
+                    class="text-muted ps-1">of Country</span>
+        `
+      }
+
+    function arrayToTable(data) {
+      // Create the table element
+      const table = document.createElement("table");
+      table.classList.add('table', 'table-hover')
+      const thead = document.createElement('thead');
+      thead.classList.add('table-primary');
+      // Extract table headers from the first object's keys
+      const tableHeaders = Object.keys(data[0]);
+      column_order = ['S.No.', 'Name', 'Count', 'Storage', 'Area']
+      // Create the header row
+      const headerRow = document.createElement("tr");
+
+      // Create and append headers to the header row
+      for (const header of column_order) {
+        const columnHeader = document.createElement("th");
+        columnHeader.textContent = header;
+        headerRow.appendChild(columnHeader);
+      }
+      thead.appendChild(headerRow);
+
+      // Append the header row to the table
+      table.appendChild(thead);
+
+      // Create the table body
+      const tableBody = document.createElement("tbody");
+
+      // Loop through the data and create table rows
+      for (const rowData of data) {
+        const tableRow = document.createElement("tr");
+
+        // Loop through each cell data and create table cells
+        for (const header of column_order) {
+          const tableCell = document.createElement("td");
+          tableCell.textContent = rowData[header];
+          tableRow.appendChild(tableCell);
+        }
+
+        // Append the data row to the table body
+        tableBody.appendChild(tableRow);
+      }
+
+      // Append the table body to the table
+      table.appendChild(tableBody);
+
+      // Return the generated table element
+      return table;
+    }
+
+    function toggleSelect(element) {
+
+      // Toggle the 'disabled' setAttributeibute
+      element.disabled = !element.disabled;
+
+      // Optional: You can also change the color to indicate the state
+      if (element.disabled) {
+        element.style.backgroundColor = "#dddddd"; // Disabled color
+      } else {
+        element.style.backgroundColor = "#ffffff"; // Enabled color
+      }
+    }
+
+    function convertNumber(unit, selected_unit, display_element) {
+      let multiplier = 1;
+      let unit_text = 'in Units';
+      switch(selected_unit.innerText.trim()){
+        case 'in Thousands':
+        multiplier = 1000;
+          break;
+        case 'in Lakhs':
+        multiplier = 100000;
+          break;
+        case 'in Lakh Cu Mtrs':
+          multiplier = 1000;
+          break;
+        case 'in Square Kms':
+          multiplier = 100
+          break;
+        default:
+        multiplier = 1;
+      }
+      let value = display_element.innerText;
+      value = value * multiplier;
+      let result;
+      switch(unit) {
+        case 'in Units':
+          result = value;
+          unit_text = unit
+          break;
+        case 'in Thousands':
+          result = value / 1000;
+          unit_text = unit
+          break;
+        case 'in Lakhs':
+          result = value / 100000;
+          unit_text = unit
+          break;
+        case 'in Hectare Mtrs':
+          result = value
+          unit_text = unit
+          break;
+        case 'in Lakh Cu Mtrs':
+          result = value / 1000;
+          unit_text = unit
+          break;
+        case 'in Hectares':
+          result = value
+          unit_text = unit
+          break;
+        case 'in Square Kms':
+          result = value / 100
+          unit_text = unit
+          break;
+        default:
+          result = value;
+      }
+      display_element.innerText = result;
+      selected_unit.innerText = unit_text;
+      // return result;
+    }
+
+    // Add event listeners to dropdown items
+    document.getElementById('wbCount_dropdown').childNodes.forEach(item => {
+      item.addEventListener('click', (event) => {
+        change_wb_count(event.target.textContent.trim());
+      });
+    });
+
+    function change_wb_count(contextValue){
+      let selected_unit = document.getElementById('spanCount');
+      let display_element = document.getElementById("wbCount");
+      convertNumber(contextValue, selected_unit,display_element);
+    }
+
+    document.getElementById('wbStorage_dropdown').childNodes.forEach(item => {
+      item.addEventListener('click', (event) => {
+        change_wb_storage(event.target.textContent.trim());
+      });
+    });
+
+    function change_wb_storage(contextValue){
+      let selected_unit = document.getElementById('spanStorage');
+      let display_element = document.getElementById("wbStorage");
+      convertNumber(contextValue, selected_unit,display_element);
+    }
+
+    document.getElementById('wbArea_dropdown').childNodes.forEach(item => {
+      item.addEventListener('click', (event) => {
+        change_wb_area(event.target.textContent.trim());
+      });
+    });
+
+    function change_wb_area(contextValue){
+      let selected_unit = document.getElementById('spanArea');
+      let display_element = document.getElementById("wbSpreadArea");
+      convertNumber(contextValue, selected_unit, display_element);
+    }
+
+    document.getElementById('wbTopFilter_dropdown').childNodes.forEach(item => {
+      item.addEventListener('click', (event) => {
+        filter_data(event.target.textContent.trim());
+      });
+    });
+
+    document.getElementById('wbDistribution_dropdown').childNodes.forEach(item => {
+      item.addEventListener('click', (event) => {
+        switch_doughnutdata(event.target.textContent.trim());
+      });
+    });
+    
+    function switch_doughnutdata(filter){
+      doughnut_data = document.getElementById('wbDistribution').value;
+      doughnut_data = JSON.parse(JSON.parse(doughnut_data));
+      display_text = document.getElementById('spanDistribution');
+      doughnutData = []
+      switch(filter){
+        case 'Count':
+          doughnut_data.forEach(element => {
+            doughnutData.push({'value': element.value, 'name':element.name})
+          });
+          break;
+        case 'Storage':
+          doughnut_data.forEach(element => {
+            doughnutData.push({'value': element.storage, 'name':element.name})
+          });
+          break;
+        case 'Area':
+          doughnut_data.forEach(element => {
+            doughnutData.push({'value': element.spread_area, 'name':element.name})
+          });
+          break;
+        default:
+          break;
+      }
+      display_text.innerText = filter;
+      load_donutchart(doughnutData);
+    }
+
+    function tableToJson(table) {
+      const data = [];
+      const headers = [];
+      
+      // Get the table headers
+      const headerCells = table.querySelectorAll('thead th');
+      headerCells.forEach(headerCell => headers.push(headerCell.textContent.trim()));
+
+      // Get the table rows
+      const rows = table.querySelectorAll('tbody tr');
+      rows.forEach(row => {
+        const rowData = {};
+        const cells = row.querySelectorAll('td');
+        
+        cells.forEach((cell, i) => {
+          const header = headers[i];
+          rowData[header] = cell.textContent.trim();
+        });
+        
+        data.push(rowData);
+      });
+
+      return data;
+    }
+ 
+    function tableToBubbleChartData(data){
+        return data.map(item => [
+            Number(item.Area)/1000, // Convert Area to number
+            Number(item.Count)/1000, // Convert Count to number
+            Number(item.Storage)*1000, // Convert Storage to number
+            item.Name // Name remains a string
+        ]);
+    };
+ // Function to filter and sort data based on the filter
+    function filter_data(filter) {
+      table_data = tableToJson(document.getElementById('tableContainer'));
+      let filtered_data = [];
+      let filter_text = ''
+      switch(filter) {
+        case 'Count':
+          filtered_data = table_data.map(item => ({x: item.Count, y: item.Name}));
+          filter_text = filter
+          break;
+        case 'Storage':
+          filtered_data = table_data.map(item => ({x: parseFloat(item.Storage), y: item.Name}));
+          filter_text = filter
+          break;
+        case 'Spread Area':
+          filtered_data = table_data.map(item => ({x: parseFloat(item.Area), y: item.Name}));
+          filter_text = filter
+          break;
+        default:
+          console.log('Invalid filter');
+          return;
+      }
+      document.getElementById('topFilter').innerText = filter_text
+      // Sort the data from largest to smallest
+      filtered_data.sort((a, b) => b.x - a.x);
+
+      // Extract bar_x_data and bar_y_data
+      const bar_x_data = filtered_data.map(item => item.x);
+      const bar_y_data = filtered_data.map(item => item.y);
+      load_barhchart(bar_x_data, bar_y_data)
+      // return {'x_data': bar_x_data, 'y_data': bar_y_data};
+    }
+ 
+  });
+
+</script>
+{% endblock %}
+<!--Reference: https://bootstrapmade.com/demo/NiceAdmin/-->

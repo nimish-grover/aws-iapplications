@@ -1,0 +1,343 @@
+{%extends 'base.html'%}
+{% block title %}
+<title>Course - E-Saksham</title>
+{%endblock%}
+{%block content%}
+<!-- for desktops and laptops -->
+<div class="d-none d-md-block">
+    <div class="container-fluid m-0 p-0" style="background-color: #A3A2A2; width: 100%;">
+        <div class="row roboto pt-4 justify-content-center text-center">
+            <div class="fs-1 fw-semibold text-white pt-3">GIS Based INRM Planning Under MGNREGA</div>
+            <div class="fs-6 pt-1 text-white">An online course for the technical staff of MGNREGA and Line Departments.
+            </div>
+            <a class="btn btn-primary mt-3" style="width: fit-content; z-index: 2; border-radius: 70px;" href="{{url_for('learning.play_chapter',id = 1)}}">
+                JOIN THIS COURSE
+            </a>
+
+        </div>
+        <div class="row" style="margin-top: -20px; z-index: 1;">
+            <div class="container" id="overlay" style="width: 45%; height: 100px;"></div>
+        </div>
+        <div class="row p-0" style="height: 50px; min-width: 100%; margin-top:-70px; background-color: white;"></div>
+    </div>
+    <div class="container-fluid m-0 p-0 bg-white justify-content-center" style="width: 100%; display: flex;">
+        <div class="row mb-5 justify-content-center" style="width: 90%;">
+            <div class="row mx-5" style="width: 50%;">
+                <div class="col text-center">
+                    <div class="text-secondary">Students</div>
+                    <div class="fw-semibold">6721 (Registered)</div>
+                </div>
+                <div class="col-1 justify-content-center d-block">
+                    <div class="vertical-separator bg-secondary ms-2"></div>
+                </div>
+                <div class="col text-center">
+                    <div class="text-secondary">Review</div>
+                    <div class="fw-semibold">(8 reviews)</div>
+                </div>
+            </div>
+            <div class="row mt-3" style="width: 70%;">
+                <img src="{{ url_for('static',filename='assets/c_fff-1200x450.png') }}" alt="">
+            </div>
+            <div class="row mt-4" style="width: 70%;">
+                <h2 class="text-center fw-semibold">What is this course?</h2>
+
+                <ul>
+                    <li>Learn about Integrated Natural Resource Management (INRM)</li>
+                    <li>Learn about Web based GIS application such as Bhuvan, Google Earth Pro etc.</li>
+                    <li>Guidelines for developing GP Plans for INRM, Mission Water Conservation (MWC), Pradhan Mantri Krishi Sinchai Yojna (PMKSY) etc</li>
+                    <ol>
+                        <li>INRM</li>
+                        <li>GIS</li>
+                        <li>PMKSY</li>
+                        <li>MWC</li>
+                        <li>MGNREGA</li>
+                    </ol>
+                </ul>
+            </div>
+            <div class="row" style="width: 70%;">
+                <h2 class="text-center fw-semibold">Why this course?</h2>
+
+                <ul>
+                    <li>To enhance knowledge in watershed, Command area development, Afforestation, Flood and Drought
+                        Management, Agriculture/Horticulture and allied livelihoods</li>
+                    <li>To get hands-on practice of using Bhuvan Portal of NRSC and Google Earth Pro tools</li>
+                    <li>Learn About GIS tools for thematic outputs</li>
+                    <li>To learn about development of Gram Panchayat INRM plans under MGNREGA, PMKSY, MWC etc.</li>
+                </ul>
+            </div>
+            <div class="row mt-3" style="width: 70%;">
+                <h2 class="text-center fw-semibold">Who should do this course?</h2>
+
+                <ul>
+                    <li>At block level: Barefoot technicians, technical assistants, assistant engineers</li>
+                    <li>At District and State Level: All technical officers of Rural Development and line departments
+                    </li>
+                    <li>All technical officers of Non Governmental Organisations working in the field of Natural
+                        Resource Management</li>
+                </ul>
+            </div>
+            <div class="card mt-3 p-0" style="width: 70%;">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="fs-5 fw-semibold">Course Content</div>
+                        </div>
+                        <div class="col-6 text-end">
+                            <div class="fs-6">Total learning: 24 lessons / 5 quizzes</div>
+                        </div>
+                        <div class="col">
+                            <div class="fs-6">Time:3 Hours</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    
+                        <div class="accordion accordion-flush" id="accordion">
+                            
+                            {% for title in accordion_title %}
+                            <div class="accordion-item">
+                                <div class="accordion-header">
+                                    <button class="accordion-button no-loader text-truncate" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#desktop-{{title.id}}"
+                                        aria-expanded="true" aria-controls="{{title.id}}">
+                                        <div class="text-truncate" data-bs-toggle="tooltip"
+                                            data-bs-title="{{title.name}}" style="max-width: 90%;">
+                                            {{title.name}}
+                                        </div>
+
+                                    </button>
+                                </div>
+                                <div id="desktop-{{title.id}}" class="accordion-collapse collapse px-2 in show">
+                                    <div class="accordion-body p-0">
+                                        <div class="list-group list-group-flush">
+                                            {% for module in accordion_content %}
+                                                {% for chapter in module %}
+                                                    {% if chapter.module_id == title.id%}
+                                                        <a class="list-group-item list-group-item-action" href="{{url_for('learning.play_chapter',id = chapter.id)}}" style="text-decoration: none;" >
+                                                            <div class="row p-2">
+                                                                {% if 'FAQ' in chapter.title %}
+                                                            <div class="col-1 pe-0">
+                                                                <i class="fa-solid fa-circle-question"></i>
+                                                            </div>
+                                                            {% elif 'Quiz' in chapter.title %}
+                                                            <div class="col-1 pe-0">
+                                                                <i class="fa-regular fa-clock"></i>
+                                                            </div>
+                                                            {% else %}
+                                                            <div class="col-1 pe-0">
+                                                                <i class="fa-brands fa-youtube"></i>
+                                                            </div>
+                                                            {% endif %}
+
+                                                            <div class="col-9">
+                                                                <div class="fs-6 text-truncate" data-bs-toggle="tooltip"
+                                                            data-bs-title="{{chapter.title}}">{{chapter.title}}</div>
+                                                            </div>
+                                                            <div class="col-2 d-grid justify-content-end">
+                                                                <div class="fs-6">{{chapter.length}}</div>
+                                                            </div>
+                                                            </div>
+                                                        </a>
+                                                    {%endif%}
+                                                {%endfor%}
+                                            {%endfor%}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- for mobiles -->
+<div class=" d-sm-block d-md-none">
+    <div class="container-fluid m-0 p-0" style="background-color: #A3A2A2; width: 100%;">
+        <div class="row roboto pt-4 justify-content-center text-center mx-2">
+            <div class="fs-4 fw-semibold text-white pt-3">GIS Based INRM Planning Under MGNREGA</div>
+            <div class="fs-7 pt-1 text-white">An online course for the technical staff of MGNREGA and Line Departments.
+            </div>
+            <a class="btn btn-primary mt-3 fs-7" style="width: fit-content; z-index: 2; border-radius: 70px;" href="{{url_for('learning.play_chapter',id = 1)}}">
+                JOIN THIS COURSE
+            </a>
+
+        </div>
+        <div class="row" style="margin-top: -20px; z-index: 1;">
+            <div class="container" id="overlay" style="width: 70%; height: 100px;"></div>
+        </div>
+        <div class="row p-0" style="height: 50px; min-width: 100%; margin-top:-70px; background-color: white;"></div>
+    </div>
+    <div class="container-fluid m-0 p-0 bg-white justify-content-center" style="width: 100%; display: flex;">
+        <div class="row mb-5 justify-content-center" style="width: 90%;">
+            <div class="row mx-5">
+                <div class="col text-center">
+                    <div class="text-secondary fs-7">Students</div>
+                    <div class="fw-semibold fs-6">6721 (Registered)</div>
+                </div>
+                <div class="col-1 justify-content-center d-block">
+                    <div class="vertical-separator bg-secondary ms-2"></div>
+                </div>
+                <div class="col text-center">
+                    <div class="text-secondary fs-7">Review</div>
+                    <div class="fw-semibold fs-6">(8 reviews)</div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <img src="{{ url_for('static',filename='assets/c_fff-1200x450.png') }}" alt="">
+            </div>
+            <div class="row mt-4">
+                <h2 class="text-center fs-6 fw-semibold">What is this course?</h2>
+
+                <ul class="fs-7">
+                    <li>Learn about Integrated Natural Resource Management (INRM)</li>
+                    <li>Learn about Web based GIS application such as Bhuvan, Google Earth Pro etc.</li>
+                    <li>Guidelines for developing GP Plans for INRM, Mission Water Conservation (MWC), Pradhan Mantri Krishi Sinchai Yojna (PMKSY) etc</li>
+                    <ol class="fs-7">
+                        <li>INRM</li>
+                        <li>GIS</li>
+                        <li>PMKSY</li>
+                        <li>MWC</li>
+                        <li>MGNREGA</li>
+                    </ol>
+                </ul>
+            </div>
+            <div class="row mt-2">
+                <h2 class="text-center fw-semibold fs-6">Why this course?</h2>
+
+                <ul class="fs-7">
+                    <li>To enhance knowledge in watershed, Command area development, Afforestation, Flood and Drought
+                        Management, Agriculture/Horticulture and allied livelihoods</li>
+                    <li>To get hands-on practice of using Bhuvan Portal of NRSC and Google Earth Pro tools</li>
+                    <li>Learn About GIS tools for thematic outputs</li>
+                    <li>To learn about development of Gram Panchayat INRM plans under MGNREGA, PMKSY, MWC etc.</li>
+                </ul>
+            </div>
+            <div class="row mt-4">
+                <h2 class="text-center fw-semibold fs-6">Who should do this course?</h2>
+
+                <ul class="fs-7">
+                    <li>At block level: Barefoot technicians, technical assistants, assistant engineers</li>
+                    <li>At District and State Level: All technical officers of Rural Development and line departments
+                    </li>
+                    <li>All technical officers of Non Governmental Organisations working in the field of Natural
+                        Resource Management</li>
+                </ul>
+            </div>
+            <div class="card mt-3 p-0">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="row">
+                            <div class="col">
+                                <div class="fs-6 fw-semibold">Course Content</div>
+                            </div>
+                            <div class="col-4 text-end p-0">
+                                <div class="fs-7 text-secondary">Time:3 Hours</div>
+                            </div>
+                            
+                        </div>
+                        <div class="row text-center mt-1">
+                            <div class="fs-7 text-secondary">Total learning: 24 lessons / 5 quizzes</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    
+                        <div class="accordion accordion-flush" id="accordion">
+                            
+                            {% for title in accordion_title %}
+                            <div class="accordion-item">
+                                <div class="accordion-header">
+                                    <button class="accordion-button no-loader text-truncate" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#mobile-{{title.id}}"
+                                        aria-expanded="true" aria-controls="{{title.id}}">
+                                        <div class="text-truncate" data-bs-toggle="tooltip"
+                                            data-bs-title="{{title.name}}" style="max-width: 90%;">
+                                            {{title.name}}
+                                        </div>
+
+                                    </button>
+                                </div>
+                                <div id="mobile-{{title.id}}" class="accordion-collapse collapse px-2 in show">
+                                    <div class="accordion-body p-0">
+                                        <div class="list-group list-group-flush">
+                                            {% for module in accordion_content %}
+                                                {% for chapter in module %}
+                                                    {% if chapter.module_id == title.id%}
+                                                        <a class="list-group-item list-group-item-action" href="{{url_for('learning.play_chapter',id = chapter.id)}}" style="text-decoration: none;" >
+                                                            <div class="row p-2">
+                                                                {% if 'FAQ' in chapter.title %}
+                                                            <div class="col-1 pe-0">
+                                                                <i class="fa-solid fa-circle-question fs-6"></i>
+                                                            </div>
+                                                            {% elif 'Quiz' in chapter.title %}
+                                                            <div class="col-1 pe-0">
+                                                                <i class="fa-regular fa-clock fs-6"></i>
+                                                            </div>
+                                                            {% else %}
+                                                            <div class="col-1 pe-0">
+                                                                <i class="fa-brands fa-youtube fs-6"></i>
+                                                            </div>
+                                                            {% endif %}
+
+                                                            <div class="col-9">
+                                                                <div class="fs-6 text-truncate" data-bs-toggle="tooltip"
+                                                            data-bs-title="{{chapter.title}}">{{chapter.title}}</div>
+                                                            </div>
+                                                            <div class="col-2 d-grid justify-content-center p-0">
+                                                                <div class="fs-7">{{chapter.length}}</div>
+                                                            </div>
+                                                            </div>
+                                                        </a>
+                                                    {%endif%}
+                                                {%endfor%}
+                                            {%endfor%}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
+{%block script%}
+<script>
+    function openSourceInNewTab() {
+        // URL of the button source
+        var buttonSourceUrl = "/esaksham/";
+
+        // Open a new tab with the specified URL
+        window.open(buttonSourceUrl, '_blank');
+    }
+    function toggleFullScreen() {
+        var iframe = document.getElementById('embeddedFrame');
+        if (!document.fullscreenElement) {
+            iframe.requestFullscreen();
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+    }
+    function toggleFullScreenMobile() {
+        var iframe = document.getElementById('embeddedFrameMobile');
+        if (!iframe.fullscreenElement) {
+            iframe.requestFullscreen();
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+    }
+</script>
+
+{%endblock%}

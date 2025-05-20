@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+{% block title %}Water Supply{% endblock %}
+{% block content %}
+{{super()}}
+<div style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
+    aria-label="breadcrumb">
+    {% if breadcrumbs %}
+    <ol class="breadcrumb fs-8 my-1">
+        {% for breadcrumb in breadcrumbs %}
+        <li class="{{'breadcrumb-item active' if loop.index == breadcrumbs|length else 'breadcrumb-item text-primary'}}">
+            {{breadcrumb}}
+        </li>
+        {% endfor %}
+    </ol>
+    {% endif %}
+</div>
+<ul class="nav nav-tabs nav-pills nav-fill fs-7" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active py-1" id="available-tab" data-bs-toggle="tab" data-bs-target="#available" type="button"
+            role="tab" aria-controls="available" aria-selected="true">Available</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link py-1" id="harvested-tab" data-bs-toggle="tab" data-bs-target="#harvested" type="button"
+            role="tab" aria-controls="harvested" aria-selected="false">Harvested</button>
+    </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div class="tab-pane active" id="available" role="tabpanel" aria-labelledby="available-tab" tabindex="0">
+        <div class="card mx-3 my-2 shadow-sm">
+            <div class="card-header text-center py-1 fs-7 fw-bold">Runoff from Rainfall</div>
+            <div class="card-body">
+                <canvas id="runoffPercentChart" height="100" aria-label="Runoff Percentage Chart" role="img"></canvas>
+            </div>
+        </div>
+        <div class="card mx-3 my-2 shadow-sm">
+            <div class="card-header text-center">
+                <div class="fs-6 fw-bold mb-0">Catchment</div>
+                <div class="fs-7 text-center text-secondary fw-normal mt-n4">Area in Hectare Metres</div> 
+            </div>
+            <div class="card-body">
+                <canvas id="runoffAreaChart" aria-label="Runoff Area Chart" role="img"></canvas>
+            </div>
+            <div class="card-footer text-end py-1">
+                <form action="{{url_for('PWA.home')}}" method="POST">
+                    <input type="hidden" name="payload" id="payload" value="{{payload | safe}}">
+                    <input type="submit" class="btn btn-secondary btn-sm shadow-sm" value="Back"/>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane" id="harvested" role="tabpanel" aria-labelledby="harvested" tabindex="1">
+        <div class="card mx-3 my-2 shadow-sm">
+            <div class="card-header text-center py-1 fs-7 fw-bold">Waterbodies Count</div>
+            <div class="card-body">
+                <canvas id="harvestedCountChart" height="100" aria-label="Harvested Count Chart" role="img"></canvas>
+            </div>
+        </div>
+        <div class="card mx-3 my-2 shadow-sm">
+            <div class="card-header text-center">
+                <div class="fs-6 fw-bold mb-0">Waterbodies</div>
+                <div class="fs-7 text-center text-secondary fw-normal mt-n4">Area Harvested in Hectare Metres</div> 
+            </div>
+            <div class="card-body">
+                <canvas id="harvestedAreaChart" aria-label="Harvested Area Chart" role="img"></canvas>
+            </div>
+            <div class="card-footer text-end py-1">
+                <form action="{{url_for('PWA.home')}}" method="POST">
+                    <input type="hidden" name="payload" id="payload" value="{{payload | safe}}">
+                    <input type="submit" class="btn btn-secondary btn-sm shadow-sm" value="Back"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" name="available" id="availableChartDetails" data-labels="{{available_chart_details}}">
+<input type="hidden" name="harvested" id="harvestedChartDetails" value="{{harvested_chart_details}}">
+{% endblock %}
+{% block script %}
+<script>
+    $(document).ready(() => {
+
+        // Variables & Constants
+        const runoffPercentCtx = document.getElementById('runoffPercentChart');
+        const runoffAreaCtx = document.getElementById('runoffAreaChart');
+        const harvestedCountCtx = document.getElementById('harvestedCountChart');
+        const harvestedAreaCtx = document.getElementById('harvestedAreaChart');
+        const available_chart_details = document.getElementById('availableChartDetails').dataset.labels;
+        const harvested_chart_details = document.getElementById('harvestedChartDetails').dataset.labels;
+        // const livestock_chart_details = document.getElementById('livestockChartDetails').dataset.labels;
+        const barBackgroundColor = [
+            'rgba(255, 99, 132, 1)', // red
+            'rgba(54, 162, 235, 1)', // blue
+            'rgba(75, 192, 192, 1)', // green
+            'rgba(153, 102, 255, 1)', // purple
+            'rgba(255, 205, 86, 1)', // yellow
+            'rgba(201, 203, 207, 1)', // grey
+            'rgba(255, 159, 64, 1)' // orange
+        ];
+        const barChartOptions = {
+            indexAxis: 'y',
+            scales: {
+                y: {
+                    grid: { display: false },
+                },
+                x: {
+                    grid: { display: false },
+                }
+            },
+            // Elements options apply to all of the options unless overridden in a dataset
+            // In this case, we are setting the border of each horizontal bar to be 2px wide
+            // elements: {
+            //     bar: {
+            //         borderWidth: 2,
+            //     }
+            // },
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false,
+                    position: 'right',
+                },
+                title: {
+                    display: false,
+                    text: 'Population Count'
+                }
+            }
+        };
+        const doughtutOptions = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    display: false
+                },
+                title: {
+                    display: false,
+                    text: 'Water Budget Chart'
+                }
+            }
+        };
+        // <--A V A I L A B L E-->
+        const availableRunoffData = {
+            labels: {{ available_chart_details['chart_labels']| safe
+    }},
+        datasets: [{
+            label: '{{available_chart_details['chart_title']|safe}}',
+            data: {{ available_chart_details['chart_count_data']| safe }},
+        backgroundColor: barBackgroundColor,
+        hoverOffset: 4
+            }]
+        };
+    // config
+    const availableRunoffConfig = {
+        type: 'bar',
+        data: availableRunoffData,
+        options: barChartOptions,
+    };
+
+    // setup
+    const availableAreaData = {
+        labels: {{ available_chart_details['chart_labels']| safe}},
+    datasets: [{
+        label: '{{available_chart_details['chart_title']|safe}}',
+        data: {{ available_chart_details['chart_consume_data']| safe }},
+        backgroundColor: barBackgroundColor,
+        hoverOffset: 4
+            }]
+        };
+    // config
+    const availableAreaConfig = {
+        type: 'doughnut',
+        data: availableAreaData,
+        options: doughtutOptions,
+    };
+
+    // <--H A R V E S T E D-->
+    const harvestedCountData = {
+        labels: {{ harvested_chart_details['chart_labels']| safe}},
+    datasets: [{
+        label: '{{harvested_chart_details['chart_title']|safe}}',
+        data: {{ harvested_chart_details['chart_count_data']| safe }},
+        backgroundColor: barBackgroundColor,
+        hoverOffset: 4
+            }]
+        };
+    // config
+    const harvestedCountConfig = {
+        type: 'bar',
+        data: harvestedCountData,
+        options: barChartOptions,
+    };
+
+    // setup
+    const harvestedRunoffData = {
+        labels: {{ harvested_chart_details['chart_labels']| safe}},
+    datasets: [{
+        label: '{{harvested_chart_details['chart_title']|safe}}',
+        data: {{ harvested_chart_details['chart_consume_data']| safe }},
+        backgroundColor: barBackgroundColor,
+        hoverOffset: 4
+            }]
+        };
+    // config
+    const harvestedRunoffConfig = {
+        type: 'doughnut',
+        data: harvestedRunoffData,
+        options: doughtutOptions,
+    };
+    
+    new Chart(runoffPercentCtx, availableRunoffConfig);
+    new Chart(runoffAreaCtx, availableAreaConfig);
+    new Chart(harvestedCountCtx, harvestedCountConfig);
+    new Chart(harvestedAreaCtx, harvestedRunoffConfig);
+
+    });
+</script>
+{% endblock %}

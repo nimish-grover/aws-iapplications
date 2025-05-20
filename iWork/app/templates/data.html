@@ -1,0 +1,411 @@
+{% extends 'base.html' %}
+{% block title %} Inputs {% endblock %}
+{% block content %}
+
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+            <nav class="ms-2 fs-8" style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    {% for breadcrumb in breadcrumbs %}
+                    <li class="breadcrumb-item {% if loop.index == breadcrumbs|length %}text-primary{% endif %}">{{
+                        breadcrumb['name'] }}</li>
+                    {% endfor %}
+                </ol>
+            </nav>
+            <div class="container mb-2 d-flex justify-content-center align-items-center">
+                <div class="progresses">
+                    <div class="steps completed">
+                        <span><i class="fa fa-check"></i></span>
+                    </div>                
+                    <span class="line completed"></span>                
+                    <div class="steps completed">
+                        <span class="font-weight-bold">2</span>
+                    </div>
+                    <span class="line pending"></span>
+                    <div class="steps pending">
+                        <span class="font-weight-bold">3</span>
+                    </div>    
+                </div>  
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="text-center">
+                        <h3 class="m-0">Completed Works</h3>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div class="text-danger fs-8"><i class="fa-solid fa-circle-exclamation"></i> Pending: <span
+                                class="fw-semibold">{{completed_works | length}}</span> </div>
+                        <div class="text-dark fs-8">(FY 2023-2024)</div>
+                        <div class="text-success fs-8"><i class="fa-solid fa-circle-check"></i> Completed: <span
+                                class="fw-semibold">{{completed}}</span></div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form action="{{url_for('.data')}}" method="post" >
+                        <div class="mb-1">
+                            <label for="selectWorkCode" class="form-label fs-7">Select Work Code</label>
+                            <select class="form-select form-select-sm" id="selectWorkCode" name="selectWorkCode"
+                                aria-label="Select Asset ID">
+                                <option selected>--Select Work Code--</option>
+                                {% for row in completed_works %}
+                                <option value="{{row['id']}}" data-row='{{ row|tojson }}'>{{row['code']}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div id="workCodeContainer" class="visually-hidden">
+                            <div class="mb-1">
+                                <label for="txtWorkName" class="form-label fs-7 mb-0">Work Name</label>
+                                <label type="text" class="form-control form-control-sm fs-7 text-wrap" id="txtWorkName"
+                                    name="txtWorkName" placeholder="Select Asset ID to view" disabled style="background:#e9ecef"></label>
+                            </div>
+                            <div class="mb-1">
+                                <label for="txtAmountSpent" class="form-label fs-7 mb-0">Amount Spent</label>
+                                <input type="text" class="form-control form-control-sm fs-7" id="txtAmountSpent"
+                                    name="txtAmountSpent" placeholder="Select Asset ID to view" disabled>
+                            </div>
+                            <div class="alert alert-danger alert-dismissible fade show py-1 fs-8 my-1" role="alert">
+                                <strong>Important!</strong> Enter Permissible Work accurately. Read tooltip <span class="text-primary"><i class="fa-solid fa-circle-info"></i></span> before entering inputs.
+                                <button type="button" class="btn-close fs-8 pt-1 pe-1" data-bs-dismiss="alert" aria-label="Close"></button>
+                              </div>
+                            <div class="mb-1">
+                                <label for="categories" class="form-label fs-7 mb-0 me-2">Select Category</label>
+                                <div class="d-flex justify-content-between">
+                                    {% for category in categories %}
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="categories"
+                                            id="category_{{ category['id'] }}" value="{{ category['id'] }}">
+                                        <label class="form-check-label" for="category_{{ category['id'] }}">{{ category['name']
+                                            }}</label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="mb-1">
+                                <label for="selectWorkType" class="form-label fs-7">Work Type</label>
+                                <select class="form-select form-select-sm" id="selectWorkType"
+                                    name="selectWorkType" aria-label="Select Asset ID">
+                                    {{work_type}}
+                                    <option selected>--Select Work Type--</option>
+                                    {% for row in work_types %}
+                                    <option value="{{row['id']}}">{{row['work_type']}}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-1">
+                                <label for="selectPermissibleWork" class="form-label fs-7">Permissible Work</label>
+                                <select class="form-select form-select-sm" id="selectPermissibleWork"
+                                    name="selectPermissibleWork" aria-label="Select Asset ID">
+                                    {{permissible_works}}
+                                    <option selected>--Select Permissible Work--</option>
+                                    {% for permissible_work in permissible_works %}
+                                    <option value="{{permissible_work['id']}}">{{permissible_work['permissible_work']}}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div id="inputContainer">
+                                <span class="fs-7 fw-lighter">Select Pemissible Work to view Input Parameters</span>
+                            </div>
+                            <div class="text-center my-2">
+                                <a href="{{url_for('.profile')}}" class="btn btn-outline-secondary btn-sm me-2">Cancel</a>
+                                <input type="submit" class="btn btn-primary btn-sm" value="Submit" id="submitButton" disabled>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    
+    // Variables & Constants
+    const work_code_container = document.getElementById('workCodeContainer');
+    const dd_work_code = document.getElementById('selectWorkCode');
+    const txt_work_name = document.getElementById('txtWorkName');
+    const txt_amount_spent = document.getElementById('txtAmountSpent');
+    const img_asset = document.getElementById('imgAsset');
+    const dd_permissible_works = document.getElementById('selectPermissibleWork');
+    const rb_categories = document.getElementById('categories');
+    const dd_work_type = document.getElementById('selectWorkType');
+    const submit_button = document.getElementById('submitButton');
+    const form = document.getElementsByTagName('form')[0];
+    const radioCategories = document.querySelectorAll('input[name="categories"]')
+    // if (toastTrigger) {
+    //     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastDiv)
+    //     toastTrigger.addEventListener('click', () => {
+    //         toastBootstrap.show()
+    //     })
+    // }
+
+    
+    work_code_container.classList.add('visually-hidden');
+
+    // EVENTS    
+    dd_work_code.addEventListener('change', function () {
+        const selectedOption = this.options[this.selectedIndex];
+        const rowData = JSON.parse(selectedOption.getAttribute('data-row'));
+        const radioButton = document.querySelector(`input[name="categories"][value="${rowData.category_id}"]`);
+        const label_name = document.querySelector(`label[for="${radioButton.id}"]`);
+        submit_button.setAttribute('disabled', 'disabled');
+        
+        fetchData('work_types', { 'select_id': rowData.category_id })
+            .then(data => {
+                txt_work_name.innerText = rowData.name || '';
+                txt_amount_spent.value = rowData.amount_spent || '';
+                if (radioButton) {
+                    radioButton.checked = true;
+                }
+                fillDdWorkType(data, label_name.innerHTML);
+                work_code_container.classList.remove('visually-hidden');
+                disable_dd_permissible_work();
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    });
+
+    dd_work_type.addEventListener('change', function () {
+        let category_id = -1;
+        radioCategories.forEach(function(rb){
+            if(rb.checked){
+                category_id =  rb.value;
+            }
+        });
+        const selectedOption = this.options[this.selectedIndex];
+        submit_button.setAttribute('disabled', 'disabled');
+        fetchData('permissible_works', { 'select_id': selectedOption.value, 'category_id': category_id  })
+            .then(data => {
+                fillDdPermissibleWork(data);
+                dd_permissible_works.removeAttribute('disabled');
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    });
+    radioCategories.forEach(function (radio) {
+        radio.addEventListener('click', function () {
+            const label_name = document.querySelector(`label[for="${this.id}"]`);
+            
+            fetchData('work_types', { "select_id": this.value })
+                .then(data => { 
+                    fillDdWorkType(data, label_name.innerHTML);
+                    disable_dd_permissible_work;
+                }).catch(error => console.error('Error fetching data:', error));
+        });
+    });
+
+    
+
+    dd_permissible_works.addEventListener('change', function () {
+        submit_button.removeAttribute('disabled')
+        // fetchData('input_parameters', { "select_id": this.value })
+        //     .then(data => addInputElements(data))
+        //     .catch(error => console.error('Error fetching data:', error));
+    });
+
+    submit_button.addEventListener('click', () => toggleSpinner());
+
+    window.addEventListener("unload", function () {
+        toggleSpinner();
+    });
+
+    // FUNCTIONS
+    function createOption(option_value, option_text) {
+        const option = document.createElement('option');
+        option.value = option_value;
+        option.text = option_text;
+        return option;
+    }
+// Function to check if all required fields are filled
+    function checkFormCompletion() {
+        const formFields = form.querySelectorAll("input[required]");
+        let allFilled = true;
+
+        formFields.forEach(function(input) {
+            if (!input.value.trim()) {
+            allFilled = false;
+            }
+        });
+
+        // Enable or disable the submit button based on form completion
+        submit_button.disabled = !allFilled;
+    }
+
+    function disable_dd_permissible_work(params) {
+                    const optionText = `--Select Permissible Work--`;
+                    dd_permissible_works.append(createOption("-1", optionText));
+                    dd_permissible_works.setAttribute('disabled', 'disabled');
+                }
+
+    function fillDdWorkType(data, label_name) {
+        dd_work_type.innerHTML = "";
+        const optionText = `--Select Category ${label_name} Work Types--`;
+        dd_work_type.append(createOption("-1", optionText));
+        data.forEach(item => {
+            dd_work_type.append(createOption(item['id'], item['work_type']));
+        });
+    }
+
+    function fillDdPermissibleWork(data) {
+        dd_permissible_works.innerHTML = "";
+        const optionText = `--Select Permissible Work--`;
+        dd_permissible_works.append(createOption("-1", optionText));
+        data.forEach(item => {
+            dd_permissible_works.append(createOption(item['id'], item['permissible_work']));
+        });
+    }
+
+    function clear_inputs() {
+          const container = document.getElementById("inputContainer");
+          container.innerHTML = "";
+          return container;
+    }
+
+    function addInputElements(inputData) {
+        container = clear_inputs();
+        inputData.forEach(data => {
+            inner_html = `
+                <label for="txtInput${data['input_parameter_id']}" class="form-label fs-7">
+                    ${data['input_parameter_label'].toLowerCase().replace(/\b\w/g, char => char.toUpperCase()) + '(in ' + data['input_parameter_unit'] + ')'} 
+                    <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip" 
+                    data-bs-placement="right" data-bs-html="true" 
+                    data-bs-title="${data['input_parameter_description']}"></i>
+                </label>
+                <input type="text" class="form-control form-control-sm" id="txtInput${data['input_parameter_id']}"
+                 name="input${data['input_parameter_id']}" placeholder="${data['input_parameter_name']}" required>
+            `;
+            if (data['input_parameter_label'].toLowerCase()=='plant type'){
+                inner_html = `
+                <label for="txtInput${data['input_parameter_id']}" class="form-label fs-7">
+                    ${data['input_parameter_label'].toLowerCase().replace(/\b\w/g, char => char.toUpperCase()) + '(in ' + data['input_parameter_unit'] + ')'} 
+                    <i class="fa-solid fa-circle-info text-primary" data-bs-toggle="tooltip" 
+                    data-bs-placement="right" data-bs-html="true" 
+                    data-bs-title="${data['input_parameter_description']}"></i>
+                </label>
+                 <select class="form-select form-select-sm" id="txtInput${data['input_parameter_id']}" 
+                 name="input${data['input_parameter_id']}" aria-label="Select Plant Type">
+                    <option selected disabled>--Select Plant Type--</option>
+                    <option value="Aam">Aam</option>
+                    <option value="Acacia">Acacia</option>
+                    <option value="Ailanthus">Ailanthus</option>
+                    <option value="Akhrot">Akhrot</option>
+                    <option value="Amrood">Amrood</option>
+                    <option value="Angu">Angu</option>
+                    <option value="Anwala">Anwala</option>
+                    <option value="Babul">Babul</option>
+                    <option value="Bahera">Bahera</option>
+                    <option value="Bakil">Bakil</option>
+                    <option value="Bamboo">Bamboo</option>
+                    <option value="Banj">Banj</option>
+                    <option value="Bans">Bans</option>
+                    <option value="Ber">Ber</option>
+                    <option value="Bhimal">Bhimal</option>
+                    <option value="Cashew">Cashew</option>
+                    <option value="Chamkharik">Chamkharik</option>
+                    <option value="Cheura">Cheura</option>
+                    <option value="Chir">Chir</option>
+                    <option value="cottontree ">cottontree </option>
+                    <option value="Deodar">Deodar</option>
+                    <option value="Dhauri">Dhauri</option>
+                    <option value="Eucalyptus">Eucalyptus</option>
+                    <option value="Fir">Fir</option>
+                    <option value="Haldu">Haldu</option>
+                    <option value="Harar">Harar</option>
+                    <option value="Imli">Imli</option>
+                    <option value="Jajoba">Jajoba</option>
+                    <option value="Jamun">Jamun</option>
+                    <option value="Jatropha">Jatropha</option>
+                    <option value="Kafal">Kafal</option>
+                    <option value="Kapok ">Kapok </option>
+                    <option value="Karanja">Karanja</option>
+                    <option value="Khair">Khair</option>
+                    <option value="Kharik">Kharik</option>
+                    <option value="Kharsu">Kharsu</option>
+                    <option value="Kokum">Kokum</option>
+                    <option value="Kwiral">Kwiral</option>
+                    <option value="Mahua">Mahua</option>
+                    <option value="MaltaMehal">MaltaMehal</option>
+                    <option value="Maple">Maple</option>
+                    <option value="Moru">Moru</option>
+                    <option value="Neem">Neem</option>
+                    <option value="Nimbu">Nimbu</option>
+                    <option value="Olive">Olive</option>
+                    <option value="Phalyat">Phalyat</option>
+                    <option value="Poplar">Poplar</option>
+                    <option value="Ringal">Ringal</option>
+                    <option value="Robinia">Robinia</option>
+                    <option value="Sain">Sain</option>
+                    <option value="Sal">Sal</option>
+                    <option value="Salix">Salix</option>
+                    <option value="Semul">Semul</option>
+                    <option value="Shahtoot">Shahtoot</option>
+                    <option value="Shisham">Shisham</option>
+                    <option value="Simarouba">Simarouba</option>
+                    <option value="Siris">Siris</option>
+                    <option value="Spruce">Spruce</option>
+                    <option value="Subabul">Subabul</option>
+                    <option value="Surai">Surai</option>
+                    <option value="Teak">Teak</option>
+                    <option value="Tejpatand">Tejpatand</option>
+                    <option value="Timla">Timla</option>
+                    <option value="Tun">Tun</option>
+                    <option value="Tung">Tung</option>
+                    <option value="Utis">Utis</option>
+                    <option value="WildAprikot">WildAprikot</option>
+                    <option value="Other">Other</option>
+                </select>
+            `
+            }
+            const inputDiv = document.createElement("div");
+            inputDiv.className = "mb-1";
+            inputDiv.innerHTML = inner_html;
+            container.appendChild(inputDiv);
+        });
+        // Attach event listeners to input fields
+        const requiredFields = form.querySelectorAll("input[required]");
+        requiredFields.forEach(function(input) {
+        input.addEventListener("input", checkFormCompletion);
+        });
+
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    }
+
+    async function fetchData(url_extension, payload) {
+        const api_url = "/iwork/";
+        container = clear_inputs();
+        toggleSpinner();
+        try {
+            const response = await fetch(api_url + url_extension, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            throw error;
+        } finally {
+            toggleSpinner();
+        }
+    }
+});
+</script>
+{% endblock %}
+<!-- 
+Sets the sequence for the "field_data" table.
+SELECT SETVAL(
+    (SELECT PG_GET_SERIAL_SEQUENCE('"field_data"', 'id')),
+    (SELECT (MAX(id) + 1) FROM "public"."field_data"),
+    FALSE); -->

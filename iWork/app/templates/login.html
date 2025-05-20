@@ -1,0 +1,41 @@
+{% extends 'login_base.html' %}
+{% block title %} Login {% endblock %}
+{% block content %}
+
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <nav  class="ms-2 fs-7" style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#" class="text-primary">Home</a></li>
+                </ol>
+              </nav>
+            <div class="card">
+                <div class="card-header">
+                    <div class="text-center">
+                        <h3>Login</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form action="{{url_for('.login')}}" method="post">
+                    <div class="mb-3">
+                        <label for="txtUsername" class="form-label">Username</label>
+                        <input type="email" class="form-control" id="txtUsername" name="username" placeholder="your@email.com">
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="txtPassword" name="password" placeholder="password">
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-primary" value="Submit">
+                    </div>
+                    <div class="text-center">
+                        <a href="{{url_for('.register')}}" class="text-primary fs-8 fw-light">Register a new account</a>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
