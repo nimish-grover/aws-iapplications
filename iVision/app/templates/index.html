@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<!-- Hero Carousel Section -->
+<section id="hero-carousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        {% for item in carousel_images %}
+            <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="{{ item['index'] }}" {% if item['index'] == 0 %} class="active" {% endif %} aria-label="Slide {{ item['index'] + 1 }}"></button>
+        {% endfor %}
+    </div>
+    <div class="carousel-inner">
+        {% for item in carousel_images %}
+            <div class="carousel-item {% if item['index'] == 0 %}active{% endif %}">
+                <div style="height: 50vh; overflow: hidden;" class="position-relative">
+                    <img src="{{ item['source'] }}" class="d-block w-100 position-absolute bottom-0" alt="{{ item['title'] }}">
+                </div>
+                <div class="carousel-caption">
+                    {% if item['index'] == 0 %}
+                        <div class="text-white display-1 mb-5">SuWaVi</div>
+                    {% endif %}
+                    <h2 class="carousel-title text-white">{{ item['title'] }}</h2>
+                    {% if item['index'] == 0 %}
+                        <a href="#" class="btn btn-continue text-light">CONTINUE</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#hero-carousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+    
+    <!-- Social Media Sidebar -->
+    <div class="social-sidebar">
+        <a href="#" class="youtube-link">
+            <i class="fab fa-youtube"></i>
+        </a>
+        <a href="#" class="linkedin-link">
+            <i class="fab fa-linkedin-in"></i>
+        </a>
+    </div>
+</section>
+
+<!-- Mission Statement -->
+<section id="mission" class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto text-center">
+                <p class="mission-text">
+                    We stand for innovation and inclusivity in driving integrated and sustainable water management solutions for communities, institutions, and ecosystems. India’s Water Vision is rooted in the principles of equity, resilience, and resource efficiency, aiming to ensure water security for all. Through participatory planning, conservation, and climate-adaptive practices, we are working toward a future where every drop counts — supporting livelihoods, nurturing ecosystems, and empowering generations to thrive.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section id="newsletter" class="bg-primary py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h3 class="text-white"><strong>Water Vision 2047: </strong>A critical component in India’s development journey</h3>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
