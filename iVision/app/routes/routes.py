@@ -32,3 +32,7 @@ def contact_us():
 @blp.route('/what_we_do')
 def what_we_do():
     return render_template('what_we_do.html')
+
+@blp.route('/who_we_are')
+def who_we_are():
+    return render_template('who_we_are.html')

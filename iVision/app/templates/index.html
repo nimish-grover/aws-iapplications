@@ -5,25 +5,27 @@
 <section id="hero-carousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
         {% for item in carousel_images %}
-            <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="{{ item['index'] }}" {% if item['index'] == 0 %} class="active" {% endif %} aria-label="Slide {{ item['index'] + 1 }}"></button>
+        <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="{{ item['index'] }}" {% if
+            item['index']==0 %} class="active" {% endif %} aria-label="Slide {{ item['index'] + 1 }}"></button>
         {% endfor %}
     </div>
     <div class="carousel-inner">
         {% for item in carousel_images %}
-            <div class="carousel-item {% if item['index'] == 0 %}active{% endif %}">
-                <div style="height: 50vh; overflow: hidden;" class="position-relative">
-                    <img src="{{ item['source'] }}" class="d-block w-100 position-absolute bottom-0" alt="{{ item['title'] }}">
-                </div>
-                <div class="carousel-caption">
-                    {% if item['index'] == 0 %}
-                        <div class="text-white display-1 mb-5">SuWaVi</div>
-                    {% endif %}
-                    <h2 class="carousel-title text-white">{{ item['title'] }}</h2>
-                    {% if item['index'] == 0 %}
-                        <a href="#" class="btn btn-continue text-light">CONTINUE</a>
-                    {% endif %}
-                </div>
+        <div class="carousel-item {% if item['index'] == 0 %}active{% endif %}">
+            <div style="height: 50vh; overflow: hidden;" class="position-relative">
+                <img src="{{ item['source'] }}" class="d-block w-100 position-absolute bottom-0"
+                    alt="{{ item['title'] }}">
             </div>
+            <div class="carousel-caption">
+                {% if item['index'] == 0 %}
+                <div class="text-white display-1 mb-5">SuWaVi</div>
+                {% endif %}
+                <h2 class="carousel-title text-white">{{ item['title'] }}</h2>
+                {% if item['index'] == 0 %}
+                <a href="#" class="btn btn-continue text-light">CONTINUE</a>
+                {% endif %}
+            </div>
+        </div>
         {% endfor %}
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
@@ -34,7 +36,7 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>
-    
+
     <!-- Social Media Sidebar -->
     <div class="social-sidebar">
         <a href="#" class="youtube-link">
@@ -52,7 +54,12 @@
         <div class="row">
             <div class="col-lg-10 mx-auto text-center">
                 <p class="mission-text">
-                    We stand for innovation and inclusivity in driving integrated and sustainable water management solutions for communities, institutions, and ecosystems. India’s Water Vision is rooted in the principles of equity, resilience, and resource efficiency, aiming to ensure water security for all. Through participatory planning, conservation, and climate-adaptive practices, we are working toward a future where every drop counts — supporting livelihoods, nurturing ecosystems, and empowering generations to thrive.
+                    We stand for innovation and inclusivity in driving integrated and sustainable water management
+                    solutions for communities, institutions, and ecosystems. India’s Water Vision is rooted in the
+                    principles of equity, resilience, and resource efficiency, aiming to ensure water security for all.
+                    Through participatory planning, conservation, and climate-adaptive practices, we are working toward
+                    a future where every drop counts — supporting livelihoods, nurturing ecosystems, and empowering
+                    generations to thrive.
                 </p>
             </div>
         </div>
@@ -64,9 +71,92 @@
     <div class="container">
         <div class="row">
             <div class="col-12 text-center">
-                <h3 class="text-white"><strong>Water Vision 2047: </strong>A critical component in India’s development journey</h3>
+                <h3 class="text-white"><strong>Water Vision 2047: </strong>A critical component in India’s development
+                    journey</h3>
             </div>
         </div>
     </div>
 </section>
+<!-- Featured Videos Section -->
+<section id="featured-videos" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4">🎥 Featured Videos</h2>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="ratio ratio-16x9">
+                    <iframe src="https://www.youtube.com/embed/wRk397xbK8Q"
+                        title="Secretaries Conference on Water Vision 2047" allowfullscreen></iframe>
+                </div>
+                <p class="text-center mt-2">Secretaries’ Conference – Water Vision @2047</p>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="ratio ratio-16x9">
+                    <iframe src="https://www.youtube.com/embed/AkklFAP9FAE"
+                        title="Ministers Conference on Water Vision 2047" allowfullscreen></iframe>
+                </div>
+                <p class="text-center mt-2">Ministers’ Conference – Water Vision @2047</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- News Section -->
+<section id="news-updates" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">📰 Latest Developments</h2>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">22 Strategic Recommendations for Water Governance</h5>
+                        <p class="card-text">India outlines key reforms to strengthen water governance under Water
+                            Vision 2047 with state participation and decentralized implementation.</p>
+                        <a href="https://timesofindia.indiatimes.com/india/indias-water-vision-2047-states-to-work-on-22-recommendations-focus-on-effective-water-governance/articleshow/107178711.cms"
+                            target="_blank" class="btn btn-sm btn-outline-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">CWC's Tech Push for Vision 2047</h5>
+                        <p class="card-text">The Central Water Commission is embracing satellite tech, remote sensing,
+                            and AI to reshape water planning for climate resilience.</p>
+                        <a href="https://m.economictimes.com/news/india/central-water-commission-charting-new-course-with-its-vision-2047-chairperson/articleshow/112633133.cms"
+                            target="_blank" class="btn btn-sm btn-outline-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">India’s Water Vision 2047 Gathers Momentum</h5>
+                        <p class="card-text">
+                            As part of its long-term sustainability goals, India is advancing its Water Vision 2047 with
+                            a renewed focus on river rejuvenation, aquifer mapping, and equitable water access for all.
+                            This vision emphasizes community-led planning and technological innovation.
+                        </p>
+                        <a href="https://jalshakti-ddws.gov.in/" class="btn btn-outline-primary btn-sm"
+                            target="_blank">Read more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="photo-gallery" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4">📸 Photo Gallery</h2>
+        <div class="row g-3">
+            {% for item in carousel_images %}
+            <div class="col-6 col-md-3">
+                <img src="{{ item['source'] }}" class="img-fluid rounded shadow-sm" alt="{{ item['title'] }}">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+
+
 {% endblock %}

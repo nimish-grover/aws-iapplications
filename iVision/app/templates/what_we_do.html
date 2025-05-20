@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}What We Do{% endblock %}
+{% block content %}
+
+<!-- Main Container -->
+<section class="py-5">
+  <div class="container">
+    <h1 class="text-center mb-5">What We Do</h1>
+
+    <!-- Projects Section -->
+    <div id="projects" class="mb-5">
+      <h2>🌱 Our Projects</h2>
+      <p>
+        We focus on practical, community-driven water interventions that demonstrate measurable impact. From arid rural landscapes to urban water-stressed zones, our projects are tailored to local needs.
+      </p>
+      <ul>
+        <li>Rainwater harvesting systems in schools and public buildings</li>
+        <li>Decentralized wastewater treatment and reuse</li>
+        <li>Community-built check dams and recharge wells</li>
+        <li>IoT-based water monitoring for precision agriculture</li>
+      </ul>
+    </div>
+
+    <!-- Initiatives Section -->
+    <div id="initiatives" class="mb-5">
+      <h2>🔬 Initiatives</h2>
+      <p>
+        Our long-term initiatives aim to influence policy, research, and behavior. These efforts drive awareness, build capacity, and promote sustainable water governance.
+      </p>
+      <ul>
+        <li>Jal Saksharta (Water Literacy) campaign across rural schools</li>
+        <li>Groundwater monitoring and open-data tools for communities</li>
+        <li>State-level water policy advisory panels</li>
+        <li>Training programs for engineers and gram panchayats</li>
+      </ul>
+    </div>
+
+    <!-- Campaigns Section -->
+    <div id="campaigns" class="mb-5">
+      <h2>📣 Campaigns</h2>
+      <p>
+        We drive citizen engagement through creative storytelling, local champions, and digital outreach. Our campaigns inspire communities to take ownership of water security.
+      </p>
+      <ul>
+        <li>Every Drop Counts – A digital campaign on mindful water use</li>
+        <li>Youth for Water – Volunteer-driven action on urban lakes</li>
+        <li>Save the Stream – Community clean-up and awareness drives</li>
+        <li>World Water Day marathons and exhibitions</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Smooth scroll to section
+  document.addEventListener("DOMContentLoaded", function () {
+    const links = document.querySelectorAll('.nav-link[data-scroll], .dropdown-item[data-scroll]');
+    links.forEach(link => {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.getElementById(this.getAttribute('data-scroll'));
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 70,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  });
+</script>
+
+{% endblock %}

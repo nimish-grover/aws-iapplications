@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Who We Are{% endblock %}
+{% block content %}
+
+<section class="py-5 container">
+
+  <h1 class="mb-5 text-center">👥 Who We Are</h1>
+
+  <!-- About Us -->
+  <div id="about" class="mb-5">
+    <h2>About Us</h2>
+    <p>SuWaVi is dedicated to promoting sustainable water management by integrating community efforts with innovative technologies and policy advocacy.</p>
+  </div>
+
+  <!-- Our Team -->
+  <div id="team" class="mb-5">
+    <h2>Our Team</h2>
+    <p>Our passionate team comprises water scientists, engineers, social activists, and policy experts who drive SuWaVi’s vision forward.</p>
+    <ul>
+      <li>Dr. Aarti Sharma – Hydrologist & Founder</li>
+      <li>Rohan Mehta – Water Policy Analyst</li>
+      <li>Neha Gupta – Community Outreach Coordinator</li>
+      <li>Sameer Khan – Technical Lead</li>
+    </ul>
+  </div>
+
+  <!-- Partners -->
+  <div id="partners" class="mb-5">
+    <h2>Partners</h2>
+    <p>We collaborate with NGOs, government bodies, academic institutions, and international organizations to amplify impact.</p>
+    <ul>
+      <li>WaterAid India</li>
+      <li>Ministry of Jal Shakti</li>
+      <li>Indian Institute of Science</li>
+      <li>UNICEF</li>
+    </ul>
+  </div>
+
+</section>
+
+<script>
+  // Smooth scroll for navbar dropdown links
+  document.addEventListener("DOMContentLoaded", function () {
+    const links = document.querySelectorAll('.nav-link[data-scroll], .dropdown-item[data-scroll]');
+    links.forEach(link => {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('data-scroll');
+        const target = document.getElementById(targetId);
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 70, // Adjust if navbar fixed height
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  });
+</script>
+
+{% endblock %}
