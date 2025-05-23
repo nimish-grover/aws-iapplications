@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Partners{% endblock %}
+{% block content %}
+
+<section class="container py-5">
+  <h2 class="mb-4 text-center">Our Partners</h2>
+  <div class="row justify-content-center g-4 mt-5">
+    <!-- Partner 1 -->
+    <div class="col-md-6 text-center">
+      <img src="{{ url_for('static', filename='assets/mord_logo.png') }}" alt="MORD Logo" class="img-fluid mb-3" style="max-width: 250px; max-height: 80px !important;">
+      <h4>MORD</h4>
+      <p>The Ministry of Rural Development (MORD) is committed to sustainable rural development through innovative policies and schemes focused on improving the quality of life in rural India.</p>
+    </div>
+
+    <!-- Partner 2 -->
+    <div class="col-md-6 text-center">
+      <img src="{{ url_for('static', filename='assets/mojs_logo.png') }}" alt="MOJS Logo" class="img-fluid mb-3" style="max-width: 250px; max-height: 80px !important;">
+      <h4>MOJS</h4>
+      <p>The Ministry of Jal Shakti (MOJS) works to ensure water security and sustainable management of water resources through integrated water policies and community participation.</p>
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock %}

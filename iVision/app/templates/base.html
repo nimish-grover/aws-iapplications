@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>सृष्टि-दृष्टि:{%block title%}{% endblock %}</title>
+    <title>सृष्टि-दृष्टि: {%block title%}{% endblock %}</title>
     <link rel="stylesheet" href="https://bootswatch.com/5/spacelab/bootstrap.min.css">
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
      <!-- Header -->
      <header>
         <div class="container py-3">
@@ -41,50 +41,52 @@
                             <i class="fas fa-home"></i> Home
                         </a>
                     </li>
+                    
                     <li class="nav-item dropdown">
-                        <a class="nav-link text-light dropdown-toggle" href="{{ url_for('.who_we_are') }}" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-users"></i> Who We Are
+                        <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tasks"></i> About
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/ivision/who_we_are#about">About Us</a></li>
-                            <li><a class="dropdown-item" href="/ivision/who_we_are#team">Our Team</a></li>
-                            <li><a class="dropdown-item" href="/ivision/who_we_are#partners">Partners</a></li>
+                            <li><a class="dropdown-item" href="/ivision/team">Our Team</a></li>
+                            <li><a class="dropdown-item" href="/ivision/about_project">About Project</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-tasks"></i> What We Do
+                            <i class="fas fa-map-marker-alt"></i> Water Conservation
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/ivision/what_we_do#projects">Our Projects</a></li>
-                            <li><a class="dropdown-item" href="/ivision/what_we_do#initiatives">Initiatives</a></li>
-                            <li><a class="dropdown-item" href="/ivision/what_we_do#campaigns">Campaigns</a></li>
+                            <li><a class="dropdown-item" href="/ivision/mgnrega">MGNREGA Permissible Works</a></li>
+                            <li><a class="dropdown-item" href="/ivision/conservation">Water Conservation Structures</a></li>
                         </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="{{ url_for('.what_we_do') }}">
-                            <i class="fas fa-map-marker-alt"></i> Where We Work
-                        </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="fas fa-book"></i> Resources
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Publications</a></li>
-                            <li><a class="dropdown-item" href="#">Research</a></li>
-                            <li><a class="dropdown-item" href="#">Reports</a></li>
+                            <li><a class="dropdown-item" href="#">Rainfall</a></li>
+                            <li><a class="dropdown-item" href="#">Surface Water</a></li>
+                            <li><a class="dropdown-item" href="#">Ground Water</a></li>
+                            <li><a class="dropdown-item" href="#">River System</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-newspaper"></i> News
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="{{ url_for('.who_we_are') }}">
+                            <i class="fas fa-users"></i> Partners
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Latest News</a></li>
-                            <li><a class="dropdown-item" href="#">Events</a></li>
-                            <li><a class="dropdown-item" href="#">Press Releases</a></li>
-                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#">
+                            <i class="fas fa-newspaper"></i> Vision 2047
+                        </a>
+                        
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#">
+                            <i class="fas fa-newspaper"></i> Blogs
+                        </a>
+                        
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-light" href="{{ url_for('.contact_us') }}">
@@ -103,11 +105,11 @@
         </div>
     </nav>
     <!-- Content Section -->
-    <main>
+    <main class="flex-grow-1">
         {% block content %}{% endblock %}
     </main>
     <!-- Footer -->
-    <footer class="py-4 bg-dark text-white">
+    <footer class="py-4 bg-dark text-white mt-auto">
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
@@ -117,17 +119,15 @@
                 <div class="col-md-4">
                     <h5 class="text-white">Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li><a href="{{ url_for('.home') }}">Home</a></li>
-                        {#<!-- <li><a href="{{ url_for('who_we_are') }}">Who We Are</a></li>
-                        <li><a href="{{ url_for('contact_us') }}">Contact Us</a></li> -->#}
+                        <li><a href="{{ url_for('.home') }}" class="text-white text-decoration-none">Home</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
                     <h5 class="text-white">Connect With Us</h5>
                     <div class="social-icons">
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
                     </div>
                 </div>
             </div>

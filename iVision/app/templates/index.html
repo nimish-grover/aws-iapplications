@@ -17,14 +17,17 @@
                     alt="{{ item['title'] }}">
             </div>
             <div class="carousel-caption">
-                {% if item['index'] == 0 %}
-                <div class="text-white display-1 mb-5">SuWaVi</div>
-                {% endif %}
-                <h2 class="carousel-title text-white">{{ item['title'] }}</h2>
-                {% if item['index'] == 0 %}
-                <a href="#" class="btn btn-continue text-light">CONTINUE</a>
-                {% endif %}
-            </div>
+    {% if item['index'] == 0 %}
+        <div class="text-white display-1 mb-5">SuWaVi</div>
+        <h2 class="carousel-title text-white">{{ item['title'] }}</h2>
+        <a href="#" class="btn btn-continue text-light">CONTINUE</a>
+    {% else %}
+        <blockquote class="blockquote text-light bg-dark bg-opacity-50 p-4 rounded">
+            <p class="mb-0">{{ item['quote'] }}</p>
+            <footer class="blockquote-footer text-light mt-3">{{ item['author'] }}</footer>
+        </blockquote>
+    {% endif %}
+</div>
         </div>
         {% endfor %}
     </div>
