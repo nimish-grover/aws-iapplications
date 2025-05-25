@@ -43,9 +43,7 @@ def home():
         'source': 'https://images.pexels.com/photos/388415/pexels-photo-388415.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
         'title': 'Jan Bhagidari​',
         'index': 5,
-        'quote': '''We buy a bottle of water in the city, where clean water comes out of the taps. You know, back in 1965, 
-        if someone said to the average person, ‘You know, in thirty years you're going to buy water in plastic bottles and pay more for that water than for gasoline,’ 
-        everybody would look at you like you're completely out of your mind.''',
+        'quote': "You know, in 1965, if someone said you'd pay more for bottled water than gasoline, people would've thought you're crazy.",
         'author': "Paul Watson"
     },
     {
@@ -100,3 +98,11 @@ def conservation():
 @blp.route('/partners')
 def partners():
     return render_template('partners.html')
+
+@blp.route('/vision')
+def vision():
+    return render_template('vision.html')
+
+@blp.route('/classification')
+def classification():
+    return render_template('classification.html')
