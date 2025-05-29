@@ -3,339 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Circular Infographic</title>
+    <title>Water Management Pie Chart</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
     <style>
-        body {
-            background: linear-gradient(135deg, #e8e8e8 0%, #d5d5d5 100%);
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 40px 0;
-            min-height: 100vh;
-        }
-
-        .infographic-container {
-            position: relative;
-            width: 500px;
-            height: 500px;
-            margin: 0 auto;
-        }
-
-        .pie-chart {
+        .chart-container {
             width: 100%;
-            height: 100%;
+            height: 600px;
+            margin: 20px auto;
         }
 
-        .pie-segment {
-            cursor: pointer;
-            transition: transform 0.2s ease;
-            transform-origin: 250px 250px;
-        }
-
-        .pie-segment:hover {
-            transform: scale(1.02);
-        }
-
-        .segment-content {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
+        .title {
             text-align: center;
-            font-size: 9px;
-            line-height: 1.1;
-            font-weight: 500;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-            pointer-events: none;
-            width: 60px;
-            height: 40px;
-        }
-
-        .segment-icon {
-            font-size: 14px;
-            margin-bottom: 3px;
-        }
-
-        .segment-number {
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 10px;
+            margin-bottom: 30px;
             color: #333;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            z-index: 15;
         }
-
-        .center-circle {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 140px;
-            height: 140px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            z-index: 20;
-        }
-
-        .center-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .center-subtitle {
-            font-size: 12px;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Position content and numbers for each segment - properly contained */
-        .content-1 { top: 85px; left: 310px; }
-        .number-1 { top: 70px; left: 335px; }
-
-        .content-2 { top: 125px; left: 350px; }
-        .number-2 { top: 110px; left: 375px; }
-
-        .content-3 { top: 180px; left: 370px; }
-        .number-3 { top: 170px; left: 395px; }
-
-        .content-4 { top: 235px; left: 370px; }
-        .number-4 { top: 230px; left: 405px; }
-
-        .content-5 { top: 290px; left: 350px; }
-        .number-5 { top: 290px; left: 385px; }
-
-        .content-6 { top: 340px; left: 310px; }
-        .number-6 { top: 345px; left: 335px; }
-
-        .content-7 { top: 375px; left: 220px; }
-        .number-7 { top: 385px; left: 245px; }
-
-        .content-8 { top: 375px; left: 140px; }
-        .number-8 { top: 385px; left: 165px; }
-
-        .content-9 { top: 340px; left: 100px; }
-        .number-9 { top: 345px; left: 125px; }
-
-        .content-10 { top: 290px; left: 80px; }
-        .number-10 { top: 290px; left: 85px; }
-
-        .content-11 { top: 235px; left: 80px; }
-        .number-11 { top: 230px; left: 85px; }
-
-        .content-12 { top: 180px; left: 100px; }
-        .number-12 { top: 170px; left: 95px; }
 
         @media (max-width: 768px) {
-            .infographic-container {
-                width: 350px;
-                height: 350px;
-                transform: scale(0.8);
+            .chart-container {
+                height: 450px;
             }
+        }
+
+        .legend-container {
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 15px;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .legend-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            margin-right: 10px;
+            border-radius: 3px;
+            border: 1px solid rgba(0,0,0,0.1);
         }
     </style>
 </head>
-<body>
-    <div class="container-fluid">
-        <div class="row justify-content-center">
+<body class="bg-light">
+    <div class="container-fluid py-4">
+        <div class="row">
             <div class="col-12">
-                <div class="infographic-container">
-                    <svg class="pie-chart" viewBox="0 0 500 500">
-                        <!-- Segment 1 (Yellow) -->
-                        <path d="M 250,250 L 250,50 A 200,200 0 0,1 353.55,96.45 Z" 
-                              fill="url(#gradient1)" class="pie-segment" />
-                        
-                        <!-- Segment 2 (Orange) -->
-                        <path d="M 250,250 L 353.55,96.45 A 200,200 0 0,1 403.55,146.45 Z" 
-                              fill="url(#gradient2)" class="pie-segment" />
-                        
-                        <!-- Segment 3 (Red-Orange) -->
-                        <path d="M 250,250 L 403.55,146.45 A 200,200 0 0,1 450,250 Z" 
-                              fill="url(#gradient3)" class="pie-segment" />
-                        
-                        <!-- Segment 4 (Red) -->
-                        <path d="M 250,250 L 450,250 A 200,200 0 0,1 403.55,353.55 Z" 
-                              fill="url(#gradient4)" class="pie-segment" />
-                        
-                        <!-- Segment 5 (Pink) -->
-                        <path d="M 250,250 L 403.55,353.55 A 200,200 0 0,1 353.55,403.55 Z" 
-                              fill="url(#gradient5)" class="pie-segment" />
-                        
-                        <!-- Segment 6 (Purple) -->
-                        <path d="M 250,250 L 353.55,403.55 A 200,200 0 0,1 250,450 Z" 
-                              fill="url(#gradient6)" class="pie-segment" />
-                        
-                        <!-- Segment 7 (Dark Purple) -->
-                        <path d="M 250,250 L 250,450 A 200,200 0 0,1 146.45,403.55 Z" 
-                              fill="url(#gradient7)" class="pie-segment" />
-                        
-                        <!-- Segment 8 (Navy) -->
-                        <path d="M 250,250 L 146.45,403.55 A 200,200 0 0,1 96.45,353.55 Z" 
-                              fill="url(#gradient8)" class="pie-segment" />
-                        
-                        <!-- Segment 9 (Blue) -->
-                        <path d="M 250,250 L 96.45,353.55 A 200,200 0 0,1 50,250 Z" 
-                              fill="url(#gradient9)" class="pie-segment" />
-                        
-                        <!-- Segment 10 (Teal) -->
-                        <path d="M 250,250 L 50,250 A 200,200 0 0,1 96.45,146.45 Z" 
-                              fill="url(#gradient10)" class="pie-segment" />
-                        
-                        <!-- Segment 11 (Green) -->
-                        <path d="M 250,250 L 96.45,146.45 A 200,200 0 0,1 146.45,96.45 Z" 
-                              fill="url(#gradient11)" class="pie-segment" />
-                        
-                        <!-- Segment 12 (Light Green) -->
-                        <path d="M 250,250 L 146.45,96.45 A 200,200 0 0,1 250,50 Z" 
-                              fill="url(#gradient12)" class="pie-segment" />
-
-                        <!-- Gradients -->
-                        <defs>
-                            <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#FFD700"/>
-                                <stop offset="100%" style="stop-color:#FFA500"/>
-                            </linearGradient>
-                            <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#FFA500"/>
-                                <stop offset="100%" style="stop-color:#FF8C00"/>
-                            </linearGradient>
-                            <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#FF6347"/>
-                                <stop offset="100%" style="stop-color:#FF4500"/>
-                            </linearGradient>
-                            <linearGradient id="gradient4" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#DC143C"/>
-                                <stop offset="100%" style="stop-color:#B22222"/>
-                            </linearGradient>
-                            <linearGradient id="gradient5" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#C71585"/>
-                                <stop offset="100%" style="stop-color:#8B008B"/>
-                            </linearGradient>
-                            <linearGradient id="gradient6" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#8A2BE2"/>
-                                <stop offset="100%" style="stop-color:#6A0DAD"/>
-                            </linearGradient>
-                            <linearGradient id="gradient7" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#4B0082"/>
-                                <stop offset="100%" style="stop-color:#2F0052"/>
-                            </linearGradient>
-                            <linearGradient id="gradient8" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#191970"/>
-                                <stop offset="100%" style="stop-color:#0F0F3F"/>
-                            </linearGradient>
-                            <linearGradient id="gradient9" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#4682B4"/>
-                                <stop offset="100%" style="stop-color:#2F4F4F"/>
-                            </linearGradient>
-                            <linearGradient id="gradient10" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#20B2AA"/>
-                                <stop offset="100%" style="stop-color:#008B8B"/>
-                            </linearGradient>
-                            <linearGradient id="gradient11" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#32CD32"/>
-                                <stop offset="100%" style="stop-color:#228B22"/>
-                            </linearGradient>
-                            <linearGradient id="gradient12" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#9ACD32"/>
-                                <stop offset="100%" style="stop-color:#7CFC00"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
-
-                    <!-- Content for each segment -->
-                    <div class="segment-content content-1">
-                        <i class="segment-icon fas fa-shopping-cart"></i>
-                        <div>Shopping & Commerce</div>
+                <h2 class="title">Water Management Framework</h2>
+                <div class="chart-container" id="pieChart"></div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex flex-wrap justify-content-center legend-container">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #FF6B6B;"></div>
+                        <small>Integrated Water Management</small>
                     </div>
-                    <div class="segment-number number-1">01</div>
-
-                    <div class="segment-content content-2">
-                        <i class="segment-icon fas fa-envelope"></i>
-                        <div>Email Marketing</div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #4ECDC4;"></div>
+                        <small>Water Governance</small>
                     </div>
-                    <div class="segment-number number-2">02</div>
-
-                    <div class="segment-content content-3">
-                        <i class="segment-icon fas fa-atom"></i>
-                        <div>Innovation Labs</div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #45B7D1;"></div>
+                        <small>Water Conservation Infrastructure</small>
                     </div>
-                    <div class="segment-number number-3">03</div>
-
-                    <div class="segment-content content-4">
-                        <i class="segment-icon fas fa-user"></i>
-                        <div>User Experience</div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #96CEB4;"></div>
+                        <small>Drinking Water for All</small>
                     </div>
-                    <div class="segment-number number-4">04</div>
-
-                    <div class="segment-content content-5">
-                        <i class="segment-icon fas fa-globe"></i>
-                        <div>Global Reach</div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #FFEAA7;"></div>
+                        <small>Irrigation Efficiency</small>
                     </div>
-                    <div class="segment-number number-5">05</div>
-
-                    <div class="segment-content content-6">
-                        <i class="segment-icon fas fa-lightbulb"></i>
-                        <div>Bright Ideas</div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #DDA0DD;"></div>
+                        <small>Smart Water</small>
                     </div>
-                    <div class="segment-number number-6">06</div>
-
-                    <div class="segment-content content-7">
-                        <i class="segment-icon fas fa-briefcase"></i>
-                        <div>Business Strategy</div>
-                    </div>
-                    <div class="segment-number number-7">07</div>
-
-                    <div class="segment-content content-8">
-                        <i class="segment-icon fas fa-hourglass-half"></i>
-                        <div>Time Management</div>
-                    </div>
-                    <div class="segment-number number-8">08</div>
-
-                    <div class="segment-content content-9">
-                        <i class="segment-icon fas fa-search"></i>
-                        <div>Data Analysis</div>
-                    </div>
-                    <div class="segment-number number-9">09</div>
-
-                    <div class="segment-content content-10">
-                        <i class="segment-icon fas fa-cog"></i>
-                        <div>System Config</div>
-                    </div>
-                    <div class="segment-number number-10">10</div>
-
-                    <div class="segment-content content-11">
-                        <i class="segment-icon fas fa-comments"></i>
-                        <div>Communication</div>
-                    </div>
-                    <div class="segment-number number-11">11</div>
-
-                    <div class="segment-content content-12">
-                        <i class="segment-icon fas fa-copyright"></i>
-                        <div>Brand Protection</div>
-                    </div>
-                    <div class="segment-number number-12">12</div>
-
-                    <!-- Center Circle -->
-                    <div class="center-circle">
-                        <div class="center-title">MODERN</div>
-                        <div class="center-subtitle">INFOGRAPHIC</div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #FFB347;"></div>
+                        <small>Digital Water Management</small>
                     </div>
                 </div>
             </div>
@@ -343,5 +97,184 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Initialize the echarts instance
+        const chartDom = document.getElementById('pieChart');
+        const myChart = echarts.init(chartDom);
+
+        // Water management data - all with equal values for equal sections
+        const data = [
+            {
+                value: 1,
+                name: 'Integrated Water Management',
+                itemStyle: { color: '#FF6B6B' }
+            },
+            {
+                value: 1,
+                name: 'Water Governance',
+                itemStyle: { color: '#4ECDC4' }
+            },
+            {
+                value: 1,
+                name: 'Water Conservation Infrastructure',
+                itemStyle: { color: '#45B7D1' }
+            },
+            {
+                value: 1,
+                name: 'Drinking Water for All',
+                itemStyle: { color: '#96CEB4' }
+            },
+            {
+                value: 1,
+                name: 'Irrigation Efficiency',
+                itemStyle: { color: '#FFEAA7' }
+            },
+            {
+                value: 1,
+                name: 'Smart Water',
+                itemStyle: { color: '#DDA0DD' }
+            },
+            {
+                value: 1,
+                name: 'Digital Water Management',
+                itemStyle: { color: '#FFB347' }
+            }
+        ];
+
+        // Chart configuration
+        const option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b}<br/>Water Management Component',
+                backgroundColor: 'rgba(0,0,0,0.8)',
+                borderColor: 'transparent',
+                textStyle: {
+                    color: '#fff',
+                    fontSize: 12
+                }
+            },
+            series: [
+                {
+                    name: 'Water Management',
+                    type: 'pie',
+                    radius: ['30%', '70%'],
+                    center: ['50%', '50%'],
+                    avoidLabelOverlap: true,
+                    emphasis: {
+                        scale: true,
+                        scaleSize: 10,
+                        itemStyle: {
+                            shadowBlur: 20,
+                            shadowColor: 'rgba(0, 0, 0, 0.3)'
+                        }
+                    },
+                    label: {
+                        show: true,
+                        position: 'inside',
+                        fontSize: 11,
+                        fontWeight: 'bold',
+                        color: '#fff',
+                        textShadowColor: 'rgba(0, 0, 0, 0.8)',
+                        textShadowBlur: 3,
+                        formatter: function(params) {
+                            // Split long text into multiple lines
+                            const name = params.name;
+                            if (name.length > 15) {
+                                const words = name.split(' ');
+                                const lines = [];
+                                let currentLine = '';
+                                
+                                words.forEach(word => {
+                                    if ((currentLine + word).length > 15) {
+                                        if (currentLine) lines.push(currentLine.trim());
+                                        currentLine = word + ' ';
+                                    } else {
+                                        currentLine += word + ' ';
+                                    }
+                                });
+                                if (currentLine) lines.push(currentLine.trim());
+                                
+                                return lines.join('\n');
+                            }
+                            return name;
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data: data
+                }
+            ],
+            graphic: {
+                type: 'text',
+                left: 'center',
+                top: 'center',
+                style: {
+                    text: 'Vision 2047',
+                    textAlign: 'center',
+                    fill: '#333',
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                    lineHeight: 20
+                }
+            }
+        };
+
+        // Set the configuration
+        myChart.setOption(option);
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            myChart.resize();
+        });
+
+        // Add hover effects for legend items
+        const legendItems = document.querySelectorAll('.legend-item');
+        legendItems.forEach((item, index) => {
+            item.addEventListener('mouseenter', function() {
+                myChart.dispatchAction({
+                    type: 'highlight',
+                    seriesIndex: 0,
+                    dataIndex: index
+                });
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                myChart.dispatchAction({
+                    type: 'downplay',
+                    seriesIndex: 0,
+                    dataIndex: index
+                });
+            });
+        });
+
+        // Handle mobile responsiveness
+        function updateChartForMobile() {
+            const isMobile = window.innerWidth <= 768;
+            const newOption = {
+                series: [{
+                    radius: isMobile ? ['25%', '65%'] : ['30%', '70%'],
+                    label: {
+                        fontSize: isMobile ? 9 : 11
+                    }
+                }],
+                graphic: {
+                    style: {
+                        fontSize: isMobile ? 14 : 16
+                    }
+                }
+            };
+            myChart.setOption(newOption);
+        }
+
+        // Initial mobile check
+        updateChartForMobile();
+
+        // Update on resize
+        window.addEventListener('resize', function() {
+            updateChartForMobile();
+        });
+    </script>
 </body>
 </html>
