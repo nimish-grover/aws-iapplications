@@ -19,18 +19,13 @@
       </div>
       
       <!-- Summary List -->
-      <div class="col-lg-6">
-        <h3 class="mb-4">Vision 2047 Focus Areas</h3>
-        <ul class="list-unstyled">
-          <li><strong>Integrated Water Management:</strong> A holistic approach to river and coastal management, including wastewater treatment, ecological restoration, and community participation, is crucial.</li>
-          <li><strong>Water Governance:</strong> Adapting Integrated Water Resources Management (IWRM) to state needs and enhancing grassroots community involvement are key.</li>
-          <li><strong>Water Conservation Infrastructure:</strong> Developing and maintaining optimal water storage and modernizing existing projects are essential for climate resilience and sustainable supply.</li>
-          <li><strong>Drinking Water for All:</strong> Sustaining the Jal Jeevan Mission's focus on drinking water quality and ensuring all households have potable water by 2030, especially vulnerable groups.</li>
-          <li><strong>Irrigation Efficiency:</strong> Achieving the "Har Khet Ko Pani" mission through strategic interventions, including micro-irrigation and improved command area development.</li>
-          <li><strong>Smart Water:</strong> Promoting water use efficiency across all sectors, adopting water-efficient cropping patterns, and using advanced technology for sustainable agriculture.</li>
-          <li><strong>Digital Water Management:</strong> Leveraging data, technology, and innovation, including AI/ML, are seen as key enablers for sustainable water management practices.</li>
-        </ul>
-      </div>
+<div class="col-lg-6">
+  <h3 class="mb-4">Water Vision 2047 Focus Areas</h3>
+
+  Water Governance: We aim to manage water in a way that fits each state's needs, while also encouraging more local communities to get involved.<br>
+
+  Water Conservation Infrastructure: It's important to build and take care of water storage systems, and also upgrade old ones so they're better prepared for climate changes and can provide a steady water supply.
+</div>
     </div>
   </div>
 </section>
@@ -68,13 +63,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const chartDom = document.getElementById('pieChart');
   const myChart = echarts.init(chartDom);
   const data = [
-    { value: 1, name: 'Integrated Water Management', itemStyle: { color: '#FF6B6B' } },
+    { value: 1, name: 'Water Storage & Management', itemStyle: { color: '#FF6B6B' } },
     { value: 1, name: 'Water Governance', itemStyle: { color: '#4ECDC4' } },
-    { value: 1, name: 'Water Conservation Infrastructure', itemStyle: { color: '#45B7D1' } },
+    { value: 1, name: 'Jan Bhagidari', itemStyle: { color: '#45B7D1' } },
     { value: 1, name: 'Drinking Water for All', itemStyle: { color: '#96CEB4' } },
-    { value: 1, name: 'Irrigation Efficiency', itemStyle: { color: '#FFEAA7' } },
+    { value: 1, name: 'Source Sustainability', itemStyle: { color: '#FFEAA7' } },
     { value: 1, name: 'Smart Water', itemStyle: { color: '#DDA0DD' } },
-    { value: 1, name: 'Digital Water Management', itemStyle: { color: '#FFB347' } }
+    { value: 1, name: 'Water Use Efficiency', itemStyle: { color: '#FFB347' } }
   ];
 
   const option = {
@@ -127,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
       left: 'center',
       top: 'center',
       style: {
-        text: 'Vision 2047',
+        text: 'Water Vision 2047',
         textAlign: 'center',
         fill: '#333',
         fontSize: 16,

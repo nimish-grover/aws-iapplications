@@ -29,15 +29,15 @@ def home():
         'source': 'https://images.pexels.com/photos/158063/bellingrath-gardens-alabama-landscape-scenic-158063.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
         'title': 'Water Use Efficiency​',
         'index': 3,
-        'quote': "Rich or poor in water. It's the only currency that really matters.",
-        'author': "The Dharma Trails"
+        'quote': "Nothing is softer or more flexible than water, yet nothing can resist it.",
+        'author': "Lao Tzu"
     },
     {
         'source': 'https://images.pexels.com/photos/247599/pexels-photo-247599.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
         'title': 'Water Storage & Management',
         'index': 4,
-        'quote': "By means of water, we give life to everything.",
-        'author': "The Quran"
+        'quote': "All the water that will ever be is, right now.",
+        'author': "National Geographic"
     },
     {
         'source': 'https://images.pexels.com/photos/388415/pexels-photo-388415.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
