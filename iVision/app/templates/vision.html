@@ -1,27 +1,147 @@
 {% extends 'base.html' %}
 {% block title %}Vision 2047{% endblock %}
-{% block content %}
+{%block css%}
+<style>
 
+</style>
+{%endblock%}
+{% block content %}
+<!-- Vision 2047 Chart and Summary Section -->
+<section id="vision-2047-summary" class="py-5 my-4">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Pie Chart -->
+      <div class="col-lg-6 mb-4 ">
+        <div class="chart-container" style="height: 500px; width: 100%;">
+  <div id="pieChart" style="width: 100%; height: 100%;"></div>
+</div>
+
+      </div>
+      
+      <!-- Summary List -->
+      <div class="col-lg-6">
+        <h3 class="mb-4">Vision 2047 Focus Areas</h3>
+        <ul class="list-unstyled">
+          <li><strong>Integrated Water Management:</strong> A holistic approach to river and coastal management, including wastewater treatment, ecological restoration, and community participation, is crucial.</li>
+          <li><strong>Water Governance:</strong> Adapting Integrated Water Resources Management (IWRM) to state needs and enhancing grassroots community involvement are key.</li>
+          <li><strong>Water Conservation Infrastructure:</strong> Developing and maintaining optimal water storage and modernizing existing projects are essential for climate resilience and sustainable supply.</li>
+          <li><strong>Drinking Water for All:</strong> Sustaining the Jal Jeevan Mission's focus on drinking water quality and ensuring all households have potable water by 2030, especially vulnerable groups.</li>
+          <li><strong>Irrigation Efficiency:</strong> Achieving the "Har Khet Ko Pani" mission through strategic interventions, including micro-irrigation and improved command area development.</li>
+          <li><strong>Smart Water:</strong> Promoting water use efficiency across all sectors, adopting water-efficient cropping patterns, and using advanced technology for sustainable agriculture.</li>
+          <li><strong>Digital Water Management:</strong> Leveraging data, technology, and innovation, including AI/ML, are seen as key enablers for sustainable water management practices.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 <!-- Featured Videos Section -->
 <section id="featured-videos" class="py-5 bg-light">
-    <div class="container">
-        <h2 class="text-center mb-4">🎥 Featured Videos</h2>
-        <div class="row">
-            <div class="col-md-6 mb-4">
-                <div class="ratio ratio-16x9">
-                    <iframe src="https://www.youtube.com/embed/wRk397xbK8Q"
-                        title="Secretaries Conference on Water Vision 2047" allowfullscreen></iframe>
-                </div>
-                <p class="text-center mt-2">Secretaries’ Conference – Water Vision @2047</p>
-            </div>
-            <div class="col-md-6 mb-4">
-                <div class="ratio ratio-16x9">
-                    <iframe src="https://www.youtube.com/embed/AkklFAP9FAE"
-                        title="Ministers Conference on Water Vision 2047" allowfullscreen></iframe>
-                </div>
-                <p class="text-center mt-2">Ministers’ Conference – Water Vision @2047</p>
-            </div>
+  <div class="container">
+    <h2 class="text-center mb-4">🎥 Featured Videos</h2>
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        <div class="ratio ratio-16x9">
+          <iframe src="https://www.youtube.com/embed/wRk397xbK8Q"
+                  title="Secretaries Conference on Water Vision 2047" allowfullscreen></iframe>
         </div>
+        <p class="text-center mt-2">Secretaries’ Conference – Water Vision @2047</p>
+      </div>
+      <div class="col-md-6 mb-4">
+        <div class="ratio ratio-16x9">
+          <iframe src="https://www.youtube.com/embed/AkklFAP9FAE"
+                  title="Ministers Conference on Water Vision 2047" allowfullscreen></iframe>
+        </div>
+        <p class="text-center mt-2">Ministers’ Conference – Water Vision @2047</p>
+      </div>
     </div>
+  </div>
 </section>
-{%endblock%}
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const chartDom = document.getElementById('pieChart');
+  const myChart = echarts.init(chartDom);
+  const data = [
+    { value: 1, name: 'Integrated Water Management', itemStyle: { color: '#FF6B6B' } },
+    { value: 1, name: 'Water Governance', itemStyle: { color: '#4ECDC4' } },
+    { value: 1, name: 'Water Conservation Infrastructure', itemStyle: { color: '#45B7D1' } },
+    { value: 1, name: 'Drinking Water for All', itemStyle: { color: '#96CEB4' } },
+    { value: 1, name: 'Irrigation Efficiency', itemStyle: { color: '#FFEAA7' } },
+    { value: 1, name: 'Smart Water', itemStyle: { color: '#DDA0DD' } },
+    { value: 1, name: 'Digital Water Management', itemStyle: { color: '#FFB347' } }
+  ];
+
+  const option = {
+    tooltip: {
+      trigger: 'item',
+      formatter: '{b}<br/>Water Management Component',
+      backgroundColor: 'rgba(0,0,0,0.8)',
+      borderColor: 'transparent',
+      textStyle: { color: '#fff', fontSize: 12 }
+    },
+    series: [{
+      name: 'Water Management',
+      type: 'pie',
+      radius: ['30%', '70%'],
+      center: ['50%', '50%'],
+      avoidLabelOverlap: true,
+      label: {
+        show: true,
+        position: 'inside',
+        fontSize: 11,
+        fontWeight: 'bold',
+        color: '#fff',
+        textShadowColor: 'rgba(0, 0, 0, 0.8)',
+        textShadowBlur: 3,
+        formatter: function(params) {
+          const name = params.name;
+          if (name.length > 15) {
+            const words = name.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+              if ((currentLine + word).length > 15) {
+                if (currentLine) lines.push(currentLine.trim());
+                currentLine = word + ' ';
+              } else {
+                currentLine += word + ' ';
+              }
+            });
+            if (currentLine) lines.push(currentLine.trim());
+            return lines.join('\n');
+          }
+          return name;
+        }
+      },
+      labelLine: { show: false },
+      data: data
+    }],
+    graphic: {
+      type: 'text',
+      left: 'center',
+      top: 'center',
+      style: {
+        text: 'Vision 2047',
+        textAlign: 'center',
+        fill: '#333',
+        fontSize: 16,
+        fontWeight: 'bold',
+        lineHeight: 20
+      }
+    }
+  };
+
+  myChart.setOption(option);
+  window.addEventListener('resize', function() {
+    myChart.resize();
+  });
+});
+
+  </script>
+{% endblock %}
