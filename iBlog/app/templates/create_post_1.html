@@ -311,8 +311,9 @@
         
         <!-- This is where the editor will appear -->
         <div class="wp-editor-area">
-          <textarea id="content" name="content" rows="20" placeholder="Start writing your post..."></textarea>
-        </div>
+  <textarea id="content" name="content" rows="20" placeholder="Start writing your post..."></textarea>
+</div>
+
         
         <div class="editor-help-text">
           <p>
@@ -432,36 +433,43 @@
 
 {% block scripts %}
 <!-- TinyMCE Editor -->
-<script src="{{ url_for('static', filename='js/tinymce/tinymce.min.js') }}"></script>
-<script>
+<script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script><script>
   // Initialize TinyMCE with WordPress-like settings
-  tinymce.init({
-    selector: '#content',
-    plugins: 'wordcount link lists image media table code fullscreen preview',
-    toolbar: 'undo redo | formatselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist | link image media | table | removeformat | code fullscreen preview',
-    toolbar_mode: 'sliding',
-    height: '800',
-    resize: true,
-    menubar: false,
-    automatic_uploads: true,
-    branding: false,
-    content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; font-size: 16px; line-height: 1.6; }',
-    skin: 'oxide',
-    images_upload_url: '/upload-image', // Replace with your image upload endpoint
-    setup: function(editor) {
-      editor.on('change', function() {
-        editor.save();
-      });
-      
-      // Make editor responsive to container size
-      window.addEventListener('resize', function() {
-        const editorContent = document.querySelector('.editor-content');
-        if (editorContent) {
-          editor.editorContainer.style.width = '100%';
+  ClassicEditor
+      .create(document.querySelector('#content'), {
+        toolbar: {
+          items: [
+            'heading', '|',
+            'bold', 'italic', 'underline', 'strikethrough', '|',
+            'bulletedList', 'numberedList', '|',
+            'link', 'blockQuote', 'insertTable', 'imageUpload', 'mediaEmbed', '|',
+            'undo', 'redo', 'code', 'highlight'
+          ]
+        },
+        language: 'en',
+        image: {
+          toolbar: ['imageTextAlternative', 'imageStyle:full', 'imageStyle:side']
+        },
+        table: {
+          contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+        },
+        height: '800px',
+        ckfinder: {
+          // Optional: If using image upload feature
+          uploadUrl: '/upload-image'
         }
+      })
+      .then(editor => {
+        window.editor = editor;
+
+        // Sync with textarea for form submission
+        editor.model.document.on('change:data', () => {
+          document.querySelector('#content').value = editor.getData();
+        });
+      })
+      .catch(error => {
+        console.error('CKEditor init failed', error);
       });
-    }
-  });
 
   // Tag and Category Input Handling
   document.addEventListener('DOMContentLoaded', function() {

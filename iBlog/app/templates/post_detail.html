@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title.rendered|striptags }} - WordPress Blog{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <article>
+            {% if post._embedded and post._embedded.get('wp:featuredmedia') %}
+                {% set featured_image = post._embedded['wp:featuredmedia'][0] %}
+                <img src="{{ featured_image.source_url }}" class="img-fluid mb-4 rounded" alt="{{ post.title.rendered }}">
+            {% endif %}
+            
+            <h1 class="mb-3">{{ post.title.rendered|safe }}</h1>
+            
+            <div class="post-meta mb-4">
+                <small class="text-muted">
+                    Published on {{ post.date.split('T')[0] }}
+                    {% if post._embedded and post._embedded.get('author') %}
+                        by <strong>{{ post._embedded.author[0].name }}</strong>
+                    {% endif %}
+                    • Status: <span class="badge bg-{{ 'success' if post.status == 'publish' else 'warning' }}">{{ post.status|title }}</span>
+                </small>
+            </div>
+            
+            {% if post._embedded and post._embedded.get('wp:term') %}
+                {% set tags = post._embedded['wp:term'][1] if post._embedded['wp:term']|length > 1 else [] %}
+                {% set categories = post._embedded['wp:term'][0] if post._embedded['wp:term']|length > 0 else [] %}
+                
+                {% if tags or categories %}
+                <div class="mb-4">
+                    {% if categories %}
+                        {% for category in categories %}
+                        <span class="badge bg-primary me-1">{{ category.name }}</span>
+                        {% endfor %}
+                    {% endif %}
+                    {% if tags %}
+                        {% for tag in tags %}
+                        <span class="badge bg-secondary me-1">#{{ tag.name }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                {% endif %}
+            {% endif %}
+            
+            <div class="post-content">
+                {{ post.content.rendered|safe }}
+            </div>
+        </article>
+        
+        <div class="mt-5">
+            <a href="{{ url_for('index') }}" class="btn btn-outline-primary">← Back to All Posts</a>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Post Information</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Status:</strong> {{ post.status|title }}</p>
+                <p><strong>Published:</strong> {{ post.date.split('T')[0] }}</p>
+                <p><strong>Modified:</strong> {{ post.modified.split('T')[0] }}</p>
+                {% if post.excerpt.rendered %}
+                <p><strong>Excerpt:</strong> {{ post.excerpt.rendered|striptags|truncate(100) }}</p>
+                {% endif %}
+                <a href="{{ post.link }}" target="_blank" class="btn btn-sm btn-outline-primary">View on WordPress</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
