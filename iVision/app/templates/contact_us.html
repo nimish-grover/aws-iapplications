@@ -1,39 +1,55 @@
 {% extends 'base.html' %}
 {% block title %} Team{% endblock %}
 {% block content %}
-        <section class="d-flex " style="min-height: 90vh;">
-            <div class="col-md-6 p-0 position-relative">
-                <img src="{{url_for('static',filename='assets/contact-page.jpg')}}" alt="Modern Office" class="img-fluid w-100 h-100 object-fit-cover">
-            </div>
-            
-            <div class="col-md-6 d-flex flex-column justify-content-center px-5 bg-white">
-                <h2 class="mb-4 text-dark">Contact Us</h2>
-                
-                <div class="mb-4">
-                    <h6 class="text-muted mb-3">TOURIST VISITS</h6>
-                    <p class="mb-1"><strong>Tuesday – Saturday</strong></p>
-                    <p class="mb-1">9:00 am – 5:00 pm PST</p>
-                    <p class="mb-1"><a href="mailto:info@example.com" class="text-decoration-none text-muted">info@example.com</a></p>
-                    <p class="mb-0"><a href="tel:+1234567890" class="text-decoration-none text-muted">(123) 456-7890</a></p>
+<section class="d-flex " style="min-height: 90vh;">
+    <div class="col-md-6 p-0 position-relative">
+        <img src="{{url_for('static',filename='assets/nature-with-water-5.png')}}" alt="Modern Office"
+            class="img-fluid w-100 h-100 object-fit-cover">
+    </div>
+
+    <div class="col-md-6 d-flex flex-column justify-content-center px-5 bg-white">
+        
+
+        <div class="mb-4">
+            <div class="row">
+                <div class="col ">
+                    <h2 class="mb-4 text-dark mt-1">Contact Us</h2>
+            <p class="mb-1"><strong>Monday – Friday</strong></p>
+            <p class="mb-1">9:00 am – 5:00 pm IST</p>
+            <p class="mb-1"><a href="#" class="text-decoration-none text-muted">GIZ Office, SAF-5, B 5/5, Block 5,
+                    Safdarjung Enclave, New Delhi - 110029</a></p>
                 </div>
-                
-                <form>
-                    <h6 class="mt-4 mb-3 text-muted">COMMERCIAL REQUESTS</h6>
-                    
-                    <div class="mb-3">
-                        <input type="text" class="form-control form-control-lg border-0 border-bottom border-2 rounded-0 px-0" placeholder="Full Name" style="border-color: #e9ecef !important;">
-                    </div>
-                    
-                    <div class="mb-3">
-                        <input type="email" class="form-control form-control-lg border-0 border-bottom border-2 rounded-0 px-0" placeholder="Email" style="border-color: #e9ecef !important;">
-                    </div>
-                    
-                    <div class="mb-4">
-                        <textarea class="form-control form-control-lg border-0 border-bottom border-2 rounded-0 px-0" placeholder="Message" rows="3" style="border-color: #e9ecef !important; resize: none;"></textarea>
-                    </div>
-                    
-                    <button class="btn btn-outline-dark btn-lg px-4 py-2" type="submit">Submit Request</button>
-                </form>
+                <div class="col mt-1">
+                     <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.2826207141466!2d77.18596367511459!3d28.561274875703745!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1d6f33b6feb7%3A0x7c821586db56f8e3!2sGIZ%20SAF-5!5e0!3m2!1sen!2sin!4v1749189356948!5m2!1sen!2sin"
+                width="300" height="200" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
             </div>
-        </section>
+           
+           
+        </div>
+
+        <form>
+            <h6 class="mt-4 mb-3 text-muted">COMMERCIAL REQUESTS</h6>
+
+            <div class="mb-3">
+                <input type="text" class="form-control form-control-lg border-0 border-bottom border-2 rounded-0 px-0"
+                    placeholder="Full Name" style="border-color: #e9ecef !important;">
+            </div>
+
+            <div class="mb-3">
+                <input type="email" class="form-control form-control-lg border-0 border-bottom border-2 rounded-0 px-0"
+                    placeholder="Email" style="border-color: #e9ecef !important;">
+            </div>
+
+            <div class="mb-4">
+                <textarea class="form-control form-control-lg border-0 border-bottom border-2 rounded-0 px-0"
+                    placeholder="Message" rows="3" style="border-color: #e9ecef !important; resize: none;"></textarea>
+            </div>
+
+            <button class="btn btn-outline-dark btn-lg px-4 py-2" type="submit">Submit Request</button>
+        </form>
+    </div>
+</section>
 {% endblock %}
