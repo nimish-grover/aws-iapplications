@@ -1,0 +1,96 @@
+/* Global Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+a {
+    color: #0066cc;
+}
+
+/* Header and Navigation */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Post Card Styling */
+.card {
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    font-weight: 600;
+}
+
+/* Blog Post Content */
+.post-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.post-content h2, 
+.post-content h3, 
+.post-content h4 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    margin: 1.5rem 0;
+    border-radius: 0.5rem;
+}
+
+.post-content blockquote {
+    border-left: 4px solid #0066cc;
+    padding-left: 1rem;
+    margin-left: 0;
+    color: #555;
+    font-style: italic;
+}
+
+.post-content pre {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+}
+
+.badge {
+    font-size: 0.9em;
+    margin-right: 0.2em;
+}
+
+/* Pagination */
+.pagination .page-item.active .page-link {
+    background-color: #0066cc;
+    border-color: #0066cc;
+}
+
+.pagination .page-link {
+    color: #0066cc;
+}
+
+.pagination .page-link:hover {
+    background-color: #e9ecef;
+}
+
+/* Footer */
+footer {
+    background-color: #f9f9f9;
+    color: #888;
+    font-size: 0.97em;
+}
+
+footer a {
+    color: #0066cc;
+}

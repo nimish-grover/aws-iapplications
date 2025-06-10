@@ -1,73 +1,215 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}{{ post.title.rendered|striptags }} - WordPress Blog{% endblock %}
+{% block title %}{{ post.title }} - iBlog{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-8">
         <article>
-            {% if post._embedded and post._embedded.get('wp:featuredmedia') %}
-                {% set featured_image = post._embedded['wp:featuredmedia'][0] %}
-                <img src="{{ featured_image.source_url }}" class="img-fluid mb-4 rounded" alt="{{ post.title.rendered }}">
-            {% endif %}
+            <h1 class="mb-3">{{ post.title }}</h1>
             
-            <h1 class="mb-3">{{ post.title.rendered|safe }}</h1>
-            
-            <div class="post-meta mb-4">
-                <small class="text-muted">
-                    Published on {{ post.date.split('T')[0] }}
-                    {% if post._embedded and post._embedded.get('author') %}
-                        by <strong>{{ post._embedded.author[0].name }}</strong>
-                    {% endif %}
-                    • Status: <span class="badge bg-{{ 'success' if post.status == 'publish' else 'warning' }}">{{ post.status|title }}</span>
+            <div class="mb-3 text-muted">
+                <small>
+                    Posted by {{ post.author.display_name if post.author else 'Unknown' }} 
+                    on {{ post.published_at.strftime('%B %d, %Y') }} | 
+                    {{ post.view_count }} view{{ 's' if post.view_count != 1 }}
                 </small>
             </div>
             
-            {% if post._embedded and post._embedded.get('wp:term') %}
-                {% set tags = post._embedded['wp:term'][1] if post._embedded['wp:term']|length > 1 else [] %}
-                {% set categories = post._embedded['wp:term'][0] if post._embedded['wp:term']|length > 0 else [] %}
-                
-                {% if tags or categories %}
-                <div class="mb-4">
-                    {% if categories %}
-                        {% for category in categories %}
-                        <span class="badge bg-primary me-1">{{ category.name }}</span>
-                        {% endfor %}
-                    {% endif %}
-                    {% if tags %}
-                        {% for tag in tags %}
-                        <span class="badge bg-secondary me-1">#{{ tag.name }}</span>
-                        {% endfor %}
-                    {% endif %}
+            {% if post.categories %}
+                <div class="mb-2">
+                    Categories:
+                    {% for category in post.categories %}
+                        <a href="{{ url_for('category_posts', slug=category.slug) }}" class="badge bg-secondary text-decoration-none">{{ category.name }}</a>
+                    {% endfor %}
                 </div>
-                {% endif %}
             {% endif %}
             
-            <div class="post-content">
-                {{ post.content.rendered|safe }}
+            {% if post.tags %}
+                <div class="mb-4">
+                    Tags:
+                    {% for tag in post.tags %}
+                        <a href="{{ url_for('tag_posts', slug=tag.slug) }}" class="badge bg-info text-decoration-none">{{ tag.name }}</a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            {% if post.featured_image %}
+                <img src="{{ post.featured_image }}" class="img-fluid rounded mb-4" alt="{{ post.title }}">
+            {% endif %}
+            
+            <div class="post-content mb-5">
+                {{ post.content|safe }}
             </div>
         </article>
         
-        <div class="mt-5">
-            <a href="{{ url_for('index') }}" class="btn btn-outline-primary">← Back to All Posts</a>
-        </div>
+        <section class="mb-5">
+            <h3 class="mb-4">{{ comments|length }} Comment{{ 's' if comments|length != 1 }}</h3>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Leave a Comment</h4>
+                    <form action="{{ url_for('add_comment', slug=post.slug) }}" method="post">
+                        {% if not g.user %}
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="author_name" placeholder="Your Name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="email" class="form-control" name="author_email" placeholder="Your Email" required>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="mb-3">
+                            <textarea class="form-control" name="content" rows="4" placeholder="Your Comment" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Comment</button>
+                    </form>
+                </div>
+            </div>
+            
+            {% if comments %}
+                {% for comment in comments %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                {{ comment.author_name or (comment.user.display_name if comment.user else 'Anonymous') }}
+                            </h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                {{ comment.created_at.strftime('%B %d, %Y at %H:%M') }}
+                            </h6>
+                            <p class="card-text">{{ comment.content }}</p>
+                            
+                            <button class="btn btn-sm btn-outline-primary reply-btn" 
+                                   data-comment-id="{{ comment.id }}">
+                                Reply
+                            </button>
+                            
+                            <div class="reply-form mt-3 d-none" id="reply-form-{{ comment.id }}">
+                                <form action="{{ url_for('add_comment', slug=post.slug) }}" method="post">
+                                    <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                                    {% if not g.user %}
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" name="author_name" placeholder="Your Name" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="email" class="form-control" name="author_email" placeholder="Your Email" required>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    <div class="mb-3">
+                                        <textarea class="form-control" name="content" rows="3" placeholder="Your Reply" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-sm btn-primary">Submit Reply</button>
+                                    <button type="button" class="btn btn-sm btn-secondary cancel-reply" 
+                                           data-comment-id="{{ comment.id }}">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        {% if comment.replies %}
+                            <div class="card-footer bg-light">
+                                <h6>Replies:</h6>
+                                {% for reply in comment.replies %}
+                                    <div class="card mb-2">
+                                        <div class="card-body py-2 px-3">
+                                            <h6 class="card-title mb-1">
+                                                {{ reply.author_name or (reply.user.display_name if reply.user else 'Anonymous') }}
+                                            </h6>
+                                            <small class="text-muted">
+                                                {{ reply.created_at.strftime('%B %d, %Y at %H:%M') }}
+                                            </small>
+                                            <p class="card-text mb-0">{{ reply.content }}</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No comments yet. Be the first to comment!</p>
+            {% endif %}
+        </section>
     </div>
     
     <div class="col-md-4">
-        <div class="card">
+        <div class="card mb-4">
             <div class="card-header">
-                <h5>Post Information</h5>
+                <h5 class="mb-0">About the Author</h5>
             </div>
             <div class="card-body">
-                <p><strong>Status:</strong> {{ post.status|title }}</p>
-                <p><strong>Published:</strong> {{ post.date.split('T')[0] }}</p>
-                <p><strong>Modified:</strong> {{ post.modified.split('T')[0] }}</p>
-                {% if post.excerpt.rendered %}
-                <p><strong>Excerpt:</strong> {{ post.excerpt.rendered|striptags|truncate(100) }}</p>
+                {% if post.author %}
+                    <h5>{{ post.author.display_name }}</h5>
+                    {% if post.author.bio %}
+                        <p>{{ post.author.bio }}</p>
+                    {% else %}
+                        <p>No bio available.</p>
+                    {% endif %}
+                {% else %}
+                    <p>Unknown author</p>
                 {% endif %}
-                <a href="{{ post.link }}" target="_blank" class="btn btn-sm btn-outline-primary">View on WordPress</a>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Share This Post</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex gap-2">
+                    <a href="https://twitter.com/intent/tweet?url={{ request.url }}&text={{ post.title }}" 
+                       target="_blank" class="btn btn-outline-primary">
+                        Twitter
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.url }}" 
+                       target="_blank" class="btn btn-outline-primary">
+                        Facebook
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.url }}" 
+                       target="_blank" class="btn btn-outline-primary">
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Related Posts</h5>
+            </div>
+            <div class="card-body">
+                <!-- We'll need to implement this in the backend -->
+                <p>Related posts feature coming soon!</p>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Reply button functionality
+        const replyButtons = document.querySelectorAll('.reply-btn');
+        const cancelButtons = document.querySelectorAll('.cancel-reply');
+        
+        replyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const commentId = this.dataset.commentId;
+                const replyForm = document.getElementById(`reply-form-${commentId}`);
+                replyForm.classList.remove('d-none');
+            });
+        });
+        
+        cancelButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const commentId = this.dataset.commentId;
+                const replyForm = document.getElementById(`reply-form-${commentId}`);
+                replyForm.classList.add('d-none');
+            });
+        });
+    });
+</script>
 {% endblock %}

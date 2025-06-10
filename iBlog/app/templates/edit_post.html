@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}Edit Post - iBlog{% endblock %}
+
+{% block extra_css %}
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Edit Post</h2>
+    <form method="post" enctype="multipart/form-data" id="post-form">
+        <div class="mb-3">
+            <label for="title" class="form-label"><strong>Title</strong></label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ post.title }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label"><strong>Content</strong></label>
+            <div id="editor" style="height: 300px;">{{ post.content|safe }}</div>
+            <input type="hidden" name="content" id="content-input">
+        </div>
+        <div class="mb-3">
+            <label for="excerpt" class="form-label"><strong>Excerpt</strong> <small class="text-muted">(optional)</small></label>
+            <textarea class="form-control" id="excerpt" name="excerpt" rows="2">{{ post.excerpt or '' }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="categories" class="form-label"><strong>Categories</strong></label>
+            <select class="form-select" id="categories" name="categories" multiple>
+                {% for category in categories %}
+                    <option value="{{ category.id }}"
+                        {% if category in post.categories %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <small class="text-muted">Hold Ctrl (Cmd on Mac) to select multiple categories.</small>
+        </div>
+        <div class="mb-3">
+            <label for="tags" class="form-label"><strong>Tags</strong></label>
+            <input type="text" class="form-control" id="tags" name="tags"
+                   value="{{ post_tags or '' }}" placeholder="Separate tags with commas">
+        </div>
+        <div class="mb-3">
+            <label for="status" class="form-label"><strong>Status</strong></label>
+            <select class="form-select" id="status" name="status">
+                <option value="draft" {% if post.status == 'draft' %}selected{% endif %}>Draft</option>
+                <option value="published" {% if post.status == 'published' %}selected{% endif %}>Published</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<script>
+    const quill = new Quill('#editor', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                ['blockquote', 'code-block'],
+                ['link', 'image'],
+                [{ 'align': [] }],
+                ['clean']
+            ]
+        }
+    });
+
+    // Set initial content if not already set by Quill (in case of server-side rendering issues)
+    // This is optional, as the content is already set by {{ post.content|safe }} above
+
+    const form = document.getElementById('post-form');
+    form.addEventListener('submit', function(e) {
+        // Get the HTML content from the editor
+        const content = quill.root.innerHTML;
+        // Set the content to the hidden input field
+        document.getElementById('content-input').value = content;
+    });
+</script>
+{% endblock %}

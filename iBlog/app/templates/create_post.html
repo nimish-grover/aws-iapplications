@@ -1,595 +1,90 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}Create Post - WordPress Style{% endblock %}
+{% block title %}Create New Post - iBlog{% endblock %}
 
-{% block css %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<style>
-  :root {
-    --wp-admin-theme-color: #007cba;
-    --wp-admin-theme-color-darker-10: #006ba1;
-    --wp-admin-theme-color-darker-20: #005a87;
-  }
-  
-  body {
-    background-color: #f0f0f1;
-    color: #1e1e1e;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  }
-  
-  .wp-header {
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-    padding: 0 16px;
-    display: flex;
-    align-items: center;
-    height: 56px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-  }
-  
-  .wp-header h1 {
-    font-size: 16px;
-    margin: 0;
-    padding: 0;
-    color: #1e1e1e;
-  }
-  
-  .wp-header-end {
-    margin-left: auto;
-  }
-  
-  .wp-editor-container {
-    display: flex;
-    min-height: calc(100vh - 56px);
-    max-height: calc(100vh - 56px);
-    overflow: hidden;
-  }
-  
-  .editor-content {
-    flex-grow: 1;
-    padding: 24px;
-    max-width: 840px;
-    margin: 0 auto;
-    overflow-y: auto;
-    height: 100%;
-  }
-  
-  .editor-sidebar {
-    width: 280px;
-    padding: 16px;
-    background-color: #fff;
-    border-left: 1px solid #ddd;
-    overflow-y: auto;
-    flex-shrink: 0;
-    height: 100%;
-  }
-  
-  .post-title-wrapper {
-    margin-bottom: 24px;
-  }
-  
-  .post-title {
-    font-size: 36px;
-    font-weight: 600;
-    width: 100%;
-    border: none;
-    padding: 0;
-    outline: none;
-    background: transparent;
-  }
-  
-  .sidebar-panel {
-    margin-bottom: 16px;
-    border: 1px solid #ddd;
-    border-radius: 2px;
-    background-color: #fff;
-  }
-  
-  .sidebar-panel-header {
-    padding: 12px 16px;
-    border-bottom: 1px solid #ddd;
-    font-size: 13px;
-    font-weight: 600;
-    background-color: #f8f9f9;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-  }
-  
-  .sidebar-panel-content {
-    padding: 12px 16px;
-  }
-  
-  .wp-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 2px;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 6px 12px;
-    border: 1px solid #ddd;
-    cursor: pointer;
-    text-decoration: none;
-    background-color: #f0f0f1;
-    color: #1e1e1e;
-  }
-  
-  .wp-button.primary {
-    background-color: var(--wp-admin-theme-color);
-    color: #fff;
-    border-color: var(--wp-admin-theme-color);
-  }
-  
-  .wp-button.primary:hover {
-    background-color: var(--wp-admin-theme-color-darker-10);
-    border-color: var(--wp-admin-theme-color-darker-10);
-  }
-  
-  .document-status {
-    display: flex;
-    align-items: center;
-    margin-right: 16px;
-    font-size: 13px;
-  }
-  
-  .status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: #4ab866;
-    margin-right: 8px;
-  }
-  
-  .components-form-toggle {
-    position: relative;
-    display: inline-block;
-    width: 36px;
-    height: 18px;
-  }
-  
-  .components-form-toggle input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  .components-form-toggle-track {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #e2e4e7;
-    border-radius: 9px;
-    transition: .4s;
-  }
-  
-  .components-form-toggle-track:before {
-    position: absolute;
-    content: "";
-    height: 14px;
-    width: 14px;
-    left: 2px;
-    bottom: 2px;
-    background-color: white;
-    border-radius: 50%;
-    transition: .4s;
-  }
-  
-  input:checked + .components-form-toggle-track {
-    background-color: var(--wp-admin-theme-color);
-  }
-  
-  input:checked + .components-form-toggle-track:before {
-    transform: translateX(18px);
-  }
-  
-  .form-field {
-    margin-bottom: 16px;
-  }
-  
-  .form-field label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 13px;
-  }
-  
-  .tag-input-container {
-    display: flex;
-    flex-wrap: wrap;
-    border: 1px solid #ddd;
-    padding: 4px 8px;
-    border-radius: 2px;
-    align-items: center;
-    min-height: 36px;
-  }
-  
-  .tag {
-    background-color: #f0f0f1;
-    border-radius: 2px;
-    padding: 2px 8px;
-    margin: 2px;
-    font-size: 13px;
-    display: inline-flex;
-    align-items: center;
-    height: 24px;
-  }
-  
-  .tag .remove {
-    margin-left: 6px;
-    cursor: pointer;
-    color: #757575;
-  }
-  
-  .tag-input {
-    flex-grow: 1;
-    border: none;
-    outline: none;
-    min-width: 60px;
-    padding: 4px;
-    font-size: 13px;
-    height: 24px;
-  }
-  
-  .editor-help-text {
-    color: #757575;
-    font-size: 13px;
-    margin-top: 8px;
-  }
-
-  .wp-editor-area {
-    margin-bottom: 24px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 2px;
-    width: 100%;
-  }
-  
-  /* Make TinyMCE fit the container properly */
-  .tox.tox-tinymce {
-    width: 100% !important;
-    border: 1px solid #ddd !important;
-    border-radius: 2px !important;
-    box-shadow: none !important;
-  }
-  
-  /* Fix for tags display */
-  .tox-editor-container {
-    overflow: hidden !important;
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 2px;
-    font-size: 14px;
-  }
-  
-  .form-select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 2px;
-    font-size: 14px;
-    background-color: #fff;
-  }
-</style>
+{% block extra_css %}
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-<div class="wp-container">
-  <form method="POST" enctype="multipart/form-data">
-    <!-- WordPress-like header -->
-    <div class="wp-header">
-      <a href="{{ url_for('index') }}" class="wp-button" style="margin-right: 16px;">
-        <i class="fas fa-chevron-left"></i>
-      </a>
-      <h1>Add New Post</h1>
-      
-      <div class="wp-header-end">
-        <div class="document-status">
-          <span class="status-dot"></span>
-          <span>Draft</span>
-        </div>
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <h1 class="mb-4">Create New Post</h1>
         
-        <button type="button" class="wp-button">Preview</button>
-        <button type="submit" name="status" value="draft" class="wp-button">Save Draft</button>
-        <button type="submit" name="status" value="publish" class="wp-button primary">Publish</button>
-      </div>
-    </div>
-    
-    <!-- WordPress-like editor container -->
-    <div class="wp-editor-container">
-      <!-- Main editor area -->
-      <div class="editor-content">
-        <div class="post-title-wrapper">
-          <input type="text" class="post-title" name="title" placeholder="Add title" required>
-        </div>
-        
-        <!-- This is where the editor will appear -->
-        <div class="wp-editor-area">
-          <textarea id="content" name="content" rows="20" placeholder="Start writing your post..."></textarea>
-        </div>
-        
-        <div class="editor-help-text">
-          <p>
-            <i class="fas fa-info-circle"></i>
-            Need help? Use the formatting toolbar above to style your content.
-          </p>
-        </div>
-      </div>
-      
-      <!-- WordPress-like sidebar -->
-      <div class="editor-sidebar">
-        <!-- Document panel -->
-        <div class="sidebar-panel">
-          <div class="sidebar-panel-header">
-            <span><i class="fas fa-file-alt"></i> Document</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="sidebar-panel-content">
-            <div class="form-field">
-              <label for="status">Status & Visibility</label>
-              <select class="form-select" name="status">
-                <option value="draft">Draft</option>
-                <option value="publish">Published</option>
-              </select>
+        <form method="post" id="post-form">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" required>
             </div>
             
-            <div class="form-field">
-              <label>
-                <input type="checkbox" name="sticky"> 
-                Stick to the top of the blog
-              </label>
+            <div class="mb-3">
+                <label for="content" class="form-label">Content</label>
+                <div id="editor" style="height: 300px;"></div>
+                <input type="hidden" name="content" id="content-input">
             </div>
             
-            <div class="form-field">
-              <label for="excerpt">Excerpt</label>
-              <textarea class="form-control" name="excerpt" id="excerpt" rows="3" placeholder="Write an excerpt (optional)"></textarea>
-              <div class="editor-help-text">
-                Excerpts are optional hand-crafted summaries of your content.
-              </div>
+            <div class="mb-3">
+                <label for="excerpt" class="form-label">Excerpt (optional)</label>
+                <textarea class="form-control" id="excerpt" name="excerpt" rows="3"></textarea>
+                <small class="text-muted">If left empty, an excerpt will be automatically generated from the content.</small>
             </div>
-          </div>
-        </div>
-        
-        <!-- Categories panel -->
-        <div class="sidebar-panel">
-          <div class="sidebar-panel-header">
-            <span><i class="fas fa-folder"></i> Categories</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="sidebar-panel-content">
-            <div class="form-field">
-              <div class="tag-input-container">
-                <div id="category-tags-container" style="display: flex; flex-wrap: wrap; width: 100%;"></div>
-                <input type="text" class="tag-input" id="category-input" placeholder="Add categories">
-              </div>
-              <input type="hidden" name="categories" id="categories-hidden">
-              
-              {% if categories %}
-              <div class="editor-help-text">
-                Existing: 
-                {% for cat in categories[:5] %}
-                <span class="category-suggestion">{{ cat.name }}</span>{% if not loop.last %}, {% endif %}
-                {% endfor %}
-                {% if categories|length > 5 %}...{% endif %}
-              </div>
-              {% endif %}
+            
+            <div class="mb-3">
+                <label for="categories" class="form-label">Categories</label>
+                <select class="form-select" id="categories" name="categories" multiple>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+                <small class="text-muted">Hold Ctrl (or Cmd on Mac) to select multiple categories.</small>
             </div>
-          </div>
-        </div>
-        
-        <!-- Tags panel -->
-        <div class="sidebar-panel">
-          <div class="sidebar-panel-header">
-            <span><i class="fas fa-tag"></i> Tags</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="sidebar-panel-content">
-            <div class="form-field">
-              <div class="tag-input-container">
-                <div id="tag-tags-container" style="display: flex; flex-wrap: wrap; width: 100%;"></div>
-                <input type="text" class="tag-input" id="tag-input" placeholder="Add tags">
-              </div>
-              <input type="hidden" name="tags" id="tags-hidden">
-              
-              {% if tags %}
-              <div class="editor-help-text">
-                Existing: 
-                {% for tag in tags[:5] %}
-                <span class="tag-suggestion">{{ tag.name }}</span>{% if not loop.last %}, {% endif %}
-                {% endfor %}
-                {% if tags|length > 5 %}...{% endif %}
-              </div>
-              {% endif %}
+            
+            <div class="mb-3">
+                <label for="tags" class="form-label">Tags</label>
+                <input type="text" class="form-control" id="tags" name="tags">
+                <small class="text-muted">Separate tags with commas (e.g., technology, programming, web).</small>
             </div>
-          </div>
-        </div>
-        
-        <!-- Featured Image panel -->
-        <div class="sidebar-panel">
-          <div class="sidebar-panel-header">
-            <span><i class="fas fa-image"></i> Featured Image</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="sidebar-panel-content">
-            <div id="featured-image-preview" style="display: none; margin-bottom: 10px;">
-              <img src="" alt="Preview" style="max-width: 100%; height: auto;">
+            
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status" name="status">
+                    <option value="draft">Draft</option>
+                    <option value="published">Published</option>
+                </select>
             </div>
-            <button type="button" id="set-featured-image" class="wp-button">Set featured image</button>
-            <input type="file" id="featured_image" name="featured_image" style="display: none;">
-          </div>
-        </div>
-      </div>
+            
+            <button type="submit" class="btn btn-primary">Create Post</button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
+        </form>
     </div>
-  </form>
 </div>
 {% endblock %}
 
-{% block scripts %}
-<!-- TinyMCE Editor -->
-<script src="{{ url_for('static', filename='js/tinymce/tinymce.min.js') }}"></script>
+{% block extra_js %}
+<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 <script>
-  // Initialize TinyMCE with WordPress-like settings
-  tinymce.init({
-    selector: '#content',
-    plugins: 'wordcount link lists image media table code fullscreen preview',
-    toolbar: 'undo redo | formatselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist | link image media | table | removeformat | code fullscreen preview',
-    toolbar_mode: 'sliding',
-    height: '800',
-    resize: true,
-    menubar: false,
-    automatic_uploads: true,
-    branding: false,
-    content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; font-size: 16px; line-height: 1.6; }',
-    skin: 'oxide',
-    images_upload_url: '/upload-image', // Replace with your image upload endpoint
-    setup: function(editor) {
-      editor.on('change', function() {
-        editor.save();
-      });
-      
-      // Make editor responsive to container size
-      window.addEventListener('resize', function() {
-        const editorContent = document.querySelector('.editor-content');
-        if (editorContent) {
-          editor.editorContainer.style.width = '100%';
+    const quill = new Quill('#editor', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                ['blockquote', 'code-block'],
+                ['link', 'image'],
+                [{ 'align': [] }],
+                ['clean']
+            ]
         }
-      });
-    }
-  });
-
-  // Tag and Category Input Handling
-  document.addEventListener('DOMContentLoaded', function() {
-    const categoryInput = document.getElementById('category-input');
-    const categoriesHidden = document.getElementById('categories-hidden');
-    const tagInput = document.getElementById('tag-input');
-    const tagsHidden = document.getElementById('tags-hidden');
-    const categoryTagsContainer = document.getElementById('category-tags-container');
-    const tagTagsContainer = document.getElementById('tag-tags-container');
-    
-    let categories = [];
-    let tags = [];
-    
-    // Function to create a tag element
-    function createTagElement(text, isCategory = false) {
-      const tag = document.createElement('div');
-      tag.className = 'tag';
-      tag.innerHTML = text + '<span class="remove">&times;</span>';
-      
-      tag.querySelector('.remove').addEventListener('click', function() {
-        tag.remove();
-        if (isCategory) {
-          categories = categories.filter(cat => cat !== text);
-          categoriesHidden.value = categories.join(',');
-        } else {
-          tags = tags.filter(t => t !== text);
-          tagsHidden.value = tags.join(',');
-        }
-      });
-      
-      return tag;
-    }
-    
-    // Handle category input
-    categoryInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' || e.key === ',') {
-        e.preventDefault();
-        const value = this.value.trim();
-        if (value && !categories.includes(value)) {
-          const tag = createTagElement(value, true);
-          categoryTagsContainer.appendChild(tag);
-          categories.push(value);
-          categoriesHidden.value = categories.join(',');
-          this.value = '';
-        }
-      }
     });
     
-    // Handle tag input
-    tagInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' || e.key === ',') {
-        e.preventDefault();
-        const value = this.value.trim();
-        if (value && !tags.includes(value)) {
-          const tag = createTagElement(value);
-          tagTagsContainer.appendChild(tag);
-          tags.push(value);
-          tagsHidden.value = tags.join(',');
-          this.value = '';
-        }
-      }
-    });
-    
-    // Handle category and tag suggestions
-    document.querySelectorAll('.category-suggestion').forEach(function(el) {
-      el.style.cursor = 'pointer';
-      el.addEventListener('click', function() {
-        const value = this.textContent.trim();
-        if (!categories.includes(value)) {
-          const tag = createTagElement(value, true);
-          categoryTagsContainer.appendChild(tag);
-          categories.push(value);
-          categoriesHidden.value = categories.join(',');
-        }
-      });
-    });
-    
-    document.querySelectorAll('.tag-suggestion').forEach(function(el) {
-      el.style.cursor = 'pointer';
-      el.addEventListener('click', function() {
-        const value = this.textContent.trim();
-        if (!tags.includes(value)) {
-          const tag = createTagElement(value);
-          tagTagsContainer.appendChild(tag);
-          tags.push(value);
-          tagsHidden.value = tags.join(',');
-        }
-      });
-    });
-    
-    // Featured image handling
-    const setFeaturedImage = document.getElementById('set-featured-image');
-    const featuredImageInput = document.getElementById('featured_image');
-    const featuredImagePreview = document.getElementById('featured-image-preview');
-    
-    setFeaturedImage.addEventListener('click', function() {
-      featuredImageInput.click();
-    });
-    
-    featuredImageInput.addEventListener('change', function() {
-      if (this.files && this.files[0]) {
-        const reader = new FileReader();
+    const form = document.getElementById('post-form');
+    form.addEventListener('submit', function(e) {
+        // Get the HTML content from the editor
+        const content = quill.root.innerHTML;
         
-        reader.onload = function(e) {
-          featuredImagePreview.style.display = 'block';
-          featuredImagePreview.querySelector('img').src = e.target.result;
-          setFeaturedImage.textContent = 'Replace featured image';
-        };
-        
-        reader.readAsDataURL(this.files[0]);
-      }
+        // Set the content to the hidden input field
+        document.getElementById('content-input').value = content;
     });
-    
-    // Toggle sidebar panels
-    document.querySelectorAll('.sidebar-panel-header').forEach(function(header) {
-      header.addEventListener('click', function() {
-        const content = this.nextElementSibling;
-        const icon = this.querySelector('.fas.fa-chevron-down');
-        
-        if (content.style.display === 'none') {
-          content.style.display = 'block';
-          icon.className = 'fas fa-chevron-down';
-        } else {
-          content.style.display = 'none';
-          icon.className = 'fas fa-chevron-right';
-        }
-      });
-    });
-  });
 </script>
 {% endblock %}
